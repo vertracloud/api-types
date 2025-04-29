@@ -30,10 +30,6 @@ export interface APIStatusServices {
 		status: ServicesType;
 		ping: number;
 	};
-	cdn: {
-		status: ServicesType;
-		ping: number;
-	};
 }
 
 /**
