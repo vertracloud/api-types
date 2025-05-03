@@ -10,7 +10,7 @@ export const ApplicationLanguage = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
 export type ApplicationStatus = "up" | "down";
 export const ApplicationStatus = {
@@ -19,7 +19,7 @@ export const ApplicationStatus = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
 export type ApplicationCluster = 1;
 export const ApplicationCluster = {
@@ -27,7 +27,7 @@ export const ApplicationCluster = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
 export type ApplicationType = 1 | 2;
 export const ApplicationType = {
@@ -36,7 +36,7 @@ export const ApplicationType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
 export interface ApplicationDeploy {
 	version: string;
@@ -45,7 +45,7 @@ export interface ApplicationDeploy {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
 export type ApplicationFileType = "file" | "directory";
 export const ApplicationFileType = {
@@ -54,13 +54,29 @@ export const ApplicationFileType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
-export interface ApplicationFile {
+export type ApplicationFileContentType = "buffer";
+export const ApplicationFileContentType = {
+	Buffer: "buffer",
+} as const;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationFile {
 	type: ApplicationFileType;
 	name: string;
-	size: string;
+	size?: string;
 	last_modified: ISODateString;
+}
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationFileContent {
+	type: ApplicationFileContentType;
+	data: number[];
 }
 
 /**
@@ -94,7 +110,7 @@ export interface APIApplicationNetwork {
 /**
  * @see https://docs.coffelify.com/api-reference/endpoint/applications
  */
-export interface APIApplicationActivities {
+export interface APIApplicationActivity {
 	message: string;
 	timestamp: ISODateString;
 }

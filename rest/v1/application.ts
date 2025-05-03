@@ -1,5 +1,7 @@
 import type {
 	APIApplication,
+	APIApplicationFile,
+	APIApplicationFileContent,
 	APIApplicationMetrics,
 	APIApplicationStatus,
 	APIApplicationStatusShort,
@@ -34,3 +36,16 @@ export type RESTGetAPIApplicationLogsResponse = APIPayload<string>;
 export type RESTGetAPIApplicationMetricsResponse = APIPayload<
 	APIApplicationMetrics[]
 >;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationFilesResponse = APIPayload<
+	APIApplicationFile[]
+>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationFileContentResponse =
+	APIPayload<APIApplicationFileContent>;
