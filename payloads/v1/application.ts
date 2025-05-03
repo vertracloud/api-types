@@ -93,7 +93,7 @@ export interface APIApplication {
 	ram: number;
 	status: ApplicationStatus;
 	domain: string | null;
-	custom: string | null; // Custom domain
+	custom_domain: string | null;
 	last_deploy: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;

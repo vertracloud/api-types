@@ -8,8 +8,8 @@ import type {
 /**
  * @see https://docs.coffelify.com/api-reference/endpoint/users
  */
-export type UserActivitiesType = 1 | 2 | 3 | 4 | 5;
-export const UserActivitiesType = {
+export type UserActivityType = 1 | 2 | 3 | 4 | 5;
+export const UserActivityType = {
 	Deploy: 1,
 	Backup: 2,
 	Server: 3,
@@ -34,9 +34,9 @@ export const UserPlan = {
 /**
  * @see https://docs.coffelify.com/api-reference/endpoint/users
  */
-export interface APIUserActivities {
+export interface APIUserActivity {
 	id: string;
-	type: UserActivitiesType;
+	type: UserActivityType;
 	message: string;
 	timestamp: ISODateString;
 }
