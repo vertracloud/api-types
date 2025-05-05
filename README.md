@@ -1,18 +1,18 @@
-# @eydrenn/cloud-api-types
+# @coffelify/coffelify-api-types
 
-Simple type definitions for the **Cloud API**.
+Simple type definitions for the **Coffelify API**.
 
-[![GitHub](https://img.shields.io/github/license/eydrenn/cloud-api-types)](https://github.com/eydrenn/cloud-api-types/blob/main/LICENSE)
-[![npm](https://img.shields.io/npm/v/cloud-api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@eydrenn/cloud-api-types)
+[![GitHub](https://img.shields.io/github/license/coffelify/coffelify-api-types)](https://github.com/coffelify/coffelify-api-types/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/coffelify-api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@coffelify/coffelify-api-types)
 
 ## Installation
 
 ```bash
-npm install @eydrenn/cloud-api-types
+npm install @coffelify/coffelify-api-types
 // or
-yarn add @eydrenn/cloud-api-types
+yarn add @coffelify/coffelify-api-types
 // or
-pnpm add @eydrenn/cloud-api-types
+pnpm add @coffelify/coffelify-api-types
 ```
 
 ## Getting Started
@@ -21,17 +21,17 @@ Using these type definitions is simple. You just need to specify the appropriate
 
 ```ts
 // Importing the API definitions for version 1
-import { APIUser, APIStatus } from 'cloud-api-types/v1';
+import { APIUser, APIDatabase } from 'coffelify-api-types/v1';
 ```
 
 You can also import only the specific parts of the module that you need. Here are some examples:
 
 ```ts
 // Importing specific types for matchs and scams in version 1
-import { APIUser } from 'cloud-api-types/v1';
+import { APIUser, APIDatabase } from 'coffelify-api-types/v1';
 ```
 
-> _**Note:** The `v*` exports (`cloud-api-types/v*`) include the relevant version of types for `user`, and `status`, along with utilities and helpers._
+> _**Note:** The `v*` exports (`coffelify-api-types/v*`) include the relevant version of types for `user`, and `database`, along with utilities and helpers._
 
 ## Project Structure
 

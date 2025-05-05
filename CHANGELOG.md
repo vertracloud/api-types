@@ -1,1 +1,1 @@
-# @eydrenn/cloud-api-types
+# @coffelify/coffelify-api-types

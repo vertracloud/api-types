@@ -49,3 +49,18 @@ export type RESTGetAPIApplicationFilesResponse = APIPayload<
  */
 export type RESTGetAPIApplicationFileContentResponse =
 	APIPayload<APIApplicationFileContent>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationStartResponse = APIPayload<boolean>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationRestartResponse = APIPayload<boolean>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationStopResponse = APIPayload<boolean>;

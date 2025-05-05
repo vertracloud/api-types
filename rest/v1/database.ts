@@ -33,3 +33,18 @@ export type RESTGetAPIDatabaseLogsResponse = APIPayload<string>;
 export type RESTGetAPIDatabaseMetricsResponse = APIPayload<
 	APIDatabaseMetrics[]
 >;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ */
+export type RESTGetAPIDatabaseStartResponse = APIPayload<boolean>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ */
+export type RESTGetAPIDatabaseRestartResponse = APIPayload<boolean>;
+
+/**
+ * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ */
+export type RESTGetAPIDatabaseStopResponse = APIPayload<boolean>;
