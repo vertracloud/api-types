@@ -1,9 +1,9 @@
 {
-	"name": "@eydrenn/cloud-api-types",
+	"name": "@coffelify/api-types",
 	"version": "0.0.1",
 	"private": false,
-	"description": "Typings for Cloud API",
-	"homepage": "https://github.com/eydrenn/cloud-api-types#readme",
+	"description": "Typings for Coffelify API",
+	"homepage": "https://github.com/coffelify/api-types#readme",
 	"exports": {
 		"./v*": {
 			"types": "./v*.d.ts",
@@ -48,12 +48,12 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/eydrenn/cloud-api-types.git"
+		"url": "git+https://github.com/coffelify/api-types.git"
 	},
 	"keywords": ["api", "cloud", "cloud api", "types"],
 	"author": "Eydrenn Araujo",
 	"bugs": {
-		"url": "https://github.com/eydrenn/cloud-api-types/issues"
+		"url": "https://github.com/coffelify/api-types/issues"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
