@@ -1,9 +1,9 @@
 {
-	"name": "@coffelify/api-types",
+	"name": "@vertracloud/api-types",
 	"version": "0.0.1",
 	"private": false,
-	"description": "Typings for Coffelify API",
-	"homepage": "https://github.com/coffelify/api-types#readme",
+	"description": "Typings for Vertra Cloud API",
+	"homepage": "https://github.com/vertracloud/api-types#readme",
 	"exports": {
 		"./v*": {
 			"types": "./v*.d.ts",
@@ -48,12 +48,12 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/coffelify/api-types.git"
+		"url": "git+https://github.com/vertracloud/api-types.git"
 	},
-	"keywords": ["api", "cloud", "cloud api", "types"],
+	"keywords": ["api", "vertracloud", "vertra cloud api", "vertra", "types"],
 	"author": "Eydrenn Araujo",
 	"bugs": {
-		"url": "https://github.com/coffelify/api-types/issues"
+		"url": "https://github.com/vertracloud/api-types/issues"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

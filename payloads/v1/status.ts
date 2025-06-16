@@ -1,5 +1,5 @@
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.com/api-reference/endpoint/status
  */
 export type StatusType = "healthy" | "degraded" | "unknown";
 export const StatusType = {
@@ -9,7 +9,7 @@ export const StatusType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.com/api-reference/endpoint/status
  */
 export type ServicesType = "up" | "down" | "unknown";
 export const ServicesType = {
@@ -19,7 +19,7 @@ export const ServicesType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.com/api-reference/endpoint/status
  */
 export interface APIStatusServices {
 	database: {
@@ -33,7 +33,7 @@ export interface APIStatusServices {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.com/api-reference/endpoint/status
  */
 export interface APIStatus {
 	status: StatusType;

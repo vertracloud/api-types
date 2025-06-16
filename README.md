@@ -1,18 +1,18 @@
-# @coffelify/coffelify-api-types
+# @vertracloud/api-types
 
-Simple type definitions for the **Coffelify API**.
+Simple type definitions for the **VertraCloud API**.
 
-[![GitHub](https://img.shields.io/github/license/coffelify/coffelify-api-types)](https://github.com/coffelify/coffelify-api-types/blob/main/LICENSE)
-[![npm](https://img.shields.io/npm/v/coffelify-api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@coffelify/coffelify-api-types)
+[![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@vertracloud/api-types)
 
 ## Installation
 
 ```bash
-npm install @coffelify/coffelify-api-types
+npm install @vertracloud/api-types
 // or
-yarn add @coffelify/coffelify-api-types
+yarn add @vertracloud/api-types
 // or
-pnpm add @coffelify/coffelify-api-types
+pnpm add @vertracloud/api-types
 ```
 
 ## Getting Started
@@ -21,17 +21,17 @@ Using these type definitions is simple. You just need to specify the appropriate
 
 ```ts
 // Importing the API definitions for version 1
-import { APIUser, APIDatabase } from 'coffelify-api-types/v1';
+import { APIUser, APIDatabase } from '@vertracloud/api-types/v1';
 ```
 
 You can also import only the specific parts of the module that you need. Here are some examples:
 
 ```ts
 // Importing specific types for matchs and scams in version 1
-import { APIUser, APIDatabase } from 'coffelify-api-types/v1';
+import { APIUser, APIDatabase } from '@vertracloud/api-types/v1';
 ```
 
-> _**Note:** The `v*` exports (`coffelify-api-types/v*`) include the relevant version of types for `user`, and `database`, along with utilities and helpers._
+> _**Note:** The `v*` exports (`@vertracloud/api-types/v*`) include the relevant version of types for `user`, and `database`, along with utilities and helpers._
 
 ## Project Structure
 

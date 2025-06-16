@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake } from "../../v1";
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationLanguage = "nodejs" | "python";
 export const ApplicationLanguage = {
@@ -10,7 +10,7 @@ export const ApplicationLanguage = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationStatus = "up" | "down";
 export const ApplicationStatus = {
@@ -19,7 +19,7 @@ export const ApplicationStatus = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationCluster = 1;
 export const ApplicationCluster = {
@@ -27,7 +27,7 @@ export const ApplicationCluster = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationType = 1 | 2;
 export const ApplicationType = {
@@ -36,7 +36,7 @@ export const ApplicationType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface ApplicationDeploy {
 	version: string;
@@ -45,7 +45,7 @@ export interface ApplicationDeploy {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationFileType = "file" | "directory";
 export const ApplicationFileType = {
@@ -54,7 +54,7 @@ export const ApplicationFileType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type ApplicationFileContentType = "buffer";
 export const ApplicationFileContentType = {
@@ -62,7 +62,7 @@ export const ApplicationFileContentType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationFile {
 	type: ApplicationFileType;
@@ -72,7 +72,7 @@ export interface APIApplicationFile {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationFileContent {
 	type: ApplicationFileContentType;
@@ -80,7 +80,7 @@ export interface APIApplicationFileContent {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplication {
 	id: SnowFlake;
@@ -100,7 +100,7 @@ export interface APIApplication {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationNetwork {
 	total: number;
@@ -108,7 +108,7 @@ export interface APIApplicationNetwork {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationActivity {
 	message: string;
@@ -116,7 +116,7 @@ export interface APIApplicationActivity {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationStatus {
 	cpu: string;
@@ -131,7 +131,7 @@ export interface APIApplicationStatus {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationStatusShort {
 	id: SnowFlake;
@@ -141,7 +141,7 @@ export interface APIApplicationStatusShort {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationMetrics {
 	cpu: number;

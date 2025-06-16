@@ -1,1 +1,1 @@
-# @coffelify/coffelify-api-types
+# @vertracloud/vertracloud-api-types

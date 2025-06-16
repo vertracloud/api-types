@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake } from "../../v1";
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export type DatabaseType = 1 | 2 | 3;
 export const DatabaseType = {
@@ -11,7 +11,7 @@ export const DatabaseType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export type DatabaseStatus = "up" | "down";
 export const DatabaseStatus = {
@@ -20,7 +20,7 @@ export const DatabaseStatus = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.com/api-reference/endpoint/status
  */
 export type DatabaseCluster = 1;
 export const DatabaseCluster = {
@@ -28,7 +28,7 @@ export const DatabaseCluster = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseConnection {
 	ip: string;
@@ -39,7 +39,7 @@ export interface APIDatabaseConnection {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseActivity {
 	message: string;
@@ -47,7 +47,7 @@ export interface APIDatabaseActivity {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabase {
 	id: SnowFlake;
@@ -66,7 +66,7 @@ export interface APIDatabase {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseNetwork {
 	total: number;
@@ -74,7 +74,7 @@ export interface APIDatabaseNetwork {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseBackup {
 	message: string;
@@ -82,7 +82,7 @@ export interface APIDatabaseBackup {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseStatus {
 	cpu: string;
@@ -97,7 +97,7 @@ export interface APIDatabaseStatus {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseStatusShort {
 	id: SnowFlake;
@@ -108,7 +108,7 @@ export interface APIDatabaseStatusShort {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseMetrics {
 	cpu: number;

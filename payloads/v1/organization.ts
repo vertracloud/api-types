@@ -1,7 +1,7 @@
 import type { ISODateString } from "../../v1";
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
  */
 export type OrganizationMemberRole = "owner" | "admin" | "developer" | "viewer";
 export const OrganizationMemberRole = {
@@ -12,7 +12,7 @@ export const OrganizationMemberRole = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
  */
 export interface APIOrganizationMember {
 	user_id: string;
@@ -21,13 +21,12 @@ export interface APIOrganizationMember {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
  */
 export interface APIOrganization {
 	id: string;
 	name: string;
 	description: string;
-	icon_url: string;
 	tags: string[];
 	owner: string;
 	members: APIOrganizationMember[];

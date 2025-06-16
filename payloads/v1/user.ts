@@ -6,7 +6,7 @@ import type {
 } from "../../v1";
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export type UserActivityType = 1 | 2 | 3 | 4 | 5;
 export const UserActivityType = {
@@ -18,7 +18,7 @@ export const UserActivityType = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export const UserPlan = {
@@ -32,7 +32,7 @@ export const UserPlan = {
 } as const;
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUserActivity {
 	id: string;
@@ -42,7 +42,7 @@ export interface APIUserActivity {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUser {
 	id: SnowFlake;
@@ -53,7 +53,7 @@ export interface APIUser {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUserPlanMemory {
 	limit: number;
@@ -61,7 +61,7 @@ export interface APIUserPlanMemory {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUserPlanStorage {
 	limit: number;
@@ -69,7 +69,7 @@ export interface APIUserPlanStorage {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUserPlan {
 	id: UserPlan;
@@ -83,7 +83,7 @@ export interface APIUserPlan {
 }
 
 /**
- * @see https://docs.coffelify.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
 export interface APIUserInfoResponse {
 	id: SnowFlake;
