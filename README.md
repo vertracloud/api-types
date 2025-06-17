@@ -17,29 +17,49 @@ pnpm add @vertracloud/api-types
 
 ## Getting Started
 
-Using these type definitions is simple. You just need to specify the appropriate version of the API by appending `/v*` to the import path, where `*` represents your desired API version. Here are some usage examples:
+Using these type definitions is straightforward. To specify a particular API version, simply append `/v*` to the import path, where `*` corresponds to your desired version. For example:
 
 ```ts
-// Importing the API definitions for version 1
-import { APIUser, APIDatabase } from '@vertracloud/api-types/v1';
+// Importing type definitions for version 1
+import { APIUser, APIDatabase, APIApplication } from '@vertracloud/api-types/v1';
 ```
 
-You can also import only the specific parts of the module that you need. Here are some examples:
+You can also import only the specific types you need:
 
 ```ts
-// Importing specific types for matchs and scams in version 1
-import { APIUser, APIDatabase } from '@vertracloud/api-types/v1';
+// Importing only the APIUser type from version 1
+import { APIUser } from '@vertracloud/api-types/v1';
 ```
 
-> _**Note:** The `v*` exports (`@vertracloud/api-types/v*`) include the relevant version of types for `user`, and `database`, along with utilities and helpers._
+> ***Note:** The versioned exports (`@vertracloud/api-types/v*`) include relevant types for `user`, `database`, as well as additional utilities and helpers.*
 
 ## Project Structure
 
-he exported types for each API version are organized into two main categories:
+The exported types for each API version are organized into two main categories:
 
-Types with an `API` prefix represent payloads you may receive from the REST API.
-Types with a `REST` prefix represent data that is sent to and received from the REST API.
-For endpoint options in the `REST` category, they follow a specific structure: `REST<HTTP Method><Action><Type>`, where the type indicates the expected return data. For example, `RESTPostAPIUserCreateBody` or `RESTGetAPIUserResponse`.
+* Types prefixed with `API` represent the payloads returned by the REST API.
+* Types prefixed with `REST` represent the data sent to or received from REST API endpoints.
 
-If a type name ends with Response, it represents the expected result when calling its corresponding route.
-In this structure, the `REST` types are used to define the data sent in requests (e.g., creating a match ), while the `API` types represent the data received in responses from the API (e.g., the details of a match). This makes the distinction clear matchween what is transmitted to the API and what is returned after a request is made.
+REST types follow a specific naming convention:
+
+```
+REST<HTTP Method><Action><Type>
+```
+
+Where:
+
+* `HTTP Method` is one of: `Get`, `Post`, `Put`, `Delete`, etc.
+* `Action` describes the intent (e.g., `Create`, `Update`, `Delete`)
+* `Type` represents the related resource (e.g., `User`, `Database`, `Application`)
+
+### Examples
+
+* `RESTPostAPIApplicationCreateBody`: request payload for creating a app.
+* `RESTGetAPIApplicationResponse`: expected response when retrieving a app.
+
+If a type name ends with `Response`, it refers to the structure returned by the API for that route.
+
+This separation provides a clear distinction between:
+
+* What is **sent to** the API (via `REST*Body` or similar types)
+* And what is **returned from** the API (via `API*` or `REST*Response` types)

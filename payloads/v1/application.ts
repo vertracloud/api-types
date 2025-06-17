@@ -21,6 +21,17 @@ export const ApplicationStatus = {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
+export type ApplicationCommitStatus = 1 | 2 | 3 | 4;
+export const ApplicationCommitStatus = {
+	PENDING: 1,
+	DEPLOYING: 2,
+	COMPLETED: 3,
+	FAILED: 4,
+} as const;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
 export type ApplicationCluster = 1;
 export const ApplicationCluster = {
 	USA: 1,
@@ -38,7 +49,7 @@ export const ApplicationType = {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
-export interface ApplicationDeploy {
+export interface ApplicationCommit {
 	version: string;
 	timestamp: ISODateString;
 	notes: string;
@@ -143,10 +154,37 @@ export interface APIApplicationStatusShort {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
-export interface APIApplicationMetrics {
+export interface APIApplicationMetric {
 	cpu: number;
 	ram: number;
 	storage: number;
 	date: ISODateString;
 	network: number[];
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationCommit {
+	id: SnowFlake;
+	author_id: SnowFlake;
+	message: string;
+	version: string;
+	status: ApplicationCommitStatus;
+	size: string;
+	date: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationConfig {
+	NAME: string;
+	DESCRIPTION: string;
+	MEMORY?: number;
+	AUTORESTART?: boolean;
+	VERSION?: string;
+	START?: string;
+	MAIN?: string;
+	SUBDOMAIN?: string;
 }

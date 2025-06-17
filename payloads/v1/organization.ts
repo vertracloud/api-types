@@ -1,4 +1,9 @@
-import type { ISODateString } from "../../v1";
+import type {
+	APIApplication,
+	APIDatabase,
+	ISODateString,
+	SnowFlake,
+} from "../../v1";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
@@ -24,12 +29,20 @@ export interface APIOrganizationMember {
  * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
  */
 export interface APIOrganization {
-	id: string;
-	name: string;
+	id: SnowFlake;
+	name: SnowFlake;
 	description: string;
 	tags: string[];
-	owner: string;
+	owner_id: SnowFlake;
 	members: APIOrganizationMember[];
 	created_at: ISODateString;
 	updated_at: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
+ */
+export interface APIOrganizationInfoResponse extends APIOrganization {
+	applications: APIApplication[];
+	databases: APIDatabase[];
 }
