@@ -1,1 +1,1 @@
-# @vertracloud/vertracloud-api-types
+# @vertracloud/api-types

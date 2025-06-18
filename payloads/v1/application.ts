@@ -67,6 +67,15 @@ export const ApplicationFileType = {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
+export type ApplicationVersion = "recommended" | "latest";
+export const ApplicationVersion = {
+	RECOMMENDED: "recommended",
+	LATEST: "latest",
+} as const;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
 export type ApplicationFileContentType = "buffer";
 export const ApplicationFileContentType = {
 	Buffer: "buffer",
@@ -180,11 +189,11 @@ export interface APIApplicationCommit {
  */
 export interface APIApplicationConfig {
 	NAME: string;
-	DESCRIPTION: string;
-	MEMORY?: number;
+	MEMORY: number;
+	MAIN: string;
+	VERSION: ApplicationVersion;
+	DESCRIPTION?: string;
 	AUTORESTART?: boolean;
-	VERSION?: string;
 	START?: string;
-	MAIN?: string;
 	SUBDOMAIN?: string;
 }
