@@ -114,7 +114,7 @@ export interface APIApplication {
 	status: ApplicationStatus;
 	domain: string | null;
 	custom_domain: string | null;
-	last_deploy: ISODateString | null;
+	last_commit: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 }
@@ -182,6 +182,26 @@ export interface APIApplicationCommit {
 	status: ApplicationCommitStatus;
 	size: string;
 	date: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationBackup {
+	id: SnowFlake;
+	app_id: SnowFlake;
+	author_id: SnowFlake | null;
+	size: string;
+	date: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export interface APIGroupedApplicationBackups {
+	app_id: SnowFlake;
+	app_name: string | null;
+	backups: APIApplicationBackup[];
 }
 
 /**

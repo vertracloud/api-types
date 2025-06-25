@@ -94,3 +94,12 @@ export interface APIUserInfoResponse {
 	created_at: ISODateString;
 	updated_at: ISODateString;
 }
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ */
+export interface APIUserOrgInviteKey {
+	code: SnowFlake;
+	created_at: ISODateString;
+	expire_at: ISODateString;
+}

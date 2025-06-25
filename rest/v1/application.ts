@@ -1,11 +1,13 @@
 import type {
 	APIApplication,
+	APIApplicationBackup,
 	APIApplicationCommit,
 	APIApplicationFile,
 	APIApplicationFileContent,
 	APIApplicationMetric,
 	APIApplicationStatus,
 	APIApplicationStatusShort,
+	APIGroupedApplicationBackups,
 	APIPayload,
 } from "../../v1";
 
@@ -44,6 +46,26 @@ export type RESTGetAPIApplicationMetricsResponse = APIPayload<
 export type RESTGetAPIApplicationCommitsResponse = APIPayload<
 	APIApplicationCommit[]
 >;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationBackupsResponse = APIPayload<
+	APIApplicationBackup[]
+>;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIGroupedApplicationBackupsResponse = APIPayload<
+	APIGroupedApplicationBackups[]
+>;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationBackupResponse =
+	APIPayload<APIApplicationBackup>;
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
