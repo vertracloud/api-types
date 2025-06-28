@@ -8,18 +8,6 @@ import type {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
-export type UserActivityType = 1 | 2 | 3 | 4 | 5;
-export const UserActivityType = {
-	Deploy: 1,
-	Backup: 2,
-	Server: 3,
-	Security: 4,
-	Creation: 5,
-} as const;
-
-/**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
- */
 export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export const UserPlan = {
 	Free: 1,
@@ -30,16 +18,6 @@ export const UserPlan = {
 	Enterprise12: 6,
 	Enterprise16: 7,
 } as const;
-
-/**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
- */
-export interface APIUserActivity {
-	id: string;
-	type: UserActivityType;
-	message: string;
-	timestamp: ISODateString;
-}
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/users

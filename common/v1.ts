@@ -17,6 +17,7 @@ export interface APIPaginatedPayload<TResponse> {
 	response: TResponse;
 	meta?: PaginationMeta;
 }
+
 export interface APIHeaders {
 	Authorization: string;
 }
