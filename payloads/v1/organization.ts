@@ -8,11 +8,17 @@ import type {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
  */
-export type OrganizationMemberRole = "owner" | "admin" | "developer" | "viewer";
+export type OrganizationMemberRole =
+	| "owner"
+	| "admin"
+	| "developer"
+	| "operator"
+	| "viewer";
 export const OrganizationMemberRole = {
 	Owner: "owner",
 	Admin: "admin",
 	Developer: "developer",
+	Operator: "operator",
 	Viewer: "viewer",
 } as const;
 
