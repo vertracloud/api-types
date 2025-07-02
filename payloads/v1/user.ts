@@ -8,15 +8,16 @@ import type {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/users
  */
-export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export const UserPlan = {
 	Free: 1,
-	Core: 2,
+	Economy: 2,
 	Pro: 3,
 	Scale: 4,
-	Starter: 5,
-	Enterprise12: 6,
+	Enterprise4: 5,
+	Enterprise8: 6,
 	Enterprise16: 7,
+	Enterprise32: 8,
 } as const;
 
 /**

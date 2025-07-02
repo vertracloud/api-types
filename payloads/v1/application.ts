@@ -114,7 +114,8 @@ export interface APIApplication {
 	status: ApplicationStatus;
 	domain: string | null;
 	custom_domain: string | null;
-	last_commit: ISODateString | null;
+	last_commit: ISODateString;
+	last_backup: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 }
