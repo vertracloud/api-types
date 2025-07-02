@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake } from "../../v1";
+import type { ISODateString, SnowFlake, UserDatabasePlan } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
@@ -52,7 +52,9 @@ export interface APIDatabaseActivity {
 export interface APIDatabase {
 	id: SnowFlake;
 	cluster: DatabaseCluster;
+	plan_id: UserDatabasePlan;
 	type: DatabaseType;
+	duration: number;
 	name: string;
 	description: string;
 	owner_id: SnowFlake;
@@ -60,9 +62,11 @@ export interface APIDatabase {
 	storage: number;
 	ram: number;
 	connection: APIDatabaseConnection;
-	last_backup: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
+	purchased_at: ISODateString;
+	expires_at: ISODateString;
+	last_backup: ISODateString | null;
 }
 
 /**
