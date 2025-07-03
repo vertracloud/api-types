@@ -124,8 +124,8 @@ export interface APIApplication {
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export interface APIApplicationNetwork {
-	total: number;
-	now: number;
+	total: string;
+	now: string;
 }
 
 /**

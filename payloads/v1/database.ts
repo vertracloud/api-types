@@ -92,8 +92,8 @@ export interface APIDatabase {
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseNetwork {
-	total: number;
-	now: number;
+	total: string;
+	now: string;
 }
 
 /**
