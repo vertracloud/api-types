@@ -2,7 +2,7 @@
 
 Simple type definitions for the **VertraCloud API**.
 
-[![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@vertracloud/api-types)
 
 ## Installation
