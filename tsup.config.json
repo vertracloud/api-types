@@ -11,6 +11,5 @@
 	"format": ["cjs", "esm"],
 	"dts": true,
 	"sourcemap": true,
-	"splitting": false,
-	"preserveModules": true
+	"splitting": false
 }

@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserDatabasePlan } from "../../v1";
+import type { ISODateString, SnowFlake } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
@@ -8,6 +8,25 @@ export const DatabaseType = {
 	PostgreSQL: 1,
 	MongoDB: 2,
 	Redis: 3,
+} as const;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ */
+export type DatabasePlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export const DatabasePlan = {
+	Redis128: 1,
+	Redis256: 2,
+	Redis512: 3,
+	Redis1024: 4,
+	MongoDB1: 5,
+	MongoDB2: 6,
+	MongoDB5: 7,
+	MongoDB10: 8,
+	PostgreSQL1: 9,
+	PostgreSQL2: 10,
+	PostgreSQL5: 11,
+	PostgreSQL10: 12,
 } as const;
 
 /**
@@ -52,7 +71,7 @@ export interface APIDatabaseActivity {
 export interface APIDatabase {
 	id: SnowFlake;
 	cluster: DatabaseCluster;
-	plan_id: UserDatabasePlan;
+	plan_id: DatabasePlan;
 	type: DatabaseType;
 	duration: number;
 	name: string;
