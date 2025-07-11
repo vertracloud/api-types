@@ -2,6 +2,7 @@ import type {
 	APIApplication,
 	APIApplicationBackup,
 	APIApplicationCommit,
+	APIApplicationEnvironment,
 	APIApplicationFile,
 	APIApplicationFileContent,
 	APIApplicationMetric,
@@ -94,3 +95,10 @@ export type RESTGetAPIApplicationRestartResponse = APIPayload<boolean>;
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
  */
 export type RESTGetAPIApplicationStopResponse = APIPayload<boolean>;
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export type RESTGetAPIApplicationEnvironmentResponse = APIPayload<
+	APIApplicationEnvironment[]
+>;

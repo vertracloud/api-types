@@ -218,3 +218,14 @@ export interface APIApplicationConfig {
 	START?: string;
 	SUBDOMAIN?: string;
 }
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ */
+export interface APIApplicationEnvironment {
+	id: string;
+	key: string;
+	value: string;
+	note: string | null;
+	created_at: ISODateString;
+}
