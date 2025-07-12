@@ -53,7 +53,6 @@ export const DatabaseCluster = {
 export interface APIDatabaseConnection {
 	host: string;
 	port: number;
-	db_name: string | null;
 	username: string;
 	password: string;
 	connection_url: string;
