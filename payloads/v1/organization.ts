@@ -11,11 +11,11 @@ export type OrganizationMemberRole =
 	| "operator"
 	| "viewer";
 export const OrganizationMemberRole = {
-	Owner: "owner",
-	Admin: "admin",
-	Developer: "developer",
-	Operator: "operator",
-	Viewer: "viewer",
+	OWNER: "owner",
+	ADMIN: "admin",
+	DEVELOPER: "developer",
+	OPERATOR: "operator",
+	VIEWER: "viewer",
 } as const;
 
 /**

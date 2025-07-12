@@ -5,9 +5,9 @@ import type { ISODateString, SnowFlake } from "../../v1";
  */
 export type DatabaseType = 1 | 2 | 3;
 export const DatabaseType = {
-	PostgreSQL: 1,
-	MongoDB: 2,
-	Redis: 3,
+	POSTGRESQL: 1,
+	MONGODB: 2,
+	REDIS: 3,
 } as const;
 
 /**
@@ -15,18 +15,18 @@ export const DatabaseType = {
  */
 export type DatabasePlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export const DatabasePlan = {
-	Redis128: 1,
-	Redis256: 2,
-	Redis512: 3,
-	Redis1024: 4,
-	MongoDB1: 5,
-	MongoDB2: 6,
-	MongoDB5: 7,
-	MongoDB10: 8,
-	PostgreSQL1: 9,
-	PostgreSQL2: 10,
-	PostgreSQL5: 11,
-	PostgreSQL10: 12,
+	REDIS_128: 1,
+	REDIS_256: 2,
+	REDIS_512: 3,
+	REDIS_1024: 4,
+	MONGODB_1024: 5,
+	MONGODB_2048: 6,
+	MONGODB_5120: 7,
+	MONGODB_10240: 8,
+	POSTGRESQL_1024: 9,
+	POSTGRESQL_2048: 10,
+	POSTGRESQL_5120: 11,
+	POSTGRESQL_10240: 12,
 } as const;
 
 /**
@@ -43,18 +43,20 @@ export const DatabaseStatus = {
  */
 export type DatabaseCluster = 1;
 export const DatabaseCluster = {
-	USA: 1,
+	USA_1: 1,
+	USA_2: 2,
 } as const;
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseConnection {
-	ip: string;
+	host: string;
 	port: number;
+	db_name: string | null;
 	username: string;
 	password: string;
-	connection_url?: string;
+	connection_url: string;
 }
 
 /**

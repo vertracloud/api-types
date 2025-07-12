@@ -5,8 +5,8 @@ import type { ISODateString, SnowFlake } from "../../v1";
  */
 export type ApplicationLanguage = "nodejs" | "python";
 export const ApplicationLanguage = {
-	NodeJS: "nodejs",
-	Python: "python",
+	NODEJS: "nodejs",
+	PYTHON: "python",
 } as const;
 
 /**
@@ -34,7 +34,8 @@ export const ApplicationCommitStatus = {
  */
 export type ApplicationCluster = 1;
 export const ApplicationCluster = {
-	USA: 1,
+	USA_1: 1,
+	USA_2: 2,
 } as const;
 
 /**
@@ -42,8 +43,8 @@ export const ApplicationCluster = {
  */
 export type ApplicationType = 1 | 2;
 export const ApplicationType = {
-	Bot: 1,
-	Website: 2,
+	BOT: 1,
+	WEBSITE: 2,
 } as const;
 
 /**
@@ -60,8 +61,8 @@ export interface ApplicationCommit {
  */
 export type ApplicationFileType = "file" | "directory";
 export const ApplicationFileType = {
-	File: "file",
-	Directory: "directory",
+	FILE: "file",
+	DIRECTORY: "directory",
 } as const;
 
 /**
@@ -78,7 +79,7 @@ export const ApplicationVersion = {
  */
 export type ApplicationFileContentType = "buffer";
 export const ApplicationFileContentType = {
-	Buffer: "buffer",
+	BUFFER: "buffer",
 } as const;
 
 /**

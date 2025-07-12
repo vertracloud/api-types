@@ -3,9 +3,9 @@
  */
 export type StatusType = "healthy" | "degraded" | "unknown";
 export const StatusType = {
-	Healthy: "healthy",
-	Degraded: "degraded",
-	Unknown: "unknown",
+	HEALTHY: "healthy",
+	DEGRADED: "degraded",
+	UNKNOWN: "unknown",
 } as const;
 
 /**
