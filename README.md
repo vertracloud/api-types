@@ -1,6 +1,6 @@
 # @vertracloud/api-types
 
-Simple type definitions for the **VertraCloud API**.
+Simple type definitions for the **Vertra Cloud API**.
 
 [![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/@vertracloud/api-types?color=red&logo=npm)](https://www.npmjs.com/package/@vertracloud/api-types)

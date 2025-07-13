@@ -51,7 +51,7 @@ export const DatabaseCluster = {
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
 export interface APIDatabaseConnection {
-	host: string;
+	host: string; // example: "redis-veyyxxxxxxzzz.br.vertraweb.app"
 	port: number;
 	username: string;
 	password: string;

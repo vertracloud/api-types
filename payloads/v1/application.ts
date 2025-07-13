@@ -113,8 +113,8 @@ export interface APIApplication {
 	language: ApplicationLanguage;
 	ram: number;
 	status: ApplicationStatus;
-	domain: string | null;
-	custom_domain: string | null;
+	subdomain: string | null; // example: "my-app.vertraweb.com"
+	custom_domain: string | null; // example: "my-app.com.br"
 	last_commit: ISODateString;
 	last_backup: ISODateString | null;
 	created_at: ISODateString;
