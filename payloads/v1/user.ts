@@ -42,6 +42,7 @@ export interface APIUserPlan {
 	id: UserPlan;
 	name: string;
 	expires_at: ISODateString | null;
+	duration: number;
 	memory: APIUserPlanMemory;
 }
 
