@@ -50,17 +50,6 @@ export const DatabaseCluster = {
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/databases
  */
-export interface APIDatabaseConnection {
-	host: string; // example: "redis-veyyxxxxxxzzz.br.vertraweb.app"
-	port: number;
-	username: string;
-	password: string;
-	connection_url: string;
-}
-
-/**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
- */
 export interface APIDatabaseActivity {
 	message: string;
 	timestamp: ISODateString;
@@ -81,7 +70,10 @@ export interface APIDatabase {
 	status: DatabaseStatus;
 	storage: number;
 	ram: number;
-	connection: APIDatabaseConnection;
+	host: string; // example: "redis-ve2yxxxxxxzzz.br.vertraweb.app"
+	port: number;
+	username: string;
+	password: string;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	purchased_at: ISODateString;
