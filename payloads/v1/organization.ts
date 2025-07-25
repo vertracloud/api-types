@@ -1,5 +1,5 @@
 import type { ISODateString, SnowFlake } from "../../v1";
-import type { APIApplication, APIDatabase } from "./index";
+import type { APIApplication, APIDatabase, UserPlan } from "./index";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
@@ -36,6 +36,7 @@ export interface APIOrganization {
 	description: string;
 	tags: string[];
 	owner_id: SnowFlake;
+	plan_id: UserPlan;
 	members: APIOrganizationMember[];
 	created_at: ISODateString;
 	updated_at: ISODateString;

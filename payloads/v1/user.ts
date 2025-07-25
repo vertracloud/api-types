@@ -22,9 +22,18 @@ export const UserPlan = {
 export interface APIUser {
 	id: SnowFlake;
 	name: string;
-	plan: UserPlan;
+	plan_id: UserPlan;
 	created_at: ISODateString;
 	updated_at: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ */
+export interface APIUserInfoResponse extends APIUser {
+	plan: APIUserPlan;
+	applications: APIApplication[];
+	databases: APIDatabase[];
 }
 
 /**
@@ -44,19 +53,6 @@ export interface APIUserPlan {
 	expires_at: ISODateString | null;
 	duration: number;
 	memory: APIUserPlanMemory;
-}
-
-/**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
- */
-export interface APIUserInfoResponse {
-	id: SnowFlake;
-	name: string;
-	plan: APIUserPlan;
-	applications: APIApplication[];
-	databases: APIDatabase[];
-	created_at: ISODateString;
-	updated_at: ISODateString;
 }
 
 /**
