@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake } from "../../v1";
+import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/applications
@@ -110,6 +110,7 @@ export interface APIApplication {
 	name: string;
 	description: string;
 	owner_id: SnowFlake;
+	owner_plan_id: UserPlan; // Owner App Plan
 	language: ApplicationLanguage;
 	ram: number;
 	status: ApplicationStatus;

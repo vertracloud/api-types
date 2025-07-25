@@ -1,5 +1,5 @@
-import type { ISODateString, SnowFlake } from "../../v1";
-import type { APIApplication, APIDatabase, UserPlan } from "./index";
+import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
+import type { APIApplication, APIDatabase } from "./index";
 
 /**
  * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
