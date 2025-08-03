@@ -71,10 +71,8 @@ export interface APIDatabase {
 	status: DatabaseStatus;
 	storage: number;
 	ram: number;
-	host: string; // example: "redis-ve2yxxxxxxzzz.br.vertraweb.app"
+	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
 	port: number;
-	username: string;
-	password: string;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	purchased_at: ISODateString;
