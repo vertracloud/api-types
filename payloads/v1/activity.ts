@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake } from "../../v1";
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/activities
+ * @see https://docs.vertracloud.app/api-reference/endpoint/activities
  */
 export type ActivityStatus = "success" | "warning" | "error" | "info";
 export const ActivityStatus = {
@@ -12,7 +12,7 @@ export const ActivityStatus = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/activities
+ * @see https://docs.vertracloud.app/api-reference/endpoint/activities
  */
 export type ActivityTargetType = "app" | "database" | "organization" | "audit";
 export const ActivityTargetType = {
@@ -23,7 +23,7 @@ export const ActivityTargetType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/activities
+ * @see https://docs.vertracloud.app/api-reference/endpoint/activities
  */
 export interface APIActivity {
 	id: SnowFlake;

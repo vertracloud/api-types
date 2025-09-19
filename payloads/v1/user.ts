@@ -2,7 +2,7 @@ import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 import type { APIApplication, APIDatabase } from "./index";
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUser {
 	id: SnowFlake;
@@ -13,7 +13,7 @@ export interface APIUser {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUserInfoResponse extends APIUser {
 	plan: APIUserPlan;
@@ -22,7 +22,7 @@ export interface APIUserInfoResponse extends APIUser {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUserPlanMemory {
 	limit: number;
@@ -30,7 +30,7 @@ export interface APIUserPlanMemory {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUserPlan {
 	id: UserPlan;
@@ -41,7 +41,7 @@ export interface APIUserPlan {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUserOrgInviteKey {
 	code: SnowFlake;

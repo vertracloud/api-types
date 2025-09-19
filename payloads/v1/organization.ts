@@ -2,7 +2,7 @@ import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 import type { APIApplication, APIDatabase } from "./index";
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.app/api-reference/endpoint/organizations
  */
 export type OrganizationMemberRole =
 	| "owner"
@@ -19,7 +19,7 @@ export const OrganizationMemberRole = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.app/api-reference/endpoint/organizations
  */
 export interface APIOrganizationMember {
 	user_id: string;
@@ -28,7 +28,7 @@ export interface APIOrganizationMember {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.app/api-reference/endpoint/organizations
  */
 export interface APIOrganization {
 	id: SnowFlake;
@@ -43,7 +43,7 @@ export interface APIOrganization {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/organizations
+ * @see https://docs.vertracloud.app/api-reference/endpoint/organizations
  */
 export interface APIOrganizationInfoResponse extends APIOrganization {
 	applications: APIApplication[];

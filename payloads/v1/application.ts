@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationLanguage = "nodejs" | "python";
 export const ApplicationLanguage = {
@@ -10,7 +10,7 @@ export const ApplicationLanguage = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationStatus = "up" | "down";
 export const ApplicationStatus = {
@@ -19,7 +19,7 @@ export const ApplicationStatus = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationCommitStatus = 1 | 2 | 3 | 4;
 export const ApplicationCommitStatus = {
@@ -30,16 +30,16 @@ export const ApplicationCommitStatus = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export type ApplicationCluster = 1;
+export type ApplicationCluster = number;
 export const ApplicationCluster = {
 	USA_1: 1,
 	USA_2: 2,
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationType = 1 | 2;
 export const ApplicationType = {
@@ -48,7 +48,7 @@ export const ApplicationType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface ApplicationCommit {
 	version: string;
@@ -57,7 +57,7 @@ export interface ApplicationCommit {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationFileType = "file" | "directory";
 export const ApplicationFileType = {
@@ -66,7 +66,7 @@ export const ApplicationFileType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationVersion = "recommended" | "latest";
 export const ApplicationVersion = {
@@ -75,7 +75,7 @@ export const ApplicationVersion = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type ApplicationFileContentType = "buffer";
 export const ApplicationFileContentType = {
@@ -83,7 +83,7 @@ export const ApplicationFileContentType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationFile {
 	type: ApplicationFileType;
@@ -93,7 +93,7 @@ export interface APIApplicationFile {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationFileContent {
 	type: ApplicationFileContentType;
@@ -101,7 +101,7 @@ export interface APIApplicationFileContent {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplication {
 	id: SnowFlake;
@@ -123,7 +123,7 @@ export interface APIApplication {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationNetwork {
 	total: string;
@@ -131,7 +131,7 @@ export interface APIApplicationNetwork {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationActivity {
 	message: string;
@@ -139,9 +139,10 @@ export interface APIApplicationActivity {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationStatus {
+	id: SnowFlake;
 	cpu: string;
 	ram: string;
 	status: ApplicationStatus;
@@ -149,12 +150,10 @@ export interface APIApplicationStatus {
 	storage: string;
 	network: APIApplicationNetwork;
 	uptime: number;
-	created_at: ISODateString;
-	updated_at: ISODateString;
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationStatusShort {
 	id: SnowFlake;
@@ -164,7 +163,7 @@ export interface APIApplicationStatusShort {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationMetric {
 	cpu: number;
@@ -175,7 +174,7 @@ export interface APIApplicationMetric {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationCommit {
 	id: SnowFlake;
@@ -188,7 +187,7 @@ export interface APIApplicationCommit {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationBackup {
 	id: SnowFlake;
@@ -199,7 +198,7 @@ export interface APIApplicationBackup {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIGroupedApplicationBackups {
 	app_id: SnowFlake;
@@ -208,7 +207,7 @@ export interface APIGroupedApplicationBackups {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationConfig {
 	NAME: string;
@@ -222,7 +221,7 @@ export interface APIApplicationConfig {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/applications
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export interface APIApplicationEnvironment {
 	id: string;

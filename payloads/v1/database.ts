@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export type DatabaseType = 1 | 2 | 3;
 export const DatabaseType = {
@@ -11,7 +11,7 @@ export const DatabaseType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/users
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export type DatabasePlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export const DatabasePlan = {
@@ -30,7 +30,7 @@ export const DatabasePlan = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export type DatabaseStatus = "up" | "down";
 export const DatabaseStatus = {
@@ -39,16 +39,16 @@ export const DatabaseStatus = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.app/api-reference/endpoint/status
  */
-export type DatabaseCluster = 1;
+export type DatabaseCluster = number;
 export const DatabaseCluster = {
 	USA_1: 1,
 	USA_2: 2,
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseActivity {
 	message: string;
@@ -56,7 +56,7 @@ export interface APIDatabaseActivity {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabase {
 	id: SnowFlake;
@@ -81,7 +81,7 @@ export interface APIDatabase {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseNetwork {
 	total: string;
@@ -89,7 +89,7 @@ export interface APIDatabaseNetwork {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseBackup {
 	message: string;
@@ -97,9 +97,10 @@ export interface APIDatabaseBackup {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseStatus {
+	id: SnowFlake;
 	cpu: string;
 	ram: string;
 	status: DatabaseStatus;
@@ -107,12 +108,10 @@ export interface APIDatabaseStatus {
 	storage: string;
 	network: APIDatabaseNetwork;
 	uptime: number;
-	created_at: ISODateString;
-	updated_at: ISODateString;
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseStatusShort {
 	id: SnowFlake;
@@ -123,7 +122,7 @@ export interface APIDatabaseStatusShort {
 }
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
 export interface APIDatabaseMetrics {
 	cpu: number;

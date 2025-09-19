@@ -1,21 +1,32 @@
-export type APIPayloadStatus = "error" | "success";
-
 export type SnowFlake = string;
 
-export interface APIPayload<TResponse> {
-	status: APIPayloadStatus;
-	response: TResponse;
+export interface PaginationMeta<T> {
+	data: T[];
+	total_count: number;
+	page: number;
+	limit: number;
+	total_pages: number;
+	has_next_page: boolean;
+	has_previous_page: boolean;
+}
+
+export interface APIPaginatedPayload<T> {
+	response: PaginationMeta<T>;
+}
+
+export interface APIPayload<T> {
+	response?: T;
 	code?: string;
+	message?: string;
 }
 
-export interface APIPayloadStatusOnly {
-	status: APIPayloadStatus;
+export interface APIReturnService<T> {
+	status: number;
+	payload: APIPayload<T>;
 }
 
-export interface APIPaginatedPayload<TResponse> {
-	status: APIPayloadStatus;
-	response: TResponse;
-	meta?: PaginationMeta;
+export interface APIPayloadMessageOnly {
+	message: string;
 }
 
 export interface APIHeaders {
@@ -31,15 +42,6 @@ export type DeepPartial<T> = T extends object
 export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;
-
-export interface PaginationMeta {
-	total_count: number;
-	page: number;
-	limit: number;
-	total_pages: number;
-	has_next_page: boolean;
-	has_previous_page: boolean;
-}
 
 export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export const UserPlan = {

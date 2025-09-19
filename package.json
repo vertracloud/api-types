@@ -1,6 +1,6 @@
 {
 	"name": "@vertracloud/api-types",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"private": false,
 	"description": "Typings for Vertra Cloud API",
 	"homepage": "https://github.com/vertracloud/api-types#readme",
@@ -39,6 +39,7 @@
 		"check-types": "tsc --noEmit",
 		"prepublishOnly": "run-s clean lint build",
 		"postpublish": "npm run clean",
+		"pack": "npm run clean && npm run build && npm pack && npm run clean",
 		"release": "npm run build && changeset publish"
 	},
 	"license": "MIT",

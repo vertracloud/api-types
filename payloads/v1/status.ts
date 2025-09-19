@@ -1,5 +1,5 @@
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.app/api-reference/endpoint/status
  */
 export type StatusType = "healthy" | "degraded" | "unknown";
 export const StatusType = {
@@ -9,7 +9,7 @@ export const StatusType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.com/api-reference/endpoint/status
+ * @see https://docs.vertracloud.app/api-reference/endpoint/status
  */
 export interface APIStatus {
 	status: StatusType;
