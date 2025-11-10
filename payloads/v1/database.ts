@@ -45,6 +45,7 @@ export type DatabaseCluster = number;
 export const DatabaseCluster = {
 	USA_1: 1,
 	USA_2: 2,
+	USA_3: 3,
 } as const;
 
 /**

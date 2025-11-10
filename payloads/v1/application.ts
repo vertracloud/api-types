@@ -42,6 +42,7 @@ export type ApplicationCluster = number;
 export const ApplicationCluster = {
 	USA_1: 1,
 	USA_2: 2,
+	USA_3: 3,
 } as const;
 
 /**
