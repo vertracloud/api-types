@@ -7,12 +7,14 @@ export type ApplicationLanguage =
 	| "javascript"
 	| "typescript"
 	| "bun"
-	| "python";
+	| "python"
+	| "static";
 export const ApplicationLanguage = {
 	JAVASCRIPT: "javascript",
 	TYPESCRIPT: "typescript",
 	BUN: "bun",
 	PYTHON: "python",
+	STATIC: "static",
 } as const;
 
 /**
