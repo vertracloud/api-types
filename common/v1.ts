@@ -43,7 +43,7 @@ export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;
 
-export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
 export const UserPlan = {
 	FREE: 1,
 	ECONOMY: 2,
@@ -53,5 +53,14 @@ export const UserPlan = {
 	ENTERPRISE_4: 5,
 	ENTERPRISE_8: 6,
 	ENTERPRISE_16: 7,
+	ENTERPRISE_12: 10,
+	ENTERPRISE_14: 11,
+	ENTERPRISE_18: 12,
+	ENTERPRISE_20: 13,
+	ENTERPRISE_22: 14,
+	ENTERPRISE_24: 15,
+	ENTERPRISE_26: 16,
+	ENTERPRISE_28: 17,
+	ENTERPRISE_30: 18,
 	ENTERPRISE_32: 8,
 } as const;
