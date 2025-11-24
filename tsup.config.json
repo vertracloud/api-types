@@ -1,12 +1,6 @@
 {
 	"$schema": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
-	"entry": [
-		"payloads/**/*.ts",
-		"rest/**/*.ts",
-		"common/v1.ts",
-		"utils.ts",
-		"v1.ts"
-	],
+	"entry": ["payloads/**/*.ts", "rest/**/*.ts", "common/v1.ts", "utils.ts", "v1.ts"],
 	"outDir": ".",
 	"format": ["cjs", "esm"],
 	"dts": true,

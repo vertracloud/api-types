@@ -14,11 +14,5 @@
 		"preserveConstEnums": true,
 		"exactOptionalPropertyTypes": true
 	},
-	"include": [
-		"payloads/**/*.ts",
-		"rest/**/*.ts",
-		"common/v1.ts",
-		"utils.ts",
-		"v1.ts"
-	]
+	"include": ["payloads/**/*.ts", "rest/**/*.ts", "common/v1.ts", "utils.ts", "v1.ts"]
 }

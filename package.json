@@ -1,6 +1,6 @@
 {
 	"name": "@vertracloud/api-types",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"private": false,
 	"description": "Typings for Vertra Cloud API",
 	"homepage": "https://github.com/vertracloud/api-types#readme",
@@ -43,10 +43,7 @@
 		"release": "npm run build && changeset publish"
 	},
 	"license": "MIT",
-	"files": [
-		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
-		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
-	],
+	"files": ["{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}", "{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/vertracloud/api-types.git"

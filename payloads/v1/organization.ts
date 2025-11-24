@@ -4,12 +4,7 @@ import type { APIApplication, APIDatabase } from "./index";
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/organizations
  */
-export type OrganizationMemberRole =
-	| "owner"
-	| "admin"
-	| "developer"
-	| "operator"
-	| "viewer";
+export type OrganizationMemberRole = "owner" | "admin" | "developer" | "operator" | "viewer";
 export const OrganizationMemberRole = {
 	OWNER: "owner",
 	ADMIN: "admin",

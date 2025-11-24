@@ -3,12 +3,7 @@ import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export type ApplicationLanguage =
-	| "javascript"
-	| "typescript"
-	| "bun"
-	| "python"
-	| "static";
+export type ApplicationLanguage = "javascript" | "typescript" | "bun" | "python" | "static";
 export const ApplicationLanguage = {
 	JAVASCRIPT: "javascript",
 	TYPESCRIPT: "typescript",

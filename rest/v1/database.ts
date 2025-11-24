@@ -1,10 +1,4 @@
-import type {
-	APIDatabase,
-	APIDatabaseMetrics,
-	APIDatabaseStatus,
-	APIDatabaseStatusShort,
-	APIPayload,
-} from "../../v1";
+import type { APIDatabase, APIDatabaseMetrics, APIDatabaseStatus, APIDatabaseStatusShort, APIPayload } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
@@ -19,8 +13,7 @@ export type RESTGetAPIDatabaseStatusResponse = APIPayload<APIDatabaseStatus>;
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
-export type RESTGetAPIDatabaseStatusShortResponse =
-	APIPayload<APIDatabaseStatusShort>;
+export type RESTGetAPIDatabaseStatusShortResponse = APIPayload<APIDatabaseStatusShort>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
@@ -30,9 +23,7 @@ export type RESTGetAPIDatabaseLogsResponse = APIPayload<string>;
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
-export type RESTGetAPIDatabaseMetricsResponse = APIPayload<
-	APIDatabaseMetrics[]
->;
+export type RESTGetAPIDatabaseMetricsResponse = APIPayload<APIDatabaseMetrics[]>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
