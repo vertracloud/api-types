@@ -114,8 +114,8 @@ export interface APIApplication {
 	cluster: ApplicationCluster;
 	type: ApplicationType;
 	name: string;
-	description: string;
-	owner_id: SnowFlake;
+	description?: string;
+	owner_id: string; // UUID
 	owner_plan_id: UserPlan; // Owner App Plan
 	language: ApplicationLanguage;
 	ram: number;

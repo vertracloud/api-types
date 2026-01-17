@@ -5,8 +5,9 @@ import type { APIApplication, APIDatabase } from "./index";
  * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
 export interface APIUser {
-	id: SnowFlake;
+	id: string;
 	name: string;
+	email: string;
 	plan_id: UserPlan;
 	created_at: ISODateString;
 	updated_at: ISODateString;
