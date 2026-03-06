@@ -9,8 +9,15 @@ export interface APIUser {
 	name: string;
 	email: string;
 	plan_id: UserPlan;
+	language: string;
 	created_at: ISODateString;
 	updated_at: ISODateString;
+}
+
+export interface APIUserConnection {
+	provider: string;
+	username: string;
+	created_at: ISODateString | string;
 }
 
 /**
@@ -20,6 +27,7 @@ export interface APIUserInfoResponse extends APIUser {
 	plan: APIUserPlan;
 	applications: APIApplication[];
 	databases: APIDatabase[];
+	connections: APIUserConnection[];
 }
 
 /**
@@ -47,5 +55,20 @@ export interface APIUserPlan {
 export interface APIUserOrgInviteKey {
 	code: SnowFlake;
 	created_at: ISODateString;
-	expire_at: ISODateString;
+	expires_at: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
+ */
+export interface APIUserSession {
+	id: string;
+	user_id: string;
+	provider: string;
+	ip_address: string | null;
+	location: string | null;
+	device: string | null;
+	expires_at: ISODateString;
+	created_at: ISODateString;
+	updated_at: ISODateString;
 }
