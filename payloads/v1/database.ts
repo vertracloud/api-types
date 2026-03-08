@@ -3,30 +3,12 @@ import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
-export type DatabaseType = 1 | 2 | 3;
+export type DatabaseType = 1 | 2 | 3 | 4;
 export const DatabaseType = {
 	POSTGRESQL: 1,
 	MONGODB: 2,
 	REDIS: 3,
-} as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/users
- */
-export type DatabasePlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-export const DatabasePlan = {
-	REDIS_128: 1,
-	REDIS_256: 2,
-	REDIS_512: 3,
-	REDIS_1024: 4,
-	MONGODB_1024: 5,
-	MONGODB_2048: 6,
-	MONGODB_5120: 7,
-	MONGODB_10240: 8,
-	POSTGRESQL_1024: 9,
-	POSTGRESQL_2048: 10,
-	POSTGRESQL_5120: 11,
-	POSTGRESQL_10240: 12,
+	MYSQL: 4,
 } as const;
 
 /**
@@ -59,25 +41,21 @@ export interface APIDatabaseActivity {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
+
 export interface APIDatabase {
 	id: SnowFlake;
 	cluster: DatabaseCluster;
 	type: DatabaseType;
-	duration: number;
 	name: string;
 	description: string;
 	owner_id: SnowFlake;
 	owner_plan_id: UserPlan; // Owner App Plan
-	plan_id: DatabasePlan;
 	status: DatabaseStatus;
-	storage: number;
 	ram: number;
 	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
 	port: number;
 	created_at: ISODateString;
 	updated_at: ISODateString;
-	purchased_at: ISODateString;
-	expires_at: ISODateString;
 	last_backup: ISODateString | null;
 }
 
