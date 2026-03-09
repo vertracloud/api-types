@@ -26,17 +26,6 @@ export const ApplicationStatus = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export type ApplicationCommitStatus = 1 | 2 | 3 | 4;
-export const ApplicationCommitStatus = {
-	PENDING: 1,
-	DEPLOYING: 2,
-	COMPLETED: 3,
-	FAILED: 4,
-} as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
 export type ApplicationCluster = number;
 export const ApplicationCluster = {
 	USA_1: 1,
@@ -52,15 +41,6 @@ export const ApplicationType = {
 	BOT: 1,
 	WEBSITE: 2,
 } as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export interface ApplicationCommit {
-	version: string;
-	timestamp: ISODateString;
-	notes: string;
-}
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
@@ -122,8 +102,7 @@ export interface APIApplication {
 	status: ApplicationStatus;
 	subdomain: string | null; // example: "my-app.vertraweb.com"
 	custom_domain: string | null; // example: "my-app.com.br"
-	last_commit: ISODateString;
-	last_backup: ISODateString | null;
+	last_snapshot: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 }
@@ -182,22 +161,9 @@ export interface APIApplicationMetric {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export interface APIApplicationCommit {
+export interface APIApplicationSnapshot {
 	id: SnowFlake;
-	author_id: SnowFlake;
-	message: string;
-	version: string;
-	status: ApplicationCommitStatus;
-	size: string;
-	date: ISODateString;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export interface APIApplicationBackup {
-	id: SnowFlake;
-	app_id: SnowFlake;
+	resource_id: SnowFlake;
 	author_id: SnowFlake | null;
 	size: string;
 	date: ISODateString;
@@ -206,10 +172,10 @@ export interface APIApplicationBackup {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export interface APIGroupedApplicationBackups {
-	app_id: SnowFlake;
-	app_name: string | null;
-	backups: APIApplicationBackup[];
+export interface APIGroupedApplicationSnapshots {
+	resource_id: SnowFlake;
+	resource_name: string | null;
+	snapshots: APIApplicationSnapshot[];
 }
 
 /**

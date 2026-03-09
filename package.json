@@ -1,6 +1,6 @@
 {
 	"name": "@vertracloud/api-types",
-	"version": "0.0.26",
+	"version": "0.0.27",
 	"private": false,
 	"description": "Typings for Vertra Cloud API",
 	"homepage": "https://github.com/vertracloud/api-types#readme",

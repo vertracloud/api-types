@@ -56,7 +56,7 @@ export interface APIDatabase {
 	port: number;
 	created_at: ISODateString;
 	updated_at: ISODateString;
-	last_backup: ISODateString | null;
+	last_snapshot: ISODateString | null;
 }
 
 /**
@@ -70,9 +70,12 @@ export interface APIDatabaseNetwork {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases
  */
-export interface APIDatabaseBackup {
-	message: string;
-	timestamp: ISODateString;
+export interface APIDatabaseSnapshot {
+	id: SnowFlake;
+	resource_id: SnowFlake;
+	author_id: SnowFlake | null;
+	size: string;
+	date: ISODateString;
 }
 
 /**
