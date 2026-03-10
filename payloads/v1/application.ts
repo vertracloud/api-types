@@ -161,26 +161,6 @@ export interface APIApplicationMetric {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export interface APIApplicationSnapshot {
-	id: SnowFlake;
-	resource_id: SnowFlake;
-	author_id: SnowFlake | null;
-	size: string;
-	date: ISODateString;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export interface APIGroupedApplicationSnapshots {
-	resource_id: SnowFlake;
-	resource_name: string | null;
-	snapshots: APIApplicationSnapshot[];
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
 export interface APIApplicationConfig {
 	NAME: string;
 	MEMORY: number;

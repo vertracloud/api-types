@@ -1,4 +1,4 @@
-import type { APIApplication, APIApplicationEnvironment, APIApplicationFile, APIApplicationFileContent, APIApplicationMetric, APIApplicationSnapshot, APIApplicationStatus, APIApplicationStatusShort, APIGroupedApplicationSnapshots, APIPayload } from "../../v1";
+import type { APIApplication, APIApplicationEnvironment, APIApplicationFile, APIApplicationFileContent, APIApplicationMetric, APIApplicationStatus, APIApplicationStatusShort, APIPayload } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
@@ -24,21 +24,6 @@ export type RESTGetAPIApplicationLogsResponse = APIPayload<string>;
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
 export type RESTGetAPIApplicationMetricsResponse = APIPayload<APIApplicationMetric[]>;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export type RESTGetAPISnapshotsResponse = APIPayload<APIApplicationSnapshot[]>;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export type RESTGetAPIGroupedSnapshotsResponse = APIPayload<APIGroupedApplicationSnapshots[]>;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/applications
- */
-export type RESTGetAPISnapshotResponse = APIPayload<APIApplicationSnapshot>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
