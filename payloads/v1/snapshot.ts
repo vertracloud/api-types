@@ -16,6 +16,7 @@ export interface APIResourceSnapshot {
 	id: SnowFlake;
 	resource_id: SnowFlake;
 	author_id: SnowFlake | null;
+	resource_type: number | null;
 	size: string;
 	date: ISODateString;
 }
@@ -27,5 +28,6 @@ export interface APIGroupedResourceSnapshots {
 	resource_id: SnowFlake;
 	resource_name: string | null;
 	type: ResourceType;
+	resource_type: number | null;
 	snapshots: APIResourceSnapshot[];
 }
