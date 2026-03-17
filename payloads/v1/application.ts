@@ -3,7 +3,7 @@ import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export type ApplicationLanguage = "javascript" | "typescript" | "bun" | "python" | "static" | "php" | "go";
+export type ApplicationLanguage = "javascript" | "typescript" | "bun" | "python" | "static" | "php" | "go" | "ruby" | "java" | "rust";
 export const ApplicationLanguage = {
 	JAVASCRIPT: "javascript",
 	TYPESCRIPT: "typescript",
@@ -12,6 +12,9 @@ export const ApplicationLanguage = {
 	STATIC: "static",
 	PHP: "php",
 	GO: "go",
+	RUBY: "ruby",
+	JAVA: "java",
+	RUST: "rust",
 } as const;
 
 /**
@@ -54,10 +57,11 @@ export const ApplicationFileType = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/applications
  */
-export type ApplicationVersion = "recommended" | "latest";
+export type ApplicationVersion = "recommended" | "latest" | "auto" | (string & {});
 export const ApplicationVersion = {
 	RECOMMENDED: "recommended",
 	LATEST: "latest",
+	AUTO: "auto",
 } as const;
 
 /**
@@ -74,8 +78,16 @@ export const ApplicationFileContentType = {
 export interface APIApplicationFile {
 	type: ApplicationFileType;
 	name: string;
+	path: string;
 	size?: string;
 	last_modified: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APIApplicationFileTree extends APIApplicationFile {
+	children?: APIApplicationFileTree[];
 }
 
 /**
