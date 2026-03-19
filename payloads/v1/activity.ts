@@ -14,11 +14,11 @@ export const ActivityStatus = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/activities
  */
-export type ActivityTargetType = "app" | "database" | "organization" | "audit";
+export type ActivityTargetType = "app" | "database" | "workspace" | "audit";
 export const ActivityTargetType = {
 	App: "app",
 	Database: "database",
-	Organization: "organization",
+	Workspace: "workspace",
 	Audit: "audit",
 } as const;
 

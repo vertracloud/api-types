@@ -2,4 +2,4 @@
 "@vertracloud/api-types": patch
 ---
 
-add plan_id in organization
+add plan_id in workspace

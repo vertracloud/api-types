@@ -1,4 +1,5 @@
 import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
+import type { APIUserCredits } from "./credits";
 import type { APIApplication, APIDatabase } from "./index";
 
 /**
@@ -28,6 +29,7 @@ export interface APIUserInfoResponse extends APIUser {
 	applications: APIApplication[];
 	databases: APIDatabase[];
 	connections: APIUserConnection[];
+	credits: APIUserCredits;
 }
 
 /**
@@ -52,7 +54,7 @@ export interface APIUserPlan {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/users
  */
-export interface APIUserOrgInviteKey {
+export interface APIUserWorkspaceInviteKey {
 	code: SnowFlake;
 	created_at: ISODateString;
 	expires_at: ISODateString;

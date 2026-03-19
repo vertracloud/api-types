@@ -57,6 +57,9 @@ export interface APIDatabase {
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	last_snapshot: ISODateString | null;
+	use_credits: boolean;
+	credits_used?: number;
+	offline_since: ISODateString | null;
 }
 
 /**

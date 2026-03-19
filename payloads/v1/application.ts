@@ -117,6 +117,13 @@ export interface APIApplication {
 	last_snapshot: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
+	main_file: string;
+	version: ApplicationVersion;
+	auto_restart: boolean;
+	start_command: string | null;
+	use_credits: boolean;
+	credits_used?: number;
+	offline_since: ISODateString | null;
 }
 
 /**
