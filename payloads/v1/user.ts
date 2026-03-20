@@ -73,4 +73,12 @@ export interface APIUserSession {
 	expires_at: ISODateString;
 	created_at: ISODateString;
 	updated_at: ISODateString;
+	is_current: boolean;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/users
+ */
+export interface APIUserApiKey {
+	api_key: string;
 }

@@ -116,3 +116,10 @@ export interface APIDatabaseMetrics {
 	date: ISODateString;
 	network: number[];
 }
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ */
+export interface APIDatabasePasswordReset {
+	password: string;
+}
