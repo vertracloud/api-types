@@ -1,30 +1,42 @@
 import type { ISODateString } from "../../v1";
 
-export interface APIUserCredits {
+/** Compute credit balance (for running apps/databases) */
+export interface APICreditCompute {
 	free: number;
-	paid: number;
-	free_per_week: number;
-	free_reset_at: ISODateString;
-	paid_expires_at: ISODateString | null;
-}
-
-export interface APICreditBalance {
-	/** Compute credits (monthly — FREE plan only) */
-	free: number;
-	/** Compute credits (purchased) */
 	paid: number;
 	free_per_month: number;
 	free_reset_at: ISODateString;
 	paid_expires_at: ISODateString | null;
-	/** AI credits (monthly — all plans) */
-	ai_free: number;
-	/** AI credits (purchased) */
-	ai_paid: number;
-	ai_free_per_month: number;
-	ai_free_reset_at: ISODateString;
-	ai_paid_expires_at: ISODateString | null;
 }
 
+/** AI credit balance (for AI features) */
+export interface APICreditAI {
+	free: number;
+	paid: number;
+	free_per_month: number;
+	free_reset_at: ISODateString;
+	paid_expires_at: ISODateString | null;
+}
+
+/**
+ * User credits summary returned in GET /v1/users/@me
+ */
+export interface APIUserCredits {
+	compute: APICreditCompute;
+	ai: APICreditAI;
+}
+
+/**
+ * Full credit balance returned by GET /v1/credits/balance
+ */
+export interface APICreditBalance {
+	compute: APICreditCompute;
+	ai: APICreditAI;
+}
+
+/**
+ * Single credit usage entry returned by GET /v1/credits/usage
+ */
 export interface APICreditUsage {
 	id: string;
 	resource_id: string;
@@ -36,9 +48,12 @@ export interface APICreditUsage {
 	created_at: ISODateString;
 }
 
+/**
+ * Cost estimation returned by GET /v1/credits/cost?ram={mb}
+ */
 export interface APICreditCostEstimate {
 	ram_mb: number;
-	cost_per_hour: number;
 	cost_per_day: number;
 	cost_per_week: number;
+	cost_per_month: number;
 }

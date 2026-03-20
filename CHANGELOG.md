@@ -1,5 +1,17 @@
 # @vertracloud/api-types
 
+## 0.0.39 (2026-03-20)
+
+### Breaking Changes
+- **Credits types**: Restructured `APIUserCredits` and `APICreditBalance` from flat fields to nested `{ compute, ai }` objects
+  - `free`, `paid`, `free_per_month`, `free_reset_at`, `paid_expires_at` are now under `compute`
+  - `ai_free`, `ai_paid`, `ai_free_per_month`, `ai_free_reset_at`, `ai_paid_expires_at` are now under `ai`
+  - Added `APICreditCompute` and `APICreditAI` sub-interfaces
+  - Removed deprecated `free_per_week` field (replaced by `free_per_month`)
+- Added JSDoc route comments to all credit interfaces
+
+---
+
 ## 0.0.38 (2026-03-21)
 
 ### Features
