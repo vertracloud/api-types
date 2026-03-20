@@ -42,3 +42,20 @@ export interface APIWorkspaceInfoResponse extends APIWorkspace {
 	applications: APIApplication[];
 	databases: APIDatabase[];
 }
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces
+ */
+export interface APIWorkspaceMemberAdd {
+	id: string;
+	email: string;
+	role: WorkspaceMemberRole;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces
+ */
+export interface APIWorkspaceMemberRoleUpdate {
+	user_id: string;
+	role: WorkspaceMemberRole;
+}

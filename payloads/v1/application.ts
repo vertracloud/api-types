@@ -201,3 +201,53 @@ export interface APIApplicationEnvironment {
 	note: string | null;
 	created_at: ISODateString;
 }
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APIApplicationOperationResponse {
+	status: string;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APIApplicationDeployment {
+	app_id: SnowFlake;
+	commit_id: string;
+	message: string;
+	pusher: string;
+	branch: string;
+	created_at: ISODateString;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APIDnsRecord {
+	type: string;
+	name: string;
+	value: string;
+	status: string;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APIWebhookUrl {
+	url: string;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APISubdomainResponse {
+	subdomain: string;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/applications
+ */
+export interface APICustomDomainResponse {
+	domain: string;
+}

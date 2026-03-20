@@ -31,3 +31,10 @@ export interface APIGroupedResourceSnapshots {
 	resource_type: number | null;
 	snapshots: APIResourceSnapshot[];
 }
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/snapshots
+ */
+export interface APISnapshotRestoreResponse {
+	message: string;
+}
