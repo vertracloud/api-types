@@ -1,4 +1,5 @@
 import type { ISODateString, SnowFlake } from "../../v1";
+import type { LocalizedContent } from "./notification";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/activities
@@ -31,7 +32,7 @@ export interface APIActivity {
 	target_id: string;
 	target_type: ActivityTargetType;
 	author_id: SnowFlake | null;
-	title: string;
-	message: string;
+	title: LocalizedContent;
+	message: LocalizedContent;
 	timestamp: ISODateString;
 }
