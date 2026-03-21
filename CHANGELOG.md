@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.0.41 (2026-03-21)
+
+### Breaking Changes
+- **Activity types**: Changed `APIActivity.title` and `APIActivity.message` from `string` to `LocalizedContent` for i18n support, matching the notification pattern
+
+---
+
 ## 0.0.40 (2026-03-20)
 
 ### Breaking Changes
