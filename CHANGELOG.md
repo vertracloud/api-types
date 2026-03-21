@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.0.40 (2026-03-20)
+
+### Breaking Changes
+- **Credits types**: Renamed `free_per_month` to `free_per_week` in `APICreditCompute` and `APICreditAI` to reflect weekly credit reset cycle
+
+---
+
 ## 0.0.39 (2026-03-20)
 
 ### Breaking Changes

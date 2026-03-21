@@ -4,7 +4,7 @@ import type { ISODateString } from "../../v1";
 export interface APICreditCompute {
 	free: number;
 	paid: number;
-	free_per_month: number;
+	free_per_week: number;
 	free_reset_at: ISODateString;
 	paid_expires_at: ISODateString | null;
 }
@@ -13,7 +13,7 @@ export interface APICreditCompute {
 export interface APICreditAI {
 	free: number;
 	paid: number;
-	free_per_month: number;
+	free_per_week: number;
 	free_reset_at: ISODateString;
 	paid_expires_at: ISODateString | null;
 }
