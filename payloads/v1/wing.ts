@@ -47,6 +47,16 @@ export interface WingsAppCreateResponse {
 	vcpus: number;
 	auto_restart: boolean;
 	created_at: ISODateString;
+	missing_dependencies?: string[];
+	removed_directories?: string[];
+}
+
+/**
+ * Application container deploy response
+ */
+export interface WingsAppDeployResponse {
+	missing_dependencies?: string[];
+	removed_directories?: string[];
 }
 
 /**

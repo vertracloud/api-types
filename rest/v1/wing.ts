@@ -1,7 +1,10 @@
-import type { WingPayload, WingsAppCreateResponse, WingsAppRebuildResponse, WingsContainerMetric, WingsDatabaseCertificate, WingsDatabaseCreateResponse, WingsDatabaseRebuildResponse, WingsDatabaseResetResponse, WingsFileUploadResponse, WingsSnapshotRestoreResponse } from "../../v1";
+import type { WingPayload, WingsAppCreateResponse, WingsAppDeployResponse, WingsAppRebuildResponse, WingsContainerMetric, WingsDatabaseCertificate, WingsDatabaseCreateResponse, WingsDatabaseRebuildResponse, WingsDatabaseResetResponse, WingsFileUploadResponse, WingsSnapshotRestoreResponse } from "../../v1";
 
 /** @see Wing: POST /api/v1/apps */
 export type WingPostAppCreateResponse = WingPayload<WingsAppCreateResponse>;
+
+/** @see Wing: POST /api/v1/apps/:app_id/deploy */
+export type WingPostAppDeployResponse = WingPayload<WingsAppDeployResponse>;
 
 /** @see Wing: POST /api/v1/apps/:app_id/rebuild */
 export type WingPostAppRebuildResponse = WingPayload<WingsAppRebuildResponse>;
