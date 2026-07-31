@@ -134,3 +134,15 @@ export type RESTGetAPIApplicationWebhookUrlResponse = APIPayload<APIWebhookUrl>;
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/deployments
  */
 export type RESTGetAPIApplicationDeploymentsResponse = APIPayload<APIApplicationDeployment[]>;
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/applications
+ */
+export type RESTPostAPIApplicationInstallDependenciesBody = {
+	dependencies: string[];
+};
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/applications
+ */
+export type RESTPostAPIApplicationInstallDependenciesResponse = APIPayload<APIApplication>;
