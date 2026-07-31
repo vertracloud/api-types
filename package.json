@@ -43,21 +43,12 @@
 		"release": "npm run build && changeset publish"
 	},
 	"license": "MIT",
-	"files": [
-		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
-		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
-	],
+	"files": ["{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}", "{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/vertracloud/api-types.git"
 	},
-	"keywords": [
-		"api",
-		"vertracloud",
-		"vertra cloud api",
-		"vertra",
-		"types"
-	],
+	"keywords": ["api", "vertracloud", "vertra cloud api", "vertra", "types"],
 	"author": "Eydrenn Araujo",
 	"bugs": {
 		"url": "https://github.com/vertracloud/api-types/issues"
