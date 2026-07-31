@@ -124,6 +124,7 @@ export interface APIApplication {
 	use_credits: boolean;
 	credits_used?: number;
 	offline_since: ISODateString | null;
+	missing_dependencies?: string[]; // Undeclared packages detected on build/deploy
 }
 
 /**
