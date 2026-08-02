@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.1.1
+
+### Patch Changes
+
+- bd144de: feat: add missing_dependencies field to APIApplication and create install-dependencies REST types
+
 ## 0.1.0
 
 ### Minor Changes
