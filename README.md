@@ -1,67 +1,93 @@
+<div align="center">
+  <a href="https://vertracloud.app">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://vertracloud.app/brand/github-banner.png">
+      <source media="(prefers-color-scheme: light)" srcset="https://vertracloud.app/brand/github-banner-light.png">
+      <img src="https://vertracloud.app/brand/github-banner-light.png" alt="Vertra Cloud" width="1200">
+    </picture>
+  </a>
+</div>
+
 # @vertracloud/api-types
 
-[Vertra Cloud](https://vertracloud.app) is a Brazilian application hosting platform (PaaS): deploy from GitHub or a zip file, isolated containers, managed databases, file storage, snapshots, a CLI and a VS Code extension. Discord, WhatsApp and Telegram bots are first-class workloads.
-
-This package holds the TypeScript type definitions for the **Vertra Cloud public API** — the wire contract shared by the platform, the dashboard and third-party integrations. API reference: [docs.vertracloud.app/api-reference/introduction](https://docs.vertracloud.app/api-reference/introduction).
-
-[![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/@vertracloud/api-types?color=red&logo=npm)](https://www.npmjs.com/package/@vertracloud/api-types)
+
+TypeScript types for the public API of [Vertra Cloud](https://vertracloud.app), a Brazilian application hosting platform (PaaS) for applications, managed databases and bots.
+
+- Imports are scoped by API version (`/v1`).
+- Every route documented with a link to the [API reference](https://docs.vertracloud.app/api-reference/introduction).
+
+**[Leia em português](#em-português)**
 
 ## Installation
 
 ```bash
 npm install @vertracloud/api-types
-// or
-yarn add @vertracloud/api-types
-// or
-pnpm add @vertracloud/api-types
 ```
 
-## Getting Started
+## Usage
 
-Using these type definitions is straightforward. To specify a particular API version, simply append `/v*` to the import path, where `*` corresponds to your desired version. For example:
+Import from the API version you target:
 
 ```ts
-// Importing type definitions for version 1
-import { APIUser, APIDatabase, APIApplication } from '@vertracloud/api-types/v1';
+import type { APIApplication, RESTGetAPIApplicationResponse } from "@vertracloud/api-types/v1";
+
+const res = await fetch(`https://api.vertracloud.app/v1/apps/${id}`, {
+	headers: { Authorization: `Bearer ${process.env.VERTRA_API_KEY}` },
+});
+const body = (await res.json()) as RESTGetAPIApplicationResponse;
+
+if ("code" in body) {
+	console.error(body.code, body.message);
+} else {
+	const app: APIApplication = body.response;
+	console.log(app.name);
+}
 ```
 
-You can also import only the specific types you need:
+Prefer the official SDK if you don't want to write the requests yourself: [`@vertracloud/sdk-api`](https://www.npmjs.com/package/@vertracloud/sdk-api).
+
+## Conventions
+
+**Envelope.** Every JSON response is `{ response }` on success and `{ code, message?, details? }` on error (`APIPayload<T>`). `code` is a stable English sentinel listed in `APIErrorCode`; routes with nothing to return answer `{ response: null }`. `APIPayload<T>` is a union of both shapes: check `"code" in body` and TypeScript narrows each branch.
+
+**Naming.**
+
+| Prefix | Meaning | Example |
+|---|---|---|
+| `API*` | A payload returned by the API | `APIApplication` |
+| `REST<Method>API<Resource>*Body` | Request body | `RESTPostAPIApplicationCreateBody` |
+| `REST<Method>API<Resource>*Query` | Query string | `RESTGetAPIApplicationMetricsQuery` |
+| `REST<Method>API<Resource>*Response` | Full response envelope | `RESTGetAPIApplicationResponse` |
+
+**Wire format.** Fields are `snake_case`. Most string unions have a companion `const` with the same name, so you can use either the literal or the constant:
 
 ```ts
-// Importing only the APIUser type from version 1
-import { APIUser } from '@vertracloud/api-types/v1';
+import { ApplicationLanguage } from "@vertracloud/api-types/v1";
+
+ApplicationLanguage.PYTHON === "python"; // true
 ```
 
-> ***Note:** The versioned exports (`@vertracloud/api-types/v*`) include relevant types for `user`, `database`, as well as additional utilities and helpers.*
+## Em português
 
-## Project Structure
+Tipos TypeScript da API pública da [Vertra Cloud](https://vertracloud.app), a plataforma brasileira de hospedagem de aplicações, bancos de dados e bots.
 
-The exported types for each API version are organized into two main categories:
-
-* Types prefixed with `API` represent the payloads returned by the REST API.
-* Types prefixed with `REST` represent the data sent to or received from REST API endpoints.
-
-REST types follow a specific naming convention:
-
-```
-REST<HTTP Method><Action><Type>
+```bash
+npm install @vertracloud/api-types
 ```
 
-Where:
+```ts
+import type { RESTGetAPIApplicationResponse } from "@vertracloud/api-types/v1";
+```
 
-* `HTTP Method` is one of: `Get`, `Post`, `Put`, `Delete`, etc.
-* `Action` describes the intent (e.g., `Create`, `Update`, `Delete`)
-* `Type` represents the related resource (e.g., `User`, `Database`, `Application`)
+- **Envelope:** sucesso é `{ response }`; erro é `{ code, message?, details? }`. O `code` é uma constante estável em inglês, listada em `APIErrorCode`. `APIPayload<T>` é a união das duas formas: cheque `"code" in body` e o TypeScript separa cada caso.
+- **Nomes:** `API*` é o que a API devolve; `REST*Body`, `REST*Query` e `REST*Response` são o corpo, a query e a resposta de cada rota.
+- **Campos** em `snake_case`. A maioria das uniões de strings tem um `const` com o mesmo nome.
+- Prefere não montar as requisições? Use o SDK oficial, [`@vertracloud/sdk-api`](https://www.npmjs.com/package/@vertracloud/sdk-api).
 
-### Examples
+Documentação completa: [docs.vertracloud.app](https://docs.vertracloud.app/api-reference/introduction). Histórico de versões: [CHANGELOG.md](CHANGELOG.md).
 
-* `RESTPostAPIApplicationCreateBody`: request payload for creating a app.
-* `RESTGetAPIApplicationResponse`: expected response when retrieving a app.
+## License
 
-If a type name ends with `Response`, it refers to the structure returned by the API for that route.
-
-This separation provides a clear distinction between:
-
-* What is **sent to** the API (via `REST*Body` or similar types)
-* And what is **returned from** the API (via `API*` or `REST*Response` types)
+[MIT](LICENSE)
