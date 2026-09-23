@@ -1,6 +1,6 @@
 {
 	"name": "@vertracloud/api-types",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"private": false,
 	"description": "TypeScript types for the public API of Vertra Cloud, a Brazilian application hosting platform (PaaS) for applications, managed databases and bots.",
 	"homepage": "https://vertracloud.app",
@@ -43,12 +43,27 @@
 		"release": "npm run build && changeset publish"
 	},
 	"license": "MIT",
-	"files": ["{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}", "{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"],
+	"files": [
+		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
+		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/vertracloud/api-types.git"
 	},
-	"keywords": ["api", "vertracloud", "vertra cloud", "vertra cloud api", "vertra", "types", "typescript", "paas", "hosting", "deploy", "brazil"],
+	"keywords": [
+		"api",
+		"vertracloud",
+		"vertra cloud",
+		"vertra cloud api",
+		"vertra",
+		"types",
+		"typescript",
+		"paas",
+		"hosting",
+		"deploy",
+		"brazil"
+	],
 	"author": "Eydrenn Araujo",
 	"bugs": {
 		"url": "https://github.com/vertracloud/api-types/issues"
