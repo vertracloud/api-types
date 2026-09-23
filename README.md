@@ -1,6 +1,8 @@
 # @vertracloud/api-types
 
-Simple type definitions for the **Vertra Cloud API**.
+[Vertra Cloud](https://vertracloud.app) is a Brazilian application hosting platform (PaaS): deploy from GitHub or a zip file, isolated containers, managed databases, file storage, snapshots, a CLI and a VS Code extension. Discord, WhatsApp and Telegram bots are first-class workloads.
+
+This package holds the TypeScript type definitions for the **Vertra Cloud public API** — the wire contract shared by the platform, the dashboard and third-party integrations. API reference: [docs.vertracloud.app/api-reference/introduction](https://docs.vertracloud.app/api-reference/introduction).
 
 [![GitHub](https://img.shields.io/github/license/vertracloud/api-types)](https://github.com/vertracloud/api-types/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/@vertracloud/api-types?color=red&logo=npm)](https://www.npmjs.com/package/@vertracloud/api-types)
