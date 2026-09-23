@@ -2,8 +2,8 @@
 	"name": "@vertracloud/api-types",
 	"version": "0.1.1",
 	"private": false,
-	"description": "Typings for Vertra Cloud API",
-	"homepage": "https://github.com/vertracloud/api-types#readme",
+	"description": "TypeScript types for the public API of Vertra Cloud, a Brazilian application hosting platform (PaaS) for applications, managed databases and bots.",
+	"homepage": "https://vertracloud.app",
 	"exports": {
 		"./v*": {
 			"types": "./v*.d.ts",
@@ -32,7 +32,7 @@
 		}
 	},
 	"scripts": {
-		"build": "run-s lint tsc",
+		"build": "run-s clean lint tsc",
 		"clean": "rimraf {common,payloads,rest}/**/*.{*js,d.*ts,*map} {utils,v*}.{*js,d.*ts,*map}",
 		"lint": "biome check --fix .",
 		"tsc": "tsup",
@@ -48,7 +48,7 @@
 		"type": "git",
 		"url": "git+https://github.com/vertracloud/api-types.git"
 	},
-	"keywords": ["api", "vertracloud", "vertra cloud api", "vertra", "types"],
+	"keywords": ["api", "vertracloud", "vertra cloud", "vertra cloud api", "vertra", "types", "typescript", "paas", "hosting", "deploy", "brazil"],
 	"author": "Eydrenn Araujo",
 	"bugs": {
 		"url": "https://github.com/vertracloud/api-types/issues"
