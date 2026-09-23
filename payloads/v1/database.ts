@@ -1,7 +1,7 @@
 import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
 export type DatabaseType = 1 | 2 | 3 | 4;
 export const DatabaseType = {
@@ -12,7 +12,7 @@ export const DatabaseType = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
 export type DatabaseStatus = "up" | "down";
 export const DatabaseStatus = {
@@ -21,7 +21,7 @@ export const DatabaseStatus = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/status
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
 export type DatabaseCluster = number;
 export const DatabaseCluster = {
@@ -31,15 +31,7 @@ export const DatabaseCluster = {
 } as const;
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
- */
-export interface APIDatabaseActivity {
-	message: string;
-	timestamp: ISODateString;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
 
 export interface APIDatabase {
@@ -49,7 +41,7 @@ export interface APIDatabase {
 	name: string;
 	description: string;
 	owner_id: SnowFlake;
-	owner_plan_id: UserPlan; // Owner App Plan
+	owner_plan_id: UserPlan; // Owner's plan
 	status: DatabaseStatus;
 	ram: number;
 	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
@@ -57,13 +49,11 @@ export interface APIDatabase {
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	last_snapshot: ISODateString | null;
-	use_credits: boolean;
-	credits_used?: number;
 	offline_since: ISODateString | null;
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
 export interface APIDatabaseNetwork {
 	total: string;
@@ -71,18 +61,7 @@ export interface APIDatabaseNetwork {
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
- */
-export interface APIDatabaseSnapshot {
-	id: SnowFlake;
-	resource_id: SnowFlake;
-	author_id: SnowFlake | null;
-	size: string;
-	date: ISODateString;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/status
  */
 export interface APIDatabaseStatus {
 	id: SnowFlake;
@@ -91,12 +70,13 @@ export interface APIDatabaseStatus {
 	status: DatabaseStatus;
 	running: boolean;
 	storage: string;
-	network: APIDatabaseNetwork;
+	/** `null` when network usage is unavailable. */
+	network: APIDatabaseNetwork | null;
 	uptime: number;
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/allstatus
  */
 export interface APIDatabaseStatusShort {
 	id: SnowFlake;
@@ -107,7 +87,24 @@ export interface APIDatabaseStatusShort {
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
+ */
+export interface APIDatabaseOperationResponse {
+	status: "success";
+}
+
+/**
+ * Client certificate for TLS connections to the database.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/get
+ */
+export interface APIDatabaseCertificate {
+	crt: string;
+	key: string;
+	pem: string;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/metrics
  */
 export interface APIDatabaseMetrics {
 	cpu: number;
@@ -118,7 +115,7 @@ export interface APIDatabaseMetrics {
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/resetpassword
  */
 export interface APIDatabasePasswordReset {
 	password: string;
