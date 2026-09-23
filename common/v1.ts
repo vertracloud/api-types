@@ -17,17 +17,20 @@ export interface APIPaginatedPayload<T> {
 }
 
 /**
- * Envelope of every JSON response. Success: `{ response }` — routes with nothing to return send
- * `{ response: null }` (`APIPayload<null>`). Error: `{ code, message?, details? }`, where `details`
- * carries the machine-readable context of the error (e.g. the invalid field's `path` on
- * `VALIDATION_ERROR`).
+ * Error body: `code` is a stable English sentinel, `details` carries the machine-readable context
+ * of the error (e.g. the invalid field's `path` on `VALIDATION_ERROR`).
  */
-export interface APIPayload<T, TErrorCode extends string = APIErrorCode> {
-	response?: T;
-	code?: TErrorCode;
+export interface APIErrorPayload<TErrorCode extends string = APIErrorCode> {
+	code: TErrorCode;
 	message?: string;
 	details?: Record<string, unknown>;
 }
+
+/**
+ * Envelope of every JSON response: `{ response }` on success — routes with nothing to return send
+ * `{ response: null }` (`APIPayload<null>`) — or an `APIErrorPayload`. Narrow with `"code" in body`.
+ */
+export type APIPayload<T, TErrorCode extends string = APIErrorCode> = { response: T } | APIErrorPayload<TErrorCode>;
 
 /**
  * Query accepted by the application and database routes: the workspace the resource belongs to.

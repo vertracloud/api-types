@@ -6,7 +6,8 @@ Esta versão alinha o contrato com o que a API pública realmente aceita e devol
 
 ### Envelope e erros
 
-- `APIPayload` ganha `details?: Record<string, unknown>` — o envelope de erro é `{ code, message?, details? }`. Em `VALIDATION_ERROR`, o campo inválido vem em `details.path`.
+- **Breaking:** `APIPayload<T>` passa a ser a união `{ response: T } | APIErrorPayload`, em vez de um objeto com todos os campos opcionais. O formato no fio não muda; o TypeScript agora separa sucesso de erro com `"code" in body`, e ler `response` sem essa checagem deixa de compilar.
+- Novo `APIErrorPayload` — o corpo de erro `{ code, message?, details? }`, com `code` obrigatório. Em `VALIDATION_ERROR`, o campo inválido vem em `details.path`.
 - Rotas sem retorno respondem `{ response: null }`: toda resposta vazia passa a ser `APIPayload<null>` (antes `APIPayload<void>`).
 - Novo catálogo de códigos de erro públicos em `payloads/v1/api-error`.
 - Novo `RESTAPIWorkspaceQuery` (`workspace_id?`), compartilhado pelas rotas de aplicação e banco.
