@@ -1,3 +1,5 @@
+import type { APIErrorCode } from "../payloads/v1/api-error";
+
 export type SnowFlake = string;
 
 export interface PaginationMeta<T> {
@@ -14,15 +16,25 @@ export interface APIPaginatedPayload<T> {
 	response: PaginationMeta<T>;
 }
 
-export interface APIPayload<T> {
+/**
+ * Envelope of every JSON response. Success: `{ response }` — routes with nothing to return send
+ * `{ response: null }` (`APIPayload<null>`). Error: `{ code, message?, details? }`, where `details`
+ * carries the machine-readable context of the error (e.g. the invalid field's `path` on
+ * `VALIDATION_ERROR`).
+ */
+export interface APIPayload<T, TErrorCode extends string = APIErrorCode> {
 	response?: T;
-	code?: string;
+	code?: TErrorCode;
 	message?: string;
+	details?: Record<string, unknown>;
 }
 
-export interface APIReturnService<T> {
-	status: number;
-	payload: APIPayload<T>;
+/**
+ * Query accepted by the application and database routes: the workspace the resource belongs to.
+ * Required for a workspace member acting on a resource they do not own; the owner may omit it.
+ */
+export interface RESTAPIWorkspaceQuery {
+	workspace_id?: string;
 }
 
 export interface APIPayloadMessageOnly {
