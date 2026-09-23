@@ -18,8 +18,6 @@ TypeScript types for the public API of [Vertra Cloud](https://vertracloud.app), 
 - Imports are scoped by API version (`/v1`).
 - Every route documented with a link to the [API reference](https://docs.vertracloud.app/api-reference/introduction).
 
-**[Leia em português](#em-português)**
-
 ## Installation
 
 ```bash
@@ -68,25 +66,6 @@ import { ApplicationLanguage } from "@vertracloud/api-types/v1";
 
 ApplicationLanguage.PYTHON === "python"; // true
 ```
-
-## Em português
-
-Tipos TypeScript da API pública da [Vertra Cloud](https://vertracloud.app), a plataforma brasileira de hospedagem de aplicações, bancos de dados e bots.
-
-```bash
-npm install @vertracloud/api-types
-```
-
-```ts
-import type { RESTGetAPIApplicationResponse } from "@vertracloud/api-types/v1";
-```
-
-- **Envelope:** sucesso é `{ response }`; erro é `{ code, message?, details? }`. O `code` é uma constante estável em inglês, listada em `APIErrorCode`. `APIPayload<T>` é a união das duas formas: cheque `"code" in body` e o TypeScript separa cada caso.
-- **Nomes:** `API*` é o que a API devolve; `REST*Body`, `REST*Query` e `REST*Response` são o corpo, a query e a resposta de cada rota.
-- **Campos** em `snake_case`. A maioria das uniões de strings tem um `const` com o mesmo nome.
-- Prefere não montar as requisições? Use o SDK oficial, [`@vertracloud/sdk-api`](https://www.npmjs.com/package/@vertracloud/sdk-api).
-
-Documentação completa: [docs.vertracloud.app](https://docs.vertracloud.app/api-reference/introduction). Histórico de versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
