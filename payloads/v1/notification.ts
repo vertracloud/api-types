@@ -31,9 +31,7 @@ export interface LocalizedContent {
 	[key: string]: string | undefined;
 }
 
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/notifications
- */
+/** Dashboard session only (not reachable with an API key). */
 export interface APINotification {
 	id: SnowFlake;
 	type: NotificationType;
