@@ -45,3 +45,11 @@ payloads/**/*.d.*ts
 rest/**/*.*js
 rest/**/*.map
 rest/**/*.d.*ts
+
+# agents
+.claude/
+CLAUDE.md
+AGENTS.md
+.DS_Store
+
+scripts/
