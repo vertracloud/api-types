@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.2.1
+
+### Patch Changes
+
+- 9230102: Move personal and workspace folder and favorite endpoints to `/folders` and `/favorites` paths without the `resource-organization` segment.
+
 ## 0.2.0
 
 Esta versão alinha o contrato com o que a API pública realmente aceita e devolve. Há muitas mudanças **breaking**: nomes foram renomeados sem alias, campos soltos foram estreitados e tipos sem rota correspondente foram removidos.
