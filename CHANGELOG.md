@@ -1,6 +1,6 @@
 # @vertracloud/api-types
 
-## 0.2.0 (2026-09-23)
+## 0.2.0
 
 Esta versão alinha o contrato com o que a API pública realmente aceita e devolve. Há muitas mudanças **breaking**: nomes foram renomeados sem alias, campos soltos foram estreitados e tipos sem rota correspondente foram removidos.
 
