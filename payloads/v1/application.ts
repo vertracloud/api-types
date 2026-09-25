@@ -156,8 +156,6 @@ export interface APIApplication {
 	updated_at: ISODateString;
 	main_file: string;
 	version: ApplicationVersion;
-	/** @deprecated Always `true` since 2026-09-17 — auto-restart is on for every plan; any value sent is ignored. */
-	auto_restart: boolean;
 	start_command: string | null;
 	/**
 	 * Build command, run once per deploy, after dependencies are installed and before the app
@@ -253,8 +251,6 @@ export interface APIApplicationConfig {
 	MAIN: string;
 	VERSION: ApplicationVersion;
 	DESCRIPTION?: string;
-	/** @deprecated Always `true` since 2026-09-17 — auto-restart is on for every plan; any value sent is ignored. */
-	AUTORESTART?: boolean;
 	START?: string;
 	/** Build command (see `APIApplication.build_command`). */
 	BUILD?: string;

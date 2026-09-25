@@ -228,8 +228,6 @@ export interface RESTPostAPIApplicationCreateBody {
 	start?: string;
 	/** Build command (see `APIApplication.build_command`). */
 	build?: string;
-	/** @deprecated Always `true` since 2026-09-17 — auto-restart is on for every plan; any value sent is ignored. */
-	autorestart?: boolean;
 	/** `"random"` = the platform picks one at random. */
 	subdomain?: string;
 	workspace_id?: string;
@@ -327,7 +325,6 @@ export interface RESTPatchAPIApplicationUpdateConfigBody {
 	description?: string | null;
 	main_file?: string;
 	version?: string;
-	auto_restart?: boolean;
 	start_command?: string | null;
 	build_command?: string | null;
 	ram?: number;
