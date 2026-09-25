@@ -4,7 +4,6 @@ export * from "./api-error";
 export * from "./application";
 export * from "./database";
 export * from "./database-data";
-export * from "./github";
 export * from "./notification";
 export * from "./oauth";
 export * from "./orders";
