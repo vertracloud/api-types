@@ -347,9 +347,16 @@ export const WORKSPACE_ERROR_CODES = {
 	WORKSPACE_INVITE_NOT_FOUND: "WORKSPACE_INVITE_NOT_FOUND",
 	WORKSPACE_INVITE_EXPIRED: "WORKSPACE_INVITE_EXPIRED",
 	WORKSPACE_INVITE_EMAIL_MISMATCH: "WORKSPACE_INVITE_EMAIL_MISMATCH",
+	/** 400 — the invited account turned off workspace invites by email. */
+	WORKSPACE_INVITES_DISABLED: "WORKSPACE_INVITES_DISABLED",
+	/** 409 — the account is already the owner or a member of the workspace. */
+	WORKSPACE_ALREADY_MEMBER: "WORKSPACE_ALREADY_MEMBER",
 	WORKSPACE_OWNER_ONLY: "WORKSPACE_OWNER_ONLY",
 	WORKSPACE_ACTION_REQUEST_NOT_FOUND: "WORKSPACE_ACTION_REQUEST_NOT_FOUND",
+	/** 410 — the request expired before anyone decided on it. */
+	WORKSPACE_ACTION_REQUEST_EXPIRED: "WORKSPACE_ACTION_REQUEST_EXPIRED",
 	/** 409 — the request was already approved or rejected. */
+	WORKSPACE_ACTION_REQUEST_ALREADY_DECIDED: "WORKSPACE_ACTION_REQUEST_ALREADY_DECIDED",
 	/** 400 — the requester already has the permission; perform the action directly. */
 	WORKSPACE_ACTION_NOT_NEEDED: "WORKSPACE_ACTION_NOT_NEEDED",
 	/** 400 — the request `params` failed the action's validation (e.g. a snapshot of another resource). */
