@@ -1,5 +1,0 @@
----
-"@vertracloud/api-types": patch
----
-
-Add eleven error codes the API already returned to the public contract: `API_KEY_NOT_FOUND`, `API_KEY_LIMIT_REACHED`, `API_KEY_INVALID_NAME`, `API_KEY_INVALID_SCOPES`, `API_KEY_INVALID_IPS`, `WEBSITE_ONLY`, `INVALID_VERSION` in `APIErrorCode`, and `WORKSPACE_INVITES_DISABLED`, `WORKSPACE_ALREADY_MEMBER`, `WORKSPACE_ACTION_REQUEST_EXPIRED`, `WORKSPACE_ACTION_REQUEST_ALREADY_DECIDED` in `WorkspaceErrorCode`.

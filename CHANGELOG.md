@@ -1,5 +1,13 @@
 # @vertracloud/api-types
 
+## 0.2.2
+
+### Patch Changes
+
+- 2e2139d: Add eleven error codes the API already returned to the public contract: `API_KEY_NOT_FOUND`, `API_KEY_LIMIT_REACHED`, `API_KEY_INVALID_NAME`, `API_KEY_INVALID_SCOPES`, `API_KEY_INVALID_IPS`, `WEBSITE_ONLY`, `INVALID_VERSION` in `APIErrorCode`, and `WORKSPACE_INVITES_DISABLED`, `WORKSPACE_ALREADY_MEMBER`, `WORKSPACE_ACTION_REQUEST_EXPIRED`, `WORKSPACE_ACTION_REQUEST_ALREADY_DECIDED` in `WorkspaceErrorCode`.
+- 2feec8c: Remove the `autorestart`/`auto_restart` field from `RESTPostAPIApplicationCreateBody`, `RESTPatchAPIApplicationUpdateConfigBody` and `APIApplication`. Auto-restart has been unconditionally on for every plan since 2026-09-17 and the field was only accepted-and-ignored; it is now gone from the wire entirely. Breaking for any client still reading `auto_restart` off the application payload.
+- 68b59ea: Remove `POST /v1/github/repository/file` from the public contract: `APIGitHubFile`, `RESTPostAPIGitHubFileBody` and `RESTPostAPIGitHubFileResponse` no longer exist. The route was built for the hosted AI, which has been removed from the product; nothing consumes it. Breaking for any client still importing these types.
+
 ## 0.2.1
 
 ### Patch Changes
