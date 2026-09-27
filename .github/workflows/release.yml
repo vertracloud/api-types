@@ -18,18 +18,22 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
+          # Trusted publishing (OIDC) exige npm >= 11.5.1; o Node 24 já vem com npm 11.
           node-version: 24
 
+      # package-lock.json fica fora do git (.gitignore), então é install, não ci.
       - name: Install Dependencies
         run: npm install --no-audit --no-fund
 
       - name: Create Release Pull Request or Publish to npm
-        uses: changesets/action@v2
+        # v1 de propósito: a v2 exige a CLI 3 do Changesets, e o repo usa a 2.
+        uses: changesets/action@v1
         with:
-          publish-script: npm run release
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: write
   pull-requests: write
-  id-token: write
+  id-token: write # trusted publishing no npm, sem NPM_TOKEN
