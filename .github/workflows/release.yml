@@ -10,29 +10,26 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          # Trusted publishing (OIDC) exige npm >= 11.5.1; o Node 24 já vem com npm 11.
           node-version: 24
 
-      # package-lock.json fica fora do git (.gitignore), então é install, não ci.
       - name: Install Dependencies
         run: npm install --no-audit --no-fund
 
       - name: Create Release Pull Request or Publish to npm
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          publish: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish-script: npm run release
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: write
   pull-requests: write
-  id-token: write # trusted publishing no npm, sem NPM_TOKEN
+  id-token: write
