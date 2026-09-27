@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.2.3
+
+### Patch Changes
+
+- 444cf4f: Add the `SNAPSHOT_FAILED` error code: the safety snapshot taken before deleting or resetting a database failed, so the database was not changed.
+
 ## 0.2.2
 
 ### Patch Changes
