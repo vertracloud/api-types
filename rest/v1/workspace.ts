@@ -56,15 +56,6 @@ export type RESTPutAPIWorkspaceUpdateResponse = APIPayload<APIWorkspace>;
  */
 export type RESTDeleteAPIWorkspaceResponse = APIPayload<null>;
 
-/**
- * `POST /v1/workspaces/:id/transfer-ownership` — owner only.
- * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/transfer-ownership
- */
-export interface RESTPostAPIWorkspaceTransferOwnershipBody {
-	user_id: string;
-}
-export type RESTPostAPIWorkspaceTransferOwnershipResponse = APIPayload<APIWorkspace>;
-
 // ---------------------------------------------------------------------------
 // Saved resource organization
 // ---------------------------------------------------------------------------

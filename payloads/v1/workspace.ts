@@ -4,7 +4,7 @@ import type { APIApplication, APIDatabase } from "./index";
 /**
  * Granular workspace permission. Display group in `WORKSPACE_PERMISSIONS`.
  * The owner (`owner_id`) has no entry here: owner-only actions (rename/delete the workspace,
- * transfer ownership, link/unlink projects, deploy webhook, web publishing) are allowed for the
+ * link/unlink projects, deploy webhook, web publishing) are allowed for the
  * owner only, never through a permission.
  * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/get
  */
