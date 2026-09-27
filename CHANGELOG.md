@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.2.4
+
+### Patch Changes
+
+- 2ad1d99: Remove workspace ownership transfer types (feature removed, no consumers)
+
 ## 0.2.3
 
 ### Patch Changes
