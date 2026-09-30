@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.2.5
+
+### Patch Changes
+
+- dd88d9b: Remove `SUBDOMAIN_ALREADY_IN_USE` from `API_ERROR_CODES`: the API returns `SUBDOMAIN_TAKEN` for a subdomain already in use on every route.
+- 8a2a34c: Add the `FREE_PLAN_SUSPENDED` error code: creating an application or database on the Free plan now requires a paid plan.
+
 ## 0.2.4
 
 ### Patch Changes
