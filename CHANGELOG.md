@@ -1,5 +1,14 @@
 # @vertracloud/api-types
 
+## 0.3.0
+
+### Minor Changes
+
+- 50a3c77: Add `GET` and `PATCH /v1/users/me/billing/renewal` to turn the automatic plan renewal off and on: `APIBillingRenewal`, `RESTGetAPIBillingRenewalResponse`, `RESTPatchAPIBillingRenewalBody` and `RESTPatchAPIBillingRenewalResponse`. Dashboard session only.
+- 50a3c77: Add the card payment contract: `OrderProvider.CARD`, `allowed_payment_methods` on order create/status, `POST /v1/orders/:orderId/pay/card` (`RESTPostAPIOrderCardPaymentBody`, `APIOrderCardPayment`, `OrderCardPaymentStatus`), billing details and saved cards (`APIBillingDetails`, `APIBillingAddress`, `APIBillingTaxId`, `BillingTaxIdType`, `APIBillingCard` and the `/v1/users/me/billing` and `/v1/users/me/cards` envelopes), and the error codes `COUPON_PAYMENT_METHOD`, `PAYMENT_METHOD_UNAVAILABLE`, `BILLING_DETAILS_INVALID`, `TAX_ID_INVALID`, `CARD_NOT_FOUND`, `CARD_NOT_ALLOWED_FOR_PLAN` and `CARD_DECLINED`. Billing, card and card payment routes are dashboard session only. Orders accept 1, 3 or 12 months; the Economy plan only 1 month and only PIX.
+- 720378e: Add `APIOrderCouponPreview` and `RESTPostAPIOrderCouponPreviewBody`/`Response` for `POST /v1/orders/coupon-preview`, and the `COUPON_*` error codes that order creation already returns.
+- 720378e: Add `has_receipt` to `APIOrderListItem`, `APIOrderReceipt` and `RESTGetAPIOrderReceiptResponse` for `GET /v1/orders/:orderId/receipt`, and the `ORDER_RECEIPT_UNAVAILABLE` error code.
+
 ## 0.2.5
 
 ### Patch Changes
