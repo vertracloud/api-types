@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.3.1
+
+### Patch Changes
+
+- 4641cb2: Add the `PATH_IS_FILE` error code: writing or creating a folder whose path goes through an existing file returns 409 instead of a server error.
+
 ## 0.3.0
 
 ### Minor Changes
