@@ -256,14 +256,19 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 		routes: [
 			{ method: "GET", path: "/v1/orders" },
 			{ method: "GET", path: "/v1/orders/:orderId/status" },
+			{ method: "GET", path: "/v1/users/me/billing" },
 		],
 	},
-	/** Creates a plan order and generates the PIX charge; the payment itself is made by a person in their banking app. */
+	/**
+	 * Creates a plan order and generates the PIX charge; the payment itself is made by a person in their banking app.
+	 * Also saves the billing details (name, address, CPF/CNPJ) an order needs.
+	 */
 	"billing:write": {
 		group: "billing",
 		routes: [
 			{ method: "POST", path: "/v1/orders" },
 			{ method: "POST", path: "/v1/orders/:orderId/initiate/pix" },
+			{ method: "PUT", path: "/v1/users/me/billing" },
 		],
 	},
 	"redeem:write": { group: "billing", routes: [{ method: "POST", path: "/v1/redeem/:code" }] },

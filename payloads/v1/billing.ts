@@ -2,9 +2,17 @@ import type { ISODateString } from "../../v1";
 
 /** Postal address used for billing. `country` is a two-letter ISO code (`"BR"`). */
 export interface APIBillingAddress {
+	/** Street name. */
 	line1: string;
+	/** Street number; `"S/N"` when there is none. Required in Brazil. */
+	number: string | null;
+	/** Complement, for example `"Apt 2"`. */
 	line2: string | null;
+	/** Neighborhood (bairro). Required in Brazil. */
+	district: string | null;
 	city: string;
+	/** Seven-digit IBGE city code. Required in Brazil. */
+	city_code: string | null;
 	/** Two-letter state code in Brazil (`"CE"`); free text elsewhere. */
 	state: string | null;
 	postal_code: string | null;
@@ -27,15 +35,15 @@ export interface APIBillingTaxId {
 
 /**
  * Billing details of the logged-in account, used on receipts, invoices and fraud checks.
- * Dashboard session only.
+ * An order needs them complete (`complete: true`), otherwise `POST /v1/orders` fails with `BILLING_DETAILS_INCOMPLETE`.
  */
 export interface APIBillingDetails {
 	name: string | null;
 	address: APIBillingAddress | null;
-	/** E.164, for example `"+5585999990000"`. */
+	/** Optional. E.164, for example `"+5585999990000"`. */
 	phone: string | null;
 	tax_id: APIBillingTaxId | null;
-	/** `true` when every required field is filled. */
+	/** `true` when every field required to issue the service invoice is filled (in Brazil, including the tax document). */
 	complete: boolean;
 }
 

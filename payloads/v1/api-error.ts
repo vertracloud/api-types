@@ -26,6 +26,8 @@ export const API_ERROR_CODES = {
 	APP_NOT_FOUND_IN_WORKSPACE: "APP_NOT_FOUND_IN_WORKSPACE",
 	BUILD_FAILED: "BUILD_FAILED",
 	BUILD_TIMEOUT: "BUILD_TIMEOUT",
+	/** 400 — the order needs complete billing details for the service invoice (name, address and, in Brazil, CPF/CNPJ). Fill them with `PUT /v1/users/me/billing`. */
+	BILLING_DETAILS_INCOMPLETE: "BILLING_DETAILS_INCOMPLETE",
 	/** 400 — billing details failed validation; the field is in `details.path`. */
 	BILLING_DETAILS_INVALID: "BILLING_DETAILS_INVALID",
 	/** 402 — the bank refused the card charge. */

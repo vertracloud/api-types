@@ -1,22 +1,23 @@
 import type { APIBillingAddress, APIBillingCard, APIBillingDetails, APIBillingRenewal, APIPayload, BillingTaxIdType } from "../../v1";
 
-/** `GET /v1/users/me/billing` — Dashboard session only. `response` is `null` until details are saved. */
+/** `GET /v1/users/me/billing` — API key scope `billing:read`. `response` is `null` until details are saved. */
 export type RESTGetAPIBillingDetailsResponse = APIPayload<APIBillingDetails | null>;
 
 /**
- * `PUT /v1/users/me/billing` — Dashboard session only. Replaces the billing details.
+ * `PUT /v1/users/me/billing` — API key scope `billing:write`. Replaces the billing details.
  * Fails with 400 `BILLING_DETAILS_INVALID` (the field in `details.path`), 400 `TAX_ID_INVALID` and
  * 400 `PAYMENT_METHOD_UNAVAILABLE` when online payments are not available.
  */
 export interface RESTPutAPIBillingDetailsBody {
 	name: string;
 	address: APIBillingAddress;
-	phone: string;
+	/** Optional. E.164. `null` or omitted removes the saved phone. */
+	phone?: string | null;
 	/** Optional. `null` removes the saved document; omitting it keeps the saved one. */
 	tax_id?: { type: BillingTaxIdType; value: string } | null;
 }
 
-/** `PUT /v1/users/me/billing` — Dashboard session only. */
+/** `PUT /v1/users/me/billing` — API key scope `billing:write`. */
 export type RESTPutAPIBillingDetailsResponse = APIPayload<APIBillingDetails>;
 
 /** `GET /v1/users/me/cards` — Dashboard session only. Default card first. */
