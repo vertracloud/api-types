@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.3.2
+
+### Patch Changes
+
+- 432808b: Billing address gains `number`, `district` and `city_code`; phone becomes optional and `complete` now covers what the service invoice needs.
+- 432808b: `GET`/`PUT /v1/users/me/billing` reachable with API keys (`billing:read`/`billing:write`); new error `BILLING_DETAILS_INCOMPLETE` on `POST /v1/orders`.
+
 ## 0.3.1
 
 ### Patch Changes
