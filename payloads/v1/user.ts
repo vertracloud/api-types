@@ -23,6 +23,8 @@ export interface APIUser {
 	language: UserLanguage;
 	/** Accepts workspace invites by e-mail (`WORKSPACE_INVITES_DISABLED` when off). */
 	workspace_invites_enabled: boolean;
+	/** Receives promotional e-mails (offers and product announcements). Account notices are always sent. */
+	marketing_emails_enabled: boolean;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 }

@@ -20,6 +20,7 @@ export interface RESTPatchAPIUserMeBody {
 	name?: string;
 	language?: UserLanguage;
 	workspace_invites_enabled?: boolean;
+	marketing_emails_enabled?: boolean;
 }
 export type RESTPatchAPIUserMeResponse = APIPayload<APIUser>;
 
