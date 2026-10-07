@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.3.3
+
+### Patch Changes
+
+- b8700e6: Add `marketing_emails_enabled` to `APIUser` and `RESTPatchAPIUserMeBody`.
+
 ## 0.3.2
 
 ### Patch Changes
