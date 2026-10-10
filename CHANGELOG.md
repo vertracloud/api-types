@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.3.4
+
+### Patch Changes
+
+- c051583: Add optional `path` (destination folder) to `RESTPostAPIApplicationFileUploadQuery`.
+
 ## 0.3.3
 
 ### Patch Changes
