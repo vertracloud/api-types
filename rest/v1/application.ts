@@ -95,11 +95,13 @@ export interface RESTGetAPIApplicationFileContentQuery extends RESTAPIWorkspaceQ
 export type RESTGetAPIApplicationFileContentResponse = APIPayload<APIApplicationFileContent>;
 
 /**
- * `POST /v1/apps/:id/files/upload` (multipart zip). `restart: "true"` restarts the app after the upload.
+ * `POST /v1/apps/:id/files/upload` (multipart, single file or zip). `restart: "true"` restarts the app after the upload.
+ * `path` is the destination folder inside the application (default: root); a zip is extracted into it.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
 export interface RESTPostAPIApplicationFileUploadQuery extends RESTAPIWorkspaceQuery {
 	restart?: "true" | "false";
+	path?: string;
 }
 
 /**
