@@ -125,7 +125,7 @@ export interface RESTPostAPIApplicationFileUploadBody {
 }
 
 /**
- * `GET /v1/apps/:id/releases`. Newest first. `limit` defaults to 20 and is capped at 50.
+ * `GET /v1/apps/:id/releases`. Newest first. `limit` defaults to 20; the maximum is 50 and larger values return 400 `VALIDATION_ERROR`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
  */
 export interface RESTGetAPIApplicationReleasesQuery extends RESTAPIWorkspaceQuery {
