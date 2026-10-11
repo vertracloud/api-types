@@ -376,6 +376,30 @@ export interface APIApplicationReleaseLog {
 }
 
 /**
+ * How an environment variable changes if a rollback restores the release's variables, compared with the
+ * active release. `added` = the release has it and the active release does not; `removed` = the active
+ * release has it and the release does not; `modified` = both have it with different values.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/rollback-preview
+ */
+export type ApplicationEnvironmentChange = "added" | "modified" | "removed";
+export const ApplicationEnvironmentChange = {
+	ADDED: "added",
+	MODIFIED: "modified",
+	REMOVED: "removed",
+} as const;
+
+/**
+ * What a rollback to a release would change in the environment variables. Only variable names and the
+ * kind of change are returned, never values. Sorted by key. Empty when the release has no stored variables.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/rollback-preview
+ */
+export interface APIApplicationRollbackPreview {
+	environment_changes: { key: string; change: ApplicationEnvironmentChange }[];
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
  */
 export type ApplicationDnsRecordType = "CNAME" | "TXT";

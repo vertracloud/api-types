@@ -75,6 +75,9 @@ export interface APIApiKeyScopeEntry {
  * Intentionally left out (dashboard session only): key management, creating workspace invites
  * (an invite would outlive the key's revocation), revoking sessions, plan downgrade, and the
  * database **Data** tab (`/v1/databases/:id/data/*`).
+ *
+ * The rollback `POST` with `restore_environment: true` also requires `apps:envs` for an API key;
+ * without it the request returns 403 `API_KEY_SCOPE_DENIED`.
  */
 export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 	"apps:read": {
@@ -112,6 +115,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "PATCH", path: "/v1/apps/:id/network/subdomain" },
 			{ method: "POST", path: "/v1/apps/:id/network/publish" },
 			{ method: "DELETE", path: "/v1/apps/:id/network/publish" },
+			{ method: "POST", path: "/v1/apps/:id/releases/:release_id/rollback" },
 		],
 	},
 	"apps:delete": { group: "apps", routes: [{ method: "DELETE", path: "/v1/apps/:id" }] },
@@ -121,6 +125,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/apps/:id/envs" },
 			{ method: "POST", path: "/v1/apps/:id/envs" },
 			{ method: "DELETE", path: "/v1/apps/:id/envs/:envId" },
+			{ method: "GET", path: "/v1/apps/:id/releases/:release_id/rollback" },
 		],
 	},
 	"apps:files": {

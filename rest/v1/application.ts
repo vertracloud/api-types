@@ -13,6 +13,7 @@ import type {
 	APIApplicationRealtimeEvent,
 	APIApplicationRelease,
 	APIApplicationReleaseLog,
+	APIApplicationRollbackPreview,
 	APIApplicationRuntimes,
 	APIApplicationScanSuggestions,
 	APIApplicationStatus,
@@ -143,6 +144,31 @@ export type RESTGetAPIApplicationReleasesResponse = APIPaginatedPayload<APIAppli
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/log
  */
 export type RESTGetAPIApplicationReleaseLogResponse = APIPayload<APIApplicationReleaseLog>;
+
+/**
+ * `GET /v1/apps/:id/releases/:release_id/rollback`. Previews a rollback to this release; changes nothing.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/rollback-preview
+ */
+export type RESTGetAPIApplicationRollbackPreviewResponse = APIPayload<APIApplicationRollbackPreview>;
+
+/**
+ * Body of `POST /v1/apps/:id/releases/:release_id/rollback`.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/rollback
+ */
+export interface RESTPostAPIApplicationRollbackBody {
+	/** `true` also restores the environment variables saved with that release. Default `false`: the current variables are kept. */
+	restore_environment?: boolean;
+}
+
+/**
+ * Rolls the application back to this release. Restores all of its code, deletes the code files the
+ * release did not have, leaves the data the application created while running untouched, and restarts
+ * the application. Returns the new release, with `source: "rollback"`.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/rollback
+ */
+export type RESTPostAPIApplicationRollbackResponse = APIPayload<APIApplicationRelease>;
 
 /**
  * Creates or overwrites a file. Without `content`, creates (or truncates to) an empty file.
