@@ -159,7 +159,8 @@ export interface APIApplicationDeploySettings {
 	/**
 	 * HTTP path the platform calls on the new version before it receives traffic. Any HTTP response,
 	 * including 404, counts as healthy; a refused connection, a timeout or a 5xx counts as a failure.
-	 * `null` = `/`.
+	 * Starts with `/`, at most 200 characters, printable ASCII only with no spaces; percent-encode anything
+	 * else (`%20`, `%C3%A9`). `null` = `/`.
 	 */
 	health_check_path: string | null;
 }
@@ -582,8 +583,10 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
 /**
  * `event` field of the `GET /v1/apps/:id/realtime` stream (`text/event-stream`).
  * `logs` = application output (one or more lines); `system` = stream/platform notices (e.g.
- * `install_note:started`, `deploy_note:failed:<release_id>`, `deploy_note:rollback:<from>:<to>`, where
- * `<from>` and `<to>` identify the releases involved); `heartbeat` = keep-alive, no content.
+ * `install_note:started`, `deploy_note:failed:<release_id>`, `deploy_note:rollback:<from>:<to>`,
+ * `deploy_note:discarded:<release_id>` (Enterprise zero-downtime: the new release did not become healthy
+ * and was dropped; the previous one keeps running), where `<from>` and `<to>` identify the releases
+ * involved); `heartbeat` = keep-alive, no content.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
 export type ApplicationRealtimeEventType = "logs" | "system" | "heartbeat";

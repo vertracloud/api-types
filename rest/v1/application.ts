@@ -398,7 +398,8 @@ export interface RESTPatchAPIApplicationUpdateConfigBody {
 	 * Intermediary or higher; below that the request fails with 403
 	 * (`PLAN_DOES_NOT_SUPPORT_ZERO_DOWNTIME` / `PLAN_DOES_NOT_SUPPORT_AUTO_ROLLBACK`). `"off"`, `"auto"`
 	 * and `auto_rollback: false` are always accepted. `health_check_path` must start with `/`, have at most 200
-	 * characters and no control characters; `null` clears it (back to `/`).
+	 * characters and be printable ASCII without spaces (percent-encode anything else, e.g. `%20`); `null` clears
+	 * it (back to `/`).
 	 */
 	deploy?: {
 		zero_downtime?: ApplicationZeroDowntime;
