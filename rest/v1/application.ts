@@ -11,6 +11,8 @@ import type {
 	APIApplicationMetric,
 	APIApplicationOperationResponse,
 	APIApplicationRealtimeEvent,
+	APIApplicationRelease,
+	APIApplicationReleaseLog,
 	APIApplicationRuntimes,
 	APIApplicationScanSuggestions,
 	APIApplicationStatus,
@@ -19,6 +21,7 @@ import type {
 	APIApplicationWebPublish,
 	APIApplicationWebhook,
 	APIApplicationWebhookUrl,
+	APIPaginatedPayload,
 	APIPayload,
 	ApplicationLanguage,
 	ISODateString,
@@ -108,6 +111,38 @@ export interface RESTPostAPIApplicationFileUploadQuery extends RESTAPIWorkspaceQ
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
 export type RESTPostAPIApplicationFileUploadResponse = APIPayload<APIApplicationFileUpload>;
+
+/**
+ * Multipart body of `POST /v1/apps/:id/files/upload`: `file` as a file part, `message` as a text part.
+ * `message` is the commit message shown in the release history. Optional, up to 500 characters;
+ * surrounding spaces are trimmed and an empty value is stored as `null`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
+ */
+export interface RESTPostAPIApplicationFileUploadBody {
+	/** Zip or single file. */
+	file: unknown;
+	message?: string;
+}
+
+/**
+ * `GET /v1/apps/:id/releases`. Newest first. `limit` defaults to 20 and is capped at 50.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
+ */
+export interface RESTGetAPIApplicationReleasesQuery extends RESTAPIWorkspaceQuery {
+	page?: number;
+	limit?: number;
+}
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
+ */
+export type RESTGetAPIApplicationReleasesResponse = APIPaginatedPayload<APIApplicationRelease>;
+
+/**
+ * `GET /v1/apps/:id/releases/:release_id/log`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/log
+ */
+export type RESTGetAPIApplicationReleaseLogResponse = APIPayload<APIApplicationReleaseLog>;
 
 /**
  * Creates or overwrites a file. Without `content`, creates (or truncates to) an empty file.

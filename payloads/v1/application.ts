@@ -288,6 +288,91 @@ export interface APIApplicationDeployment {
 }
 
 /**
+ * How a release was created.
+ * `github` = push to the connected repository; `cli` = the Vertra CLI; `upload` = upload from the
+ * dashboard, an SDK or an extension; `editor` = edits made in the file manager; `rollback` = a
+ * release that restores an earlier one; `env_change` = a change to the environment variables only.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
+ */
+export type ApplicationReleaseSource = "github" | "cli" | "upload" | "editor" | "rollback" | "env_change";
+export const ApplicationReleaseSource = {
+	GITHUB: "github",
+	CLI: "cli",
+	UPLOAD: "upload",
+	EDITOR: "editor",
+	ROLLBACK: "rollback",
+	ENV_CHANGE: "env_change",
+} as const;
+
+/**
+ * Lifecycle of a release. `deploying` = being built and started; `active` = the version the app
+ * runs now (one per application); `superseded` = replaced by a newer release; `failed` = the
+ * deploy did not start; `rolled_back` = the active release was replaced by a rollback; `expired` =
+ * its code is no longer kept.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
+ */
+export type ApplicationReleaseStatus = "deploying" | "active" | "superseded" | "failed" | "rolled_back" | "expired";
+export const ApplicationReleaseStatus = {
+	DEPLOYING: "deploying",
+	ACTIVE: "active",
+	SUPERSEDED: "superseded",
+	FAILED: "failed",
+	ROLLED_BACK: "rolled_back",
+	EXPIRED: "expired",
+} as const;
+
+/**
+ * One version of an application's code, kept so it can be listed and, when the plan allows it,
+ * restored. The list is newest first. A release stays listed after its code expires.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
+ */
+export interface APIApplicationRelease {
+	id: SnowFlake;
+	app_id: SnowFlake;
+	source: ApplicationReleaseSource;
+	status: ApplicationReleaseStatus;
+	/** Commit or upload message. `null` when none was given, and always `null` for file manager edits. */
+	message: string | null;
+	/** The GitHub pusher, or the name of the user who uploaded or edited the files. */
+	author: string;
+	/** The GitHub push that produced this release. `null` for any other source. */
+	github: APIApplicationDeployment | null;
+	/** Number of files changed by the operation that produced this release. */
+	files_changed: number;
+	rollback: {
+		/**
+		 * `false` for the active release, for an expired release, and when the plan does not allow
+		 * rolling back to this release.
+		 */
+		available: boolean;
+		/** When the release's code stops being kept. `null` when no code was kept. */
+		expires_at: ISODateString | null;
+		/** The release this one restores, when `source` is `rollback`. `null` otherwise. */
+		from: SnowFlake | null;
+	};
+	/** `true` when a crash log was recorded for this release. The log can still expire; see the log endpoint. */
+	has_log: boolean;
+	/**
+	 * Time, in milliseconds, the platform took to install dependencies, build and start this release.
+	 * `null` when the release was not deployed with a build (for example, files committed without a restart).
+	 */
+	build_duration_ms: number | null;
+	created_at: ISODateString;
+}
+
+/**
+ * Crash log of a release. `content` is `null` when there is no log or it has expired.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/log
+ */
+export interface APIApplicationReleaseLog {
+	content: string | null;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
  */
 export type ApplicationDnsRecordType = "CNAME" | "TXT";

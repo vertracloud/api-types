@@ -90,6 +90,8 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/apps/:id/download" },
 			{ method: "GET", path: "/v1/apps/:id/deploys" },
 			{ method: "GET", path: "/v1/apps/:id/deploys/webhook" },
+			{ method: "GET", path: "/v1/apps/:id/releases" },
+			{ method: "GET", path: "/v1/apps/:id/releases/:release_id/log" },
 			{ method: "GET", path: "/v1/apps/:id/network/custom" },
 			{ method: "GET", path: "/v1/apps/:id/network/dns" },
 		],
