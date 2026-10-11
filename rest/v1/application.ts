@@ -25,6 +25,7 @@ import type {
 	APIPaginatedPayload,
 	APIPayload,
 	ApplicationLanguage,
+	ApplicationZeroDowntime,
 	ISODateString,
 	RESTAPIWorkspaceQuery,
 } from "../../v1";
@@ -392,6 +393,18 @@ export interface RESTPatchAPIApplicationUpdateConfigBody {
 	build_command?: string | null;
 	ram?: number;
 	language?: ApplicationLanguage;
+	/**
+	 * Deploy behavior. `zero_downtime: "on"` needs the Enterprise plan and `auto_rollback: true` needs
+	 * Intermediary or higher; below that the request fails with 403
+	 * (`PLAN_DOES_NOT_SUPPORT_ZERO_DOWNTIME` / `PLAN_DOES_NOT_SUPPORT_AUTO_ROLLBACK`). `"off"`, `"auto"`
+	 * and `auto_rollback: false` are always accepted. `health_check_path` must start with `/`, have at most 200
+	 * characters and no control characters; `null` clears it (back to `/`).
+	 */
+	deploy?: {
+		zero_downtime?: ApplicationZeroDowntime;
+		auto_rollback?: boolean;
+		health_check_path?: string | null;
+	};
 }
 
 /**

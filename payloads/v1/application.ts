@@ -125,6 +125,46 @@ export interface APIApplicationGithub {
 }
 
 /**
+ * How a new deploy replaces the running version. `auto` = without downtime only when the app receives
+ * traffic through web publishing, otherwise with downtime; `on` = always without downtime (Enterprise);
+ * `off` = the running version stops before the new one starts.
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/updateconfig
+ */
+export type ApplicationZeroDowntime = "auto" | "on" | "off";
+export const ApplicationZeroDowntime = {
+	AUTO: "auto",
+	ON: "on",
+	OFF: "off",
+} as const;
+
+/**
+ * Deploy behavior of an application. Changed with `PATCH /v1/apps/:id/config` (`deploy`).
+ *
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/updateconfig
+ */
+export interface APIApplicationDeploySettings {
+	/** The saved choice. Defaults to `auto`. */
+	zero_downtime: ApplicationZeroDowntime;
+	/**
+	 * Whether the next deploy runs without downtime. `true` on Enterprise when `zero_downtime` is `on`,
+	 * or when it is `auto` and the app receives traffic through web publishing.
+	 */
+	zero_downtime_active: boolean;
+	/**
+	 * If the new version stops within 60 seconds after a deploy, the platform switches back to the
+	 * previous version, once. Acts from the Intermediary plan; the saved value is returned on any plan.
+	 */
+	auto_rollback: boolean;
+	/**
+	 * HTTP path the platform calls on the new version before it receives traffic. Any HTTP response,
+	 * including 404, counts as healthy; a refused connection, a timeout or a 5xx counts as a failure.
+	 * `null` = `/`.
+	 */
+	health_check_path: string | null;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
 export interface APIApplication {
@@ -167,6 +207,8 @@ export interface APIApplication {
 	missing_dependencies?: string[]; // Undeclared packages detected on build/deploy
 	/** Active Vertra Shield containment (burst/rate limit); `null` when there is none. */
 	shield_cooldown: APIApplicationShieldCooldown | null;
+	/** Deploy behavior: zero downtime, automatic rollback and health check. */
+	deploy: APIApplicationDeploySettings;
 }
 
 /**
@@ -540,7 +582,8 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
 /**
  * `event` field of the `GET /v1/apps/:id/realtime` stream (`text/event-stream`).
  * `logs` = application output (one or more lines); `system` = stream/platform notices (e.g.
- * `install_note:started`); `heartbeat` = keep-alive, no content.
+ * `install_note:started`, `deploy_note:failed:<release_id>`, `deploy_note:rollback:<from>:<to>`, where
+ * `<from>` and `<to>` identify the releases involved); `heartbeat` = keep-alive, no content.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
 export type ApplicationRealtimeEventType = "logs" | "system" | "heartbeat";
