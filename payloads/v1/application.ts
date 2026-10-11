@@ -348,7 +348,10 @@ export interface APIApplicationRelease {
 		 * rolling back to this release.
 		 */
 		available: boolean;
-		/** When the release's code stops being kept. `null` when no code was kept. */
+		/**
+		 * When this release's code stops being kept, counted from the moment it stopped being the active
+		 * release. `null` for the active release and when no code was kept.
+		 */
 		expires_at: ISODateString | null;
 		/** The release this one restores, when `source` is `rollback`. `null` otherwise. */
 		from: SnowFlake | null;
