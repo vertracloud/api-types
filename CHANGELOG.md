@@ -1,5 +1,14 @@
 # @vertracloud/api-types
 
+## 0.3.5
+
+### Patch Changes
+
+- 53a5902: Add the release rollback contract: `GET /v1/apps/:id/releases/:release_id/rollback` previews a rollback (`APIApplicationRollbackPreview`, with the environment variable names that would change), and `POST` on the same route restores the release as a new release with `source: "rollback"` (optional `restore_environment`). Adds `ApplicationEnvironmentChange`, the `RELEASE_EXPIRED`, `RELEASE_ALREADY_ACTIVE` and `PLAN_DOES_NOT_SUPPORT_ROLLBACK` error codes, and API key scopes: the preview needs `apps:envs`, the rollback needs `apps:write` (plus `apps:envs` when `restore_environment` is `true`).
+- 9da6a30: Add the deploy settings contract. `APIApplication.deploy` (`APIApplicationDeploySettings`) returns `zero_downtime` (`ApplicationZeroDowntime`: `auto` | `on` | `off`), `zero_downtime_active`, `auto_rollback` and `health_check_path`. `PATCH /v1/apps/:id/config` accepts `deploy?: { zero_downtime?, auto_rollback?, health_check_path? }`. New error codes: `PLAN_DOES_NOT_SUPPORT_ZERO_DOWNTIME` and `PLAN_DOES_NOT_SUPPORT_AUTO_ROLLBACK` (403, returned when the plan does not include the requested option). The `system` realtime event documents the `deploy_note:failed:<release_id>`, `deploy_note:rollback:<from>:<to>` and `deploy_note:discarded:<release_id>` notices. `deploy_note:discarded:<release_id>`: the new version did not become healthy and was discarded; the previous one keeps running (Enterprise, zero-downtime deploys).
+- 411fd5c: Add `first_started_at` to `APIApplicationRelease`: when the application first started with the release's code, or `null` while the code is in the application folder but the application has not been restarted with it yet.
+- abffc08: Add the release history contract: `APIApplicationRelease`, `APIApplicationReleaseLog`, `ApplicationReleaseSource` and `ApplicationReleaseStatus`, `GET /v1/apps/:id/releases` and `GET /v1/apps/:id/releases/:release_id/log` (API keys with `apps:read`), an optional `message` on the file upload, and the `RELEASE_NOT_FOUND` error code.
+
 ## 0.3.4
 
 ### Patch Changes
