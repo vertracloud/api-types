@@ -349,10 +349,12 @@ export const ApplicationReleaseSource = {
 } as const;
 
 /**
- * Lifecycle of a release. `deploying` = being built and started; `active` = the version the app
- * runs now (one per application); `superseded` = replaced by a newer release; `failed` = the
- * deploy did not start; `rolled_back` = the active release was replaced by a rollback; `expired` =
- * its code is no longer kept.
+ * Lifecycle of a release. `deploying` = being built and started; `active` = the application's current
+ * code, one per application (see `first_started_at`: files committed without a restart are `active`
+ * before the application runs them); `superseded` = replaced by a newer release; `failed` = the
+ * application stopped right after this release was deployed and the platform rolled back to the
+ * previous one; `rolled_back` = the active release was replaced by a rollback; `expired` = its code is
+ * no longer kept.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/releases/list
  */
@@ -406,6 +408,12 @@ export interface APIApplicationRelease {
 	 * `null` when the release was not deployed with a build (for example, files committed without a restart).
 	 */
 	build_duration_ms: number | null;
+	/**
+	 * When the application first started with this release's code. `null` while the code is in the
+	 * application folder but the application has not been started with it yet (for example, files
+	 * committed without a restart): changes only take effect after a restart.
+	 */
+	first_started_at: ISODateString | null;
 	created_at: ISODateString;
 }
 
