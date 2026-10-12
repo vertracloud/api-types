@@ -144,7 +144,7 @@ export const ApplicationZeroDowntime = {
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/updateconfig
  */
 export interface APIApplicationDeploySettings {
-	/** The saved choice. Defaults to `auto`. */
+	/** The saved choice. Defaults to `off`: zero-downtime deploys are opt-in. */
 	zero_downtime: ApplicationZeroDowntime;
 	/**
 	 * Whether the next deploy runs without downtime. `true` on Enterprise when `zero_downtime` is `on`,
@@ -153,7 +153,8 @@ export interface APIApplicationDeploySettings {
 	zero_downtime_active: boolean;
 	/**
 	 * If the new version stops within 60 seconds after a deploy, the platform switches back to the
-	 * previous version, once. Acts from the Intermediary plan; the saved value is returned on any plan.
+	 * previous version, once. Off by default (opt-in). Acts from the Intermediary plan; the saved value is returned on
+	 * any plan.
 	 */
 	auto_rollback: boolean;
 	/**
