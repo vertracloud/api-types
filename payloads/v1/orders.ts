@@ -92,6 +92,8 @@ export interface APIOrderStatus {
 	related_to: { plan: { name: string; months: number } };
 	/** Same semantics as in {@link APIOrderCreateResponse.allowed_payment_methods}. */
 	allowed_payment_methods: OrderProvider[];
+	/** When the order (invoice) expires if unpaid (ISO 8601). */
+	expires_at: ISODateString | null;
 }
 
 /**
@@ -128,6 +130,8 @@ export interface APIOrderPixPayment {
 	external_reference: string | null;
 	txid: string;
 	qrcode: { copy: string | null; base64: string | null };
+	/** When this Pix QR code stops being payable (ISO 8601). A new QR can be requested for the same order while the order itself is still open. */
+	expires_at: ISODateString | null;
 }
 
 /**
