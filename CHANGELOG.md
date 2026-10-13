@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.3.6
+
+### Patch Changes
+
+- 625355e: Document that `APIApplicationDeploySettings.zero_downtime` defaults to `off` and `auto_rollback` to `false`: zero-downtime deploys and automatic rollback are opt-in.
+- 911f8d6: Add `expires_at` to `APIOrderPixPayment` (when the Pix QR code stops being payable; a new one can be requested for the same open order) and to `APIOrderStatus` (when the unpaid order expires).
+
 ## 0.3.5
 
 ### Patch Changes
