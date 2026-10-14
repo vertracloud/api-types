@@ -24,6 +24,8 @@ export type APIApiKeyScope =
 	| "workspaces:write"
 	| "workspaces:delete"
 	| "workspaces:invites"
+	| "blob:read"
+	| "blob:write"
 	| "billing:read"
 	| "billing:write"
 	| "redeem:write";
@@ -46,6 +48,8 @@ export const APIApiKeyScope = {
 	WORKSPACES_WRITE: "workspaces:write",
 	WORKSPACES_DELETE: "workspaces:delete",
 	WORKSPACES_INVITES: "workspaces:invites",
+	BLOB_READ: "blob:read",
+	BLOB_WRITE: "blob:write",
 	BILLING_READ: "billing:read",
 	BILLING_WRITE: "billing:write",
 	REDEEM_WRITE: "redeem:write",
@@ -64,7 +68,7 @@ export interface APIApiKeyRoute {
 
 export interface APIApiKeyScopeEntry {
 	/** Display group the scope belongs to. */
-	group: "apps" | "databases" | "snapshots" | "account" | "workspaces" | "billing";
+	group: "apps" | "databases" | "snapshots" | "account" | "workspaces" | "billing" | "blob";
 	routes: APIApiKeyRoute[];
 }
 
@@ -256,6 +260,46 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/workspaces/invites/:token" },
 			{ method: "POST", path: "/v1/workspaces/invites/:token/accept" },
 			{ method: "POST", path: "/v1/workspaces/invites/:token/decline" },
+		],
+	},
+	/** Blob Storage (`blob.vertracloud.app`). Upload tokens (`vcup_`) are a separate credential, not a scope. */
+	"blob:read": {
+		group: "blob",
+		routes: [
+			{ method: "GET", path: "/v1/blob/objects" },
+			{ method: "GET", path: "/v1/blob/objects/:object_id" },
+			{ method: "GET", path: "/v1/blob/objects/:object_id/download" },
+			{ method: "GET", path: "/v1/blob/shares" },
+			{ method: "GET", path: "/v1/blob/rules" },
+			{ method: "GET", path: "/v1/blob/stats" },
+			{ method: "GET", path: "/v1/blob/s3/credentials" },
+			{ method: "GET", path: "/v1/blob/domains" },
+		],
+	},
+	"blob:write": {
+		group: "blob",
+		routes: [
+			{ method: "POST", path: "/v1/blob/objects" },
+			{ method: "PATCH", path: "/v1/blob/objects" },
+			{ method: "PATCH", path: "/v1/blob/objects/:object_id" },
+			{ method: "POST", path: "/v1/blob/objects/copy" },
+			{ method: "DELETE", path: "/v1/blob/objects" },
+			{ method: "DELETE", path: "/v1/blob/objects/:object_id" },
+			{ method: "POST", path: "/v1/blob/uploads" },
+			{ method: "GET", path: "/v1/blob/uploads" },
+			{ method: "GET", path: "/v1/blob/uploads/:upload_id" },
+			{ method: "POST", path: "/v1/blob/uploads/:upload_id/parts" },
+			{ method: "POST", path: "/v1/blob/uploads/:upload_id/complete" },
+			{ method: "DELETE", path: "/v1/blob/uploads/:upload_id" },
+			{ method: "POST", path: "/v1/blob/shares" },
+			{ method: "DELETE", path: "/v1/blob/shares/:share_id" },
+			{ method: "PUT", path: "/v1/blob/rules" },
+			{ method: "PUT", path: "/v1/blob/rules/:prefix" },
+			{ method: "DELETE", path: "/v1/blob/rules/:prefix" },
+			{ method: "POST", path: "/v1/blob/upload-tokens" },
+			{ method: "POST", path: "/v1/blob/domains" },
+			{ method: "POST", path: "/v1/blob/domains/:domain_id/verify" },
+			{ method: "DELETE", path: "/v1/blob/domains/:domain_id" },
 		],
 	},
 	"billing:read": {

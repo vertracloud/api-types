@@ -24,6 +24,52 @@ export const API_ERROR_CODES = {
 	APP_NOT_PUBLISHED: "APP_NOT_PUBLISHED",
 	APP_ALREADY_IN_WORKSPACE: "APP_ALREADY_IN_WORKSPACE",
 	APP_NOT_FOUND_IN_WORKSPACE: "APP_NOT_FOUND_IN_WORKSPACE",
+	/** 404 — the object does not exist or belongs to another account. */
+	BLOB_OBJECT_NOT_FOUND: "BLOB_OBJECT_NOT_FOUND",
+	/** 409 — the path is taken and `overwrite` is not set. */
+	BLOB_OBJECT_ALREADY_EXISTS: "BLOB_OBJECT_ALREADY_EXISTS",
+	/** 404 — the upload does not exist, is not yours, or is already completed or aborted. */
+	BLOB_UPLOAD_NOT_FOUND: "BLOB_UPLOAD_NOT_FOUND",
+	/** 410 — the upload passed its deadline. */
+	BLOB_UPLOAD_EXPIRED: "BLOB_UPLOAD_EXPIRED",
+	/** 409 — parts are missing or the stored size differs from the declared size. */
+	BLOB_UPLOAD_INCOMPLETE: "BLOB_UPLOAD_INCOMPLETE",
+	/** 409 — more uploads open than the plan allows. */
+	BLOB_UPLOAD_LIMIT: "BLOB_UPLOAD_LIMIT",
+	/** 400 — the SHA-256 sent does not match the file. */
+	BLOB_CHECKSUM_MISMATCH: "BLOB_CHECKSUM_MISMATCH",
+	/** 413 — the file exceeds the plan, single-request upload, folder rule or upload token limit. */
+	BLOB_FILE_TOO_LARGE: "BLOB_FILE_TOO_LARGE",
+	/** 403 — Blob Storage is suspended for the account (grace period, abuse or deletion). */
+	BLOB_NAMESPACE_SUSPENDED: "BLOB_NAMESPACE_SUSPENDED",
+	/** 401 — the upload token does not exist, expired or was revoked. */
+	BLOB_UPLOAD_TOKEN_INVALID: "BLOB_UPLOAD_TOKEN_INVALID",
+	/** 401 — the upload token has no uses left. */
+	BLOB_UPLOAD_TOKEN_EXHAUSTED: "BLOB_UPLOAD_TOKEN_EXHAUSTED",
+	/** 403 — upload tokens only work on the upload routes. */
+	BLOB_UPLOAD_TOKEN_NOT_ALLOWED: "BLOB_UPLOAD_TOKEN_NOT_ALLOWED",
+	/** 403 — the path, size or extension is outside what the upload token allows. */
+	BLOB_UPLOAD_TOKEN_CONSTRAINT: "BLOB_UPLOAD_TOKEN_CONSTRAINT",
+	/** 404 — the share does not exist, was revoked or expired. */
+	BLOB_SHARE_NOT_FOUND: "BLOB_SHARE_NOT_FOUND",
+	/** 410 — the share reached its download limit. */
+	BLOB_SHARE_EXHAUSTED: "BLOB_SHARE_EXHAUSTED",
+	/** 401 — wrong share password. */
+	BLOB_SHARE_PASSWORD_INVALID: "BLOB_SHARE_PASSWORD_INVALID",
+	/** 409 — the `If-Match` of the rule list is outdated; read it again. */
+	BLOB_RULES_CONFLICT: "BLOB_RULES_CONFLICT",
+	/** 409 — more folder rules than the plan allows. */
+	BLOB_RULE_LIMIT: "BLOB_RULE_LIMIT",
+	/** 409 — more custom domains than the plan allows. */
+	BLOB_CUSTOM_DOMAIN_LIMIT: "BLOB_CUSTOM_DOMAIN_LIMIT",
+	/** 409 — the hostname is already in use. */
+	BLOB_CUSTOM_DOMAIN_TAKEN: "BLOB_CUSTOM_DOMAIN_TAKEN",
+	/** 404 — the domain does not exist or belongs to another account. */
+	BLOB_CUSTOM_DOMAIN_NOT_FOUND: "BLOB_CUSTOM_DOMAIN_NOT_FOUND",
+	/** 422 — the file extension is blocked, outside the rule or token, or the content is an executable. */
+	BLOCKED_FILE_TYPE: "BLOCKED_FILE_TYPE",
+	/** 403 — the upload would exceed the storage quota. */
+	STORAGE_QUOTA_EXCEEDED: "STORAGE_QUOTA_EXCEEDED",
 	BUILD_FAILED: "BUILD_FAILED",
 	BUILD_TIMEOUT: "BUILD_TIMEOUT",
 	/** 400 — the order needs complete billing details for the service invoice (name, address and, in Brazil, CPF/CNPJ). Fill them with `PUT /v1/users/me/billing`. */

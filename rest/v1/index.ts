@@ -2,6 +2,7 @@ export * from "./activity";
 export * from "./api-key";
 export * from "./application";
 export * from "./billing";
+export * from "./blob";
 export * from "./database";
 export * from "./database-data";
 export * from "./notification";

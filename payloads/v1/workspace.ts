@@ -23,6 +23,8 @@ export type WorkspacePermission =
 	| "databases:delete"
 	| "snapshots:read"
 	| "snapshots:manage"
+	| "blob:read"
+	| "blob:manage"
 	| "members:read"
 	| "members:manage"
 	| "roles:manage"
@@ -43,6 +45,8 @@ export const WorkspacePermission = {
 	DATABASES_DELETE: "databases:delete",
 	SNAPSHOTS_READ: "snapshots:read",
 	SNAPSHOTS_MANAGE: "snapshots:manage",
+	BLOB_READ: "blob:read",
+	BLOB_MANAGE: "blob:manage",
 	MEMBERS_READ: "members:read",
 	MEMBERS_MANAGE: "members:manage",
 	ROLES_MANAGE: "roles:manage",
@@ -50,7 +54,7 @@ export const WorkspacePermission = {
 } as const satisfies Record<string, WorkspacePermission>;
 
 export interface WorkspacePermissionEntry {
-	group: "apps" | "databases" | "snapshots" | "members" | "roles" | "activities";
+	group: "apps" | "databases" | "snapshots" | "blob" | "members" | "roles" | "activities";
 }
 
 /**
@@ -72,6 +76,8 @@ export const WORKSPACE_PERMISSIONS: Record<WorkspacePermission, WorkspacePermiss
 	"databases:delete": { group: "databases" },
 	"snapshots:read": { group: "snapshots" },
 	"snapshots:manage": { group: "snapshots" },
+	"blob:read": { group: "blob" },
+	"blob:manage": { group: "blob" },
 	"members:read": { group: "members" },
 	"members:manage": { group: "members" },
 	"roles:manage": { group: "roles" },
@@ -95,12 +101,13 @@ export const WorkspaceRolePreset = {
 
 /**
  * Permissions a seed role gets when the workspace is created. `admin` does NOT include
- * `snapshots:manage` (restoring/deleting snapshots is destructive); the owner can grant it per role.
+ * `snapshots:manage` (restoring/deleting snapshots is destructive) nor `blob:read`/`blob:manage`
+ * (Blob Storage files are the owner's data); the owner can grant them per role.
  */
 export function workspacePresetPermissions(preset: WorkspaceRolePreset): WorkspacePermission[] {
 	switch (preset) {
 		case "admin":
-			return WORKSPACE_PERMISSION_LIST.filter((p) => p !== "snapshots:manage");
+			return WORKSPACE_PERMISSION_LIST.filter((p) => p !== "snapshots:manage" && p !== "blob:read" && p !== "blob:manage");
 		case "developer":
 			return ["apps:read", "apps:manage", "apps:lifecycle", "apps:envs", "apps:files", "databases:read", "databases:manage", "databases:lifecycle", "databases:credentials", "databases:data", "snapshots:read", "members:read", "activities:read"];
 		case "operator":
