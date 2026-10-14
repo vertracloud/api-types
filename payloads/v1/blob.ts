@@ -239,6 +239,12 @@ export interface APIBlobCustomDomain {
 	/** When set, the domain serves only this folder. */
 	prefix: string | null;
 	/**
+	 * `true`: on this domain, `.html`, `.htm`, `.xhtml`, `.svg` and `.xml` open in the browser with their real type (pages
+	 * run JavaScript in a sandbox: no forms, no cookies, no top-level navigation). `false` (default): they always download.
+	 * The default public URL always downloads them, whatever this value.
+	 */
+	web_content: boolean;
+	/**
 	 * Ownership proof: publish this `TXT` record at `name` with the exact `value`. The domain only becomes
 	 * `active` after it resolves (and the CNAME and certificate are ready). `null` once the domain is active.
 	 */

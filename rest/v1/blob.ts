@@ -449,6 +449,8 @@ export type RESTGetAPIBlobDomainsResponse = APIPayload<APIBlobCustomDomain[]>;
 export interface RESTPostAPIBlobDomainBody {
 	hostname: string;
 	prefix?: string;
+	/** Defaults to `false`. See {@link APIBlobCustomDomain.web_content}. */
+	web_content?: boolean;
 }
 export type RESTPostAPIBlobDomainQuery = RESTAPIWorkspaceQuery;
 
@@ -464,6 +466,18 @@ export type RESTPostAPIBlobDomainVerifyQuery = RESTAPIWorkspaceQuery;
  * @see https://docs.vertracloud.app/api-reference/endpoint/blob/domains/verify
  */
 export type RESTPostAPIBlobDomainVerifyResponse = APIPayload<APIBlobCustomDomain>;
+
+/** `PATCH /v1/domains/:domain_id`. */
+export interface RESTPatchAPIBlobDomainBody {
+	/** See {@link APIBlobCustomDomain.web_content}. Takes effect within about a minute. */
+	web_content?: boolean;
+}
+export type RESTPatchAPIBlobDomainQuery = RESTAPIWorkspaceQuery;
+
+/**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/blob/domains/update
+ */
+export type RESTPatchAPIBlobDomainResponse = APIPayload<APIBlobCustomDomain>;
 
 /** `DELETE /v1/domains/:domain_id`. */
 export type RESTDeleteAPIBlobDomainQuery = RESTAPIWorkspaceQuery;

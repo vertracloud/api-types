@@ -299,6 +299,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "POST", path: "/v1/blob/upload-tokens" },
 			{ method: "POST", path: "/v1/blob/domains" },
 			{ method: "POST", path: "/v1/blob/domains/:domain_id/verify" },
+			{ method: "PATCH", path: "/v1/blob/domains/:domain_id" },
 			{ method: "DELETE", path: "/v1/blob/domains/:domain_id" },
 		],
 	},
