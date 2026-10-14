@@ -43,7 +43,7 @@ export interface RESTBlobObjectWriteOptions {
 	/**
 	 * Hex SHA-256 of the file; a mismatch returns `BLOB_CHECKSUM_MISMATCH`. Only valid for the
 	 * single-request upload and for a direct upload sent in one part: a multipart upload refuses it
-	 * (`VALIDATION_ERROR`), because the storage does not compute a SHA-256 of the whole object.
+	 * (`VALIDATION_ERROR`), because a SHA-256 of the whole object cannot be verified from separate parts.
 	 */
 	checksum_sha256?: string;
 }
