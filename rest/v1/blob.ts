@@ -36,6 +36,11 @@ export interface RESTBlobObjectWriteOptions {
 	overwrite?: boolean;
 	/** Insert `-<10 random characters>` before the extension. */
 	random_suffix?: boolean;
+	/**
+	 * When `path` is taken, save as `name-1.ext`, `name-2.ext`, … (the first free one) instead of returning
+	 * `BLOB_OBJECT_ALREADY_EXISTS`. The object comes back with the final `path`. Cannot be combined with `overwrite`.
+	 */
+	rename_on_conflict?: boolean;
 	cache_control?: string;
 	content_disposition?: BlobContentDisposition;
 	filename?: string;
