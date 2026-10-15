@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.4.1
+
+### Patch Changes
+
+- 18cd0c1: Add `rename_on_conflict` to blob uploads: a taken path is saved as `name-1.ext`, `name-2.ext`, … instead of failing.
+
 ## 0.4.0
 
 ### Minor Changes
