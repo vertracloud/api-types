@@ -220,6 +220,11 @@ export interface RESTPostAPIBlobObjectCopyBody {
 	move?: boolean;
 	overwrite?: boolean;
 	random_suffix?: boolean;
+	/**
+	 * Copy only: when `path` is taken (including the source's own path), save as `name-1.ext`, `name-2.ext`, …
+	 * instead of returning `BLOB_OBJECT_ALREADY_EXISTS`. Cannot be combined with `overwrite`; ignored on a move.
+	 */
+	rename_on_conflict?: boolean;
 	visibility?: BlobVisibility;
 }
 export type RESTPostAPIBlobObjectCopyQuery = RESTAPIWorkspaceQuery;
