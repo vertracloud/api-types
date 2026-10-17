@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.4.3
+
+### Patch Changes
+
+- dabc97f: Add the `building` application status and the `APP_BUILDING` / `BUILD_INTERRUPTED` error codes. `POST /v1/apps` now answers `202` with the application in `building` instead of waiting for the build; `removed_directories` is no longer part of that response. Applications now expose `last_build_error` (`ApplicationBuildError | null`), the code of the last failed build or install.
+
 ## 0.4.2
 
 ### Patch Changes
