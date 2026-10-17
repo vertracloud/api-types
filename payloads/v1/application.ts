@@ -20,10 +20,27 @@ export const ApplicationLanguage = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
-export type ApplicationStatus = "up" | "down";
+export type ApplicationStatus = "up" | "down" | "building";
 export const ApplicationStatus = {
 	UP: "up",
 	DOWN: "down",
+	/** First build and start in progress after `POST /v1/apps`; ends as `up` or `down`. */
+	BUILDING: "building",
+} as const;
+
+/**
+ * Why the last build or install failed. See `APIApplication.last_build_error`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
+ */
+export type ApplicationBuildError = "BUILD_FAILED" | "BUILD_TIMEOUT" | "INSTALL_FAILED" | "INSTALL_OUT_OF_MEMORY" | "INSTALL_TIMEOUT" | "INSTALL_SHIELD_BLOCKED" | "BUILD_INTERRUPTED";
+export const ApplicationBuildError = {
+	BUILD_FAILED: "BUILD_FAILED",
+	BUILD_TIMEOUT: "BUILD_TIMEOUT",
+	INSTALL_FAILED: "INSTALL_FAILED",
+	INSTALL_OUT_OF_MEMORY: "INSTALL_OUT_OF_MEMORY",
+	INSTALL_TIMEOUT: "INSTALL_TIMEOUT",
+	INSTALL_SHIELD_BLOCKED: "INSTALL_SHIELD_BLOCKED",
+	BUILD_INTERRUPTED: "BUILD_INTERRUPTED",
 } as const;
 
 /**
@@ -180,6 +197,8 @@ export interface APIApplication {
 	language: ApplicationLanguage;
 	ram: number;
 	status: ApplicationStatus;
+	/** Code of the last failed build/install; `null` after a successful build. Details in the app logs. */
+	last_build_error: ApplicationBuildError | null;
 	subdomain: string | null; // example: "my-app.vertraweb.app"
 	/**
 	 * Canonical public URL of the app, computed by the server (`custom_domain` > `subdomain` >

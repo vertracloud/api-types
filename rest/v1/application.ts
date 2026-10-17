@@ -300,10 +300,12 @@ export interface RESTPostAPIApplicationCreateBody {
 }
 
 /**
- * The created application, plus the directories removed from the uploaded zip.
+ * `202` — the application, with `status: "building"`. The build and first start continue in the
+ * background; follow the logs or poll the application until `status` is `up` or `down`.
+ * `missing_dependencies` on the application is filled when the build ends.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create
  */
-export type RESTPostAPIApplicationCreateResponse = APIPayload<APIApplication & { removed_directories: string[] }>;
+export type RESTPostAPIApplicationCreateResponse = APIPayload<APIApplication>;
 
 /**
  * Scans a zip before creating the application and returns suggestions (start/build command,

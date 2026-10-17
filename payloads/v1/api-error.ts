@@ -20,6 +20,8 @@ export const API_ERROR_CODES = {
 	APP_BANNED: "APP_BANNED",
 	APP_ALREADY_PUBLISHED: "APP_ALREADY_PUBLISHED",
 	APP_HAS_NO_SUBDOMAIN: "APP_HAS_NO_SUBDOMAIN",
+	/** 409 — the application is still building; wait until the build ends. */
+	APP_BUILDING: "APP_BUILDING",
 	APP_NOT_FOUND: "APP_NOT_FOUND",
 	APP_NOT_PUBLISHED: "APP_NOT_PUBLISHED",
 	APP_ALREADY_IN_WORKSPACE: "APP_ALREADY_IN_WORKSPACE",
@@ -72,6 +74,8 @@ export const API_ERROR_CODES = {
 	STORAGE_QUOTA_EXCEEDED: "STORAGE_QUOTA_EXCEEDED",
 	BUILD_FAILED: "BUILD_FAILED",
 	BUILD_TIMEOUT: "BUILD_TIMEOUT",
+	/** The build was interrupted before it finished; start it again with a restart. */
+	BUILD_INTERRUPTED: "BUILD_INTERRUPTED",
 	/** 400 — the order needs complete billing details for the service invoice (name, address and, in Brazil, CPF/CNPJ). Fill them with `PUT /v1/users/me/billing`. */
 	BILLING_DETAILS_INCOMPLETE: "BILLING_DETAILS_INCOMPLETE",
 	/** 400 — billing details failed validation; the field is in `details.path`. */
