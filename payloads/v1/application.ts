@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
+import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
@@ -193,7 +193,8 @@ export interface APIApplication {
 	name: string;
 	description?: string;
 	owner_id: string; // UUID
-	owner_plan_id: UserPlan; // Owner's plan
+	/** Owner's plan; `null` when the owner has no plan. */
+	owner_plan: UserPlanName | null;
 	language: ApplicationLanguage;
 	ram: number;
 	status: ApplicationStatus;
@@ -201,7 +202,7 @@ export interface APIApplication {
 	last_build_error: ApplicationBuildError | null;
 	subdomain: string | null; // example: "my-app.vertraweb.app"
 	/**
-	 * Canonical public URL of the app, computed by the server (`custom_domain` > `subdomain` >
+	 * Canonical public URL of the app, computed by the server (primary domain > `subdomain` >
 	 * `null`). Clients should use it as-is instead of building the URL from the subdomain.
 	 */
 	public_url: string | null;
@@ -211,7 +212,8 @@ export interface APIApplication {
 	 * `GET /v1/apps/:id/deploys/webhook`.
 	 */
 	github?: APIApplicationGithub | null;
-	custom_domain: string | null; // example: "my-app.com.br"
+	/** Custom domains of the application, with their status. Empty when it has none. */
+	domains: APIApplicationDomain[];
 	last_snapshot: ISODateString | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
@@ -471,32 +473,73 @@ export interface APIApplicationRollbackPreview {
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
+ * Lifecycle of a custom domain. `pending`: waiting for the DNS records; `active`: serving the
+ * application; `moved`: the domain stopped pointing at the platform; `deleted`: removed.
  */
-export type ApplicationDnsRecordType = "CNAME" | "TXT";
-export const ApplicationDnsRecordType = {
-	CNAME: "CNAME",
-	TXT: "TXT",
-} as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
- */
-export type ApplicationDnsRecordStatus = "active" | "pending_validation";
-export const ApplicationDnsRecordStatus = {
+export type APIApplicationDomainStatus = "pending" | "active" | "moved" | "deleted";
+export const APIApplicationDomainStatus = {
+	PENDING: "pending",
 	ACTIVE: "active",
-	PENDING_VALIDATION: "pending_validation",
-} as const;
+	MOVED: "moved",
+	DELETED: "deleted",
+} as const satisfies Record<string, APIApplicationDomainStatus>;
+
+/** Certificate state of a custom domain. */
+export type APIApplicationDomainSslStatus = "pending" | "active" | "failed";
+export const APIApplicationDomainSslStatus = {
+	PENDING: "pending",
+	ACTIVE: "active",
+	FAILED: "failed",
+} as const satisfies Record<string, APIApplicationDomainSslStatus>;
+
+/** HTTP status of a domain-to-domain redirect. */
+export type APIApplicationDomainRedirectStatus = 301 | 302 | 307 | 308;
+export const APIApplicationDomainRedirectStatus = {
+	MOVED_PERMANENTLY: 301,
+	FOUND: 302,
+	TEMPORARY_REDIRECT: 307,
+	PERMANENT_REDIRECT: 308,
+} as const satisfies Record<string, APIApplicationDomainRedirectStatus>;
 
 /**
- * DNS record the user must create at their DNS provider for the custom domain.
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
+ * A custom domain of an application.
  */
-export interface APIApplicationDnsRecord {
-	type: ApplicationDnsRecordType;
+export interface APIApplicationDomain {
+	id: string;
+	/** Lowercase hostname (`my-app.com.br`). */
+	hostname: string;
+	/** `true` when the hostname is a registrable root domain; the root needs a DNS provider that flattens `CNAME`. */
+	apex: boolean;
+	/** Id of the main domain when this one is its automatic `www`/root companion; `null` otherwise. */
+	companion_of: string | null;
+	/** Id of another domain of the same application this one redirects to; `null` = serves the application. */
+	redirect_to: string | null;
+	/** Status code of the redirect. `308` when `redirect_to` is `null`. */
+	redirect_status: APIApplicationDomainRedirectStatus;
+	/** Literal path added in front of every request (`/api`): starts with `/`, no trailing `/`. `null` = none. */
+	path_prefix: string | null;
+	/** Port of the application that serves this domain, 1 to 65535. Defaults to `80`. */
+	port: number;
+	status: APIApplicationDomainStatus;
+	ssl_status: APIApplicationDomainSslStatus;
+	created_at: ISODateString;
+}
+
+/**
+ * DNS record the user must create at their DNS provider for a custom domain.
+ */
+export interface APIApplicationDomainDnsRecord {
+	type: "CNAME" | "TXT";
 	name: string;
 	value: string;
-	status: ApplicationDnsRecordStatus;
+	status: "pending" | "active";
+}
+
+/**
+ * Domain Connect link of a custom domain.
+ */
+export interface APIApplicationDomainConnect {
+	url: string;
 }
 
 /**
@@ -524,13 +567,6 @@ export interface APIApplicationWebhook {
 export interface APIApplicationSubdomain {
 	/** Full hostname (`my-app.vertraweb.app`). */
 	subdomain: string;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/customdomain
- */
-export interface APIApplicationCustomDomain {
-	domain: string;
 }
 
 /**
@@ -572,7 +608,8 @@ export interface APIApplicationShieldCooldown {
 export interface APIApplicationWebPublish {
 	/** `null` when web publishing is off. */
 	subdomain: string | null;
-	custom_domain: string | null;
+	/** Hostnames of the custom domains. */
+	domains: string[];
 	type: ApplicationType;
 }
 

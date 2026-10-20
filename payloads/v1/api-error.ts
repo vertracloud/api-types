@@ -116,6 +116,14 @@ export const API_ERROR_CODES = {
 	DEPLOYMENT_NOT_FOUND: "DEPLOYMENT_NOT_FOUND",
 	DEPLOY_RATE_LIMITED: "DEPLOY_RATE_LIMITED",
 	DOMAIN_ALREADY_IN_USE: "DOMAIN_ALREADY_IN_USE",
+	/** 404 — the application has no domain with that id. */
+	DOMAIN_NOT_FOUND: "DOMAIN_NOT_FOUND",
+	/** The plan's limit of custom domains per application was reached (the automatic `www` does not count). */
+	DOMAIN_LIMIT_REACHED: "DOMAIN_LIMIT_REACHED",
+	/** The application already serves domains on 5 distinct ports besides `80`. */
+	DOMAIN_PORT_LIMIT_REACHED: "DOMAIN_PORT_LIMIT_REACHED",
+	/** 404 — the domain's DNS provider does not support automatic configuration. */
+	DOMAIN_CONNECT_UNAVAILABLE: "DOMAIN_CONNECT_UNAVAILABLE",
 	ENV_LIMIT_EXCEEDED: "ENV_LIMIT_EXCEEDED",
 	ENV_DUPLICATE_KEY: "ENV_DUPLICATE_KEY",
 	ENV_NOT_FOUND: "ENV_NOT_FOUND",
@@ -128,9 +136,6 @@ export const API_ERROR_CODES = {
 	FORBIDDEN_PATH: "FORBIDDEN_PATH",
 	FORBIDDEN_KEY: "FORBIDDEN_KEY",
 	FORCED_SNAPSHOT_RATE_LIMIT: "FORCED_SNAPSHOT_RATE_LIMIT",
-	FREE_PLAN_NO_WEB_PUBLISH: "FREE_PLAN_NO_WEB_PUBLISH",
-	/** 403 — the Free plan can no longer create applications or databases; a paid plan is required. */
-	FREE_PLAN_SUSPENDED: "FREE_PLAN_SUSPENDED",
 	INSTALLATION_NOT_FOUND: "INSTALLATION_NOT_FOUND",
 	INSTALL_SHIELD_BLOCKED: "INSTALL_SHIELD_BLOCKED",
 	INSTALL_TIMEOUT: "INSTALL_TIMEOUT",
@@ -150,6 +155,12 @@ export const API_ERROR_CODES = {
 	INVALID_PARAMS: "INVALID_PARAMS",
 	INVALID_PAYLOAD: "INVALID_PAYLOAD",
 	INVALID_PATH: "INVALID_PATH",
+	/** `path_prefix` must start with `/`, have no trailing `/` and use literal characters only. */
+	INVALID_PATH_PREFIX: "INVALID_PATH_PREFIX",
+	/** `port` must be an integer from 1 to 65535. */
+	INVALID_DOMAIN_PORT: "INVALID_DOMAIN_PORT",
+	/** `redirect_to` must be another domain of the same application and must not form a loop. */
+	INVALID_REDIRECT_TARGET: "INVALID_REDIRECT_TARGET",
 	INVALID_PLAN: "INVALID_PLAN",
 	INVALID_PLAN_NAME: "INVALID_PLAN_NAME",
 	INVALID_RAM_LIMIT: "INVALID_RAM_LIMIT",
@@ -171,7 +182,6 @@ export const API_ERROR_CODES = {
 	NOT_AN_UPGRADE: "NOT_AN_UPGRADE",
 	NO_AUTHORIZED_PATHS: "NO_AUTHORIZED_PATHS",
 	NO_CHANGES_PROVIDED: "NO_CHANGES_PROVIDED",
-	NO_CUSTOM_DOMAIN: "NO_CUSTOM_DOMAIN",
 	NO_FIELDS_TO_UPDATE: "NO_FIELDS_TO_UPDATE",
 	NO_FILE_UPLOADED: "NO_FILE_UPLOADED",
 	OPERATION_IN_PROGRESS: "OPERATION_IN_PROGRESS",
@@ -196,6 +206,8 @@ export const API_ERROR_CODES = {
 	PLAN_DOES_NOT_SUPPORT_WEB_PUBLISH: "PLAN_DOES_NOT_SUPPORT_WEB_PUBLISH",
 	/** 403 — the plan does not include zero-downtime deploys (`deploy.zero_downtime: "on"` below Enterprise). */
 	PLAN_DOES_NOT_SUPPORT_ZERO_DOWNTIME: "PLAN_DOES_NOT_SUPPORT_ZERO_DOWNTIME",
+	/** 403 — the account has no plan; creating applications or databases requires one. */
+	PLAN_REQUIRED: "PLAN_REQUIRED",
 	PLAN_MISMATCH_FOR_RENEWAL: "PLAN_MISMATCH_FOR_RENEWAL",
 	PLAN_NOT_ALLOWED: "PLAN_NOT_ALLOWED",
 	RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",

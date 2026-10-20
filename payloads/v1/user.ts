@@ -1,4 +1,4 @@
-import type { ISODateString, UserPlan } from "../../v1";
+import type { ISODateString, UserPlanName } from "../../v1";
 import type { APIApplication, APIDatabase, APIWorkspaceResourceOrganization } from "./index";
 
 /**
@@ -19,7 +19,6 @@ export interface APIUser {
 	id: string;
 	name: string;
 	email: string;
-	plan_id: UserPlan;
 	language: UserLanguage;
 	/** Accepts workspace invites by e-mail (`WORKSPACE_INVITES_DISABLED` when off). */
 	workspace_invites_enabled: boolean;
@@ -39,7 +38,8 @@ export interface APIUserConnection {
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserInfoResponse extends APIUser {
-	plan: APIUserPlan;
+	/** `null` when the account has no plan. */
+	plan: APIUserPlan | null;
 	applications: APIApplication[];
 	databases: APIDatabase[];
 	connections: APIUserConnection[];
@@ -59,9 +59,8 @@ export interface APIUserPlanMemory {
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserPlan {
-	id: UserPlan;
-	name: string;
-	expires_at: ISODateString | null;
+	name: UserPlanName;
+	expires_at: ISODateString;
 	duration: number;
 	memory: APIUserPlanMemory;
 }

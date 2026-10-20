@@ -1,8 +1,10 @@
 import type {
 	APIApplication,
-	APIApplicationCustomDomain,
 	APIApplicationDeployment,
-	APIApplicationDnsRecord,
+	APIApplicationDomain,
+	APIApplicationDomainConnect,
+	APIApplicationDomainDnsRecord,
+	APIApplicationDomainRedirectStatus,
 	APIApplicationEnvironment,
 	APIApplicationFile,
 	APIApplicationFileContent,
@@ -416,14 +418,9 @@ export interface RESTPatchAPIApplicationUpdateConfigBody {
 export type RESTPatchAPIApplicationUpdateConfigResponse = APIPayload<string>;
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/dns
- */
-export type RESTGetAPIApplicationDnsRecordsResponse = APIPayload<APIApplicationDnsRecord[]>;
-
-/**
  * Purges the edge cache of a published application.
  *
- * `hostnames` absent or empty = every host of the application (subdomain and custom domain).
+ * `hostnames` absent or empty = every host of the application (subdomain and custom domains).
  * When provided, each host must belong to the application. `paths` narrows the purge to
  * specific URLs within those hosts.
  *
@@ -440,29 +437,66 @@ export interface RESTPostAPIApplicationPurgeCacheBody {
 export type RESTPostAPIApplicationPurgeCacheResponse = APIPayload<null>;
 
 /**
- * `GET /v1/apps/:id/network/custom` — `404 NO_CUSTOM_DOMAIN` when the application has none.
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/customdomain
+ * `GET /v1/apps/:id/domains` — the custom domains of the application, automatic companions included.
  */
-export type RESTGetAPIApplicationCustomDomainResponse = APIPayload<APIApplicationCustomDomain>;
+export type RESTGetAPIApplicationDomainsResponse = APIPayload<APIApplicationDomain[]>;
 
 /**
- * `POST /v1/apps/:id/network/custom`.
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/customdomain
+ * `POST /v1/apps/:id/domains` — adds a custom domain without redeploying the application.
+ *
+ * `www` (default `true`) also creates the automatic companion (`www.` for a root domain, the root for a
+ * `www.` hostname); it does not count toward the plan's domain limit. `redirect_status` defaults to `308`
+ * and only applies with `redirect_to`.
  */
-export interface RESTPostAPIApplicationCustomDomainBody {
-	domain: string;
+export interface RESTPostAPIApplicationDomainBody {
+	hostname: string;
+	www?: boolean;
+	/** 1 to 65535; up to 5 distinct ports besides `80` per application. Defaults to `80`. */
+	port?: number;
+	/** Literal path added in front of every request: starts with `/`, no trailing `/`. */
+	path_prefix?: string;
+	/** Id of another domain of the same application. */
+	redirect_to?: string;
+	redirect_status?: APIApplicationDomainRedirectStatus;
 }
 
 /**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/customdomain
+ * The created domain and its companion, when there is one.
  */
-export type RESTPostAPIApplicationCustomDomainResponse = APIPayload<APIApplicationCustomDomain>;
+export type RESTPostAPIApplicationDomainResponse = APIPayload<APIApplicationDomain[]>;
 
 /**
- * `DELETE /v1/apps/:id/network/custom`.
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/network/customdomain
+ * `PATCH /v1/apps/:id/domains/:domain_id`. Send only what changes; `null` clears `path_prefix` or
+ * `redirect_to`. `primary: true` swaps the domain with its companion as the main one.
  */
-export type RESTDeleteAPIApplicationCustomDomainResponse = APIPayload<null>;
+export interface RESTPatchAPIApplicationDomainBody {
+	port?: number;
+	path_prefix?: string | null;
+	redirect_to?: string | null;
+	redirect_status?: APIApplicationDomainRedirectStatus;
+	primary?: true;
+}
+
+/**
+ * The domains changed by the request.
+ */
+export type RESTPatchAPIApplicationDomainResponse = APIPayload<APIApplicationDomain[]>;
+
+/**
+ * `DELETE /v1/apps/:id/domains/:domain_id` — also removes the automatic companion.
+ */
+export type RESTDeleteAPIApplicationDomainResponse = APIPayload<null>;
+
+/**
+ * `GET /v1/apps/:id/domains/:domain_id/dns` — the records to create at the DNS provider.
+ */
+export type RESTGetAPIApplicationDomainDnsResponse = APIPayload<APIApplicationDomainDnsRecord[]>;
+
+/**
+ * `POST /v1/apps/:id/domains/:domain_id/connect` — URL that configures the DNS records at the
+ * domain's DNS provider. `404 DOMAIN_CONNECT_UNAVAILABLE` when the provider does not support it.
+ */
+export type RESTPostAPIApplicationDomainConnectResponse = APIPayload<APIApplicationDomainConnect>;
 
 /**
  * `PATCH /v1/apps/:id/network/subdomain`. Only the label (`my-app`), 3–50 characters.

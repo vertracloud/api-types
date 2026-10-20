@@ -58,27 +58,29 @@ export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;
 
-export type UserPlan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19;
+export type EnterprisePlanSizes = 4 | 6 | 8 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 30 | 32;
 
-export const UserPlan = {
-	FREE: 1,
-	ECONOMY: 2,
-	PRO: 3,
-	SCALE: 4,
-	INTERMEDIARY: 9,
+/** Name of a plan. An account without a plan has no name: the API sends `null`. */
+export type UserPlanName = "economy" | "pro" | "scale" | "intermediary" | `enterprise-${EnterprisePlanSizes}`;
 
-	ENTERPRISE_4: 5,
-	ENTERPRISE_6: 19,
-	ENTERPRISE_8: 6,
-	ENTERPRISE_12: 10,
-	ENTERPRISE_14: 11,
-	ENTERPRISE_16: 7,
-	ENTERPRISE_18: 12,
-	ENTERPRISE_20: 13,
-	ENTERPRISE_22: 14,
-	ENTERPRISE_24: 15,
-	ENTERPRISE_26: 16,
-	ENTERPRISE_28: 17,
-	ENTERPRISE_30: 18,
-	ENTERPRISE_32: 8,
-} as const;
+export const UserPlanName = {
+	ECONOMY: "economy",
+	PRO: "pro",
+	SCALE: "scale",
+	INTERMEDIARY: "intermediary",
+
+	ENTERPRISE_4: "enterprise-4",
+	ENTERPRISE_6: "enterprise-6",
+	ENTERPRISE_8: "enterprise-8",
+	ENTERPRISE_12: "enterprise-12",
+	ENTERPRISE_14: "enterprise-14",
+	ENTERPRISE_16: "enterprise-16",
+	ENTERPRISE_18: "enterprise-18",
+	ENTERPRISE_20: "enterprise-20",
+	ENTERPRISE_22: "enterprise-22",
+	ENTERPRISE_24: "enterprise-24",
+	ENTERPRISE_26: "enterprise-26",
+	ENTERPRISE_28: "enterprise-28",
+	ENTERPRISE_30: "enterprise-30",
+	ENTERPRISE_32: "enterprise-32",
+} as const satisfies Record<string, UserPlanName>;

@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserPlan } from "../../v1";
+import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -41,7 +41,8 @@ export interface APIDatabase {
 	name: string;
 	description: string;
 	owner_id: SnowFlake;
-	owner_plan_id: UserPlan; // Owner's plan
+	/** Owner's plan; `null` when the owner has no plan. */
+	owner_plan: UserPlanName | null;
 	status: DatabaseStatus;
 	ram: number;
 	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
