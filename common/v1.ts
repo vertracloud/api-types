@@ -60,7 +60,10 @@ export type ISODateString = string;
 
 export type EnterprisePlanSizes = 4 | 6 | 8 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 30 | 32;
 
-/** Name of a plan. An account without a plan has no name: the API sends `null`. */
+/**
+ * Name of a plan. An account without a plan has no name: the API sends `null`.
+ * @see https://docs.vertracloud.app/knowledge-base#plan-names
+ */
 export type UserPlanName = "economy" | "pro" | "scale" | "intermediary" | `enterprise-${EnterprisePlanSizes}`;
 
 export const UserPlanName = {

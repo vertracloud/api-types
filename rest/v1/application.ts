@@ -438,6 +438,7 @@ export type RESTPostAPIApplicationPurgeCacheResponse = APIPayload<null>;
 
 /**
  * `GET /v1/apps/:id/domains` — the custom domains of the application, automatic companions included.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/list
  */
 export type RESTGetAPIApplicationDomainsResponse = APIPayload<APIApplicationDomain[]>;
 
@@ -447,6 +448,7 @@ export type RESTGetAPIApplicationDomainsResponse = APIPayload<APIApplicationDoma
  * `www` (default `true`) also creates the automatic companion (`www.` for a root domain, the root for a
  * `www.` hostname); it does not count toward the plan's domain limit. `redirect_status` defaults to `308`
  * and only applies with `redirect_to`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/create
  */
 export interface RESTPostAPIApplicationDomainBody {
 	hostname: string;
@@ -462,12 +464,14 @@ export interface RESTPostAPIApplicationDomainBody {
 
 /**
  * The created domain and its companion, when there is one.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/create
  */
 export type RESTPostAPIApplicationDomainResponse = APIPayload<APIApplicationDomain[]>;
 
 /**
  * `PATCH /v1/apps/:id/domains/:domain_id`. Send only what changes; `null` clears `path_prefix` or
  * `redirect_to`. `primary: true` swaps the domain with its companion as the main one.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/update
  */
 export interface RESTPatchAPIApplicationDomainBody {
 	port?: number;
@@ -479,22 +483,26 @@ export interface RESTPatchAPIApplicationDomainBody {
 
 /**
  * The domains changed by the request.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/update
  */
 export type RESTPatchAPIApplicationDomainResponse = APIPayload<APIApplicationDomain[]>;
 
 /**
  * `DELETE /v1/apps/:id/domains/:domain_id` — also removes the automatic companion.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/delete
  */
 export type RESTDeleteAPIApplicationDomainResponse = APIPayload<null>;
 
 /**
  * `GET /v1/apps/:id/domains/:domain_id/dns` — the records to create at the DNS provider.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/dns
  */
 export type RESTGetAPIApplicationDomainDnsResponse = APIPayload<APIApplicationDomainDnsRecord[]>;
 
 /**
  * `POST /v1/apps/:id/domains/:domain_id/connect` — URL that configures the DNS records at the
  * domain's DNS provider. `404 DOMAIN_CONNECT_UNAVAILABLE` when the provider does not support it.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/connect
  */
 export type RESTPostAPIApplicationDomainConnectResponse = APIPayload<APIApplicationDomainConnect>;
 

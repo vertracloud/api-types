@@ -475,6 +475,7 @@ export interface APIApplicationRollbackPreview {
 /**
  * Lifecycle of a custom domain. `pending`: waiting for the DNS records; `active`: serving the
  * application; `moved`: the domain stopped pointing at the platform; `deleted`: removed.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/list
  */
 export type APIApplicationDomainStatus = "pending" | "active" | "moved" | "deleted";
 export const APIApplicationDomainStatus = {
@@ -484,7 +485,10 @@ export const APIApplicationDomainStatus = {
 	DELETED: "deleted",
 } as const satisfies Record<string, APIApplicationDomainStatus>;
 
-/** Certificate state of a custom domain. */
+/**
+ * Certificate state of a custom domain.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/list
+ */
 export type APIApplicationDomainSslStatus = "pending" | "active" | "failed";
 export const APIApplicationDomainSslStatus = {
 	PENDING: "pending",
@@ -492,7 +496,10 @@ export const APIApplicationDomainSslStatus = {
 	FAILED: "failed",
 } as const satisfies Record<string, APIApplicationDomainSslStatus>;
 
-/** HTTP status of a domain-to-domain redirect. */
+/**
+ * HTTP status of a domain-to-domain redirect.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/create
+ */
 export type APIApplicationDomainRedirectStatus = 301 | 302 | 307 | 308;
 export const APIApplicationDomainRedirectStatus = {
 	MOVED_PERMANENTLY: 301,
@@ -503,6 +510,7 @@ export const APIApplicationDomainRedirectStatus = {
 
 /**
  * A custom domain of an application.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/list
  */
 export interface APIApplicationDomain {
 	id: string;
@@ -527,6 +535,7 @@ export interface APIApplicationDomain {
 
 /**
  * DNS record the user must create at their DNS provider for a custom domain.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/dns
  */
 export interface APIApplicationDomainDnsRecord {
 	type: "CNAME" | "TXT";
@@ -536,7 +545,8 @@ export interface APIApplicationDomainDnsRecord {
 }
 
 /**
- * Domain Connect link of a custom domain.
+ * Link that configures the DNS records of a custom domain at the DNS provider.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/domains/connect
  */
 export interface APIApplicationDomainConnect {
 	url: string;
