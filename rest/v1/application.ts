@@ -291,6 +291,8 @@ export interface RESTPostAPIApplicationCreateBody {
 	main?: string;
 	/** Required with `file`; with `snapshot_id` defaults to the snapshot's config. */
 	version?: string;
+	/** Forces the language; without it the platform detects it from the project manifest. */
+	language?: ApplicationLanguage;
 	start?: string;
 	/** Build command (see `APIApplication.build_command`). */
 	build?: string;
@@ -304,22 +306,21 @@ export interface RESTPostAPIApplicationCreateBody {
 /**
  * `202` — the application, with `status: "building"`. The build and first start continue in the
  * background; follow the logs or poll the application until `status` is `up` or `down`.
- * `missing_dependencies` on the application is filled when the build ends.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create
  */
 export type RESTPostAPIApplicationCreateResponse = APIPayload<APIApplication>;
 
 /**
- * Scans a zip before creating the application and returns suggestions (start/build command,
- * memory). Creates nothing.
+ * Scans a zip before creating the application and returns suggestions (language, main file,
+ * version, start/build command, memory). Creates nothing.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/scan
  */
 export interface RESTPostAPIApplicationScanBody {
 	/** Application zip. */
 	file: unknown;
-	/** Main file of the application — used only to infer the language, as on create. */
-	main: string;
+	/** Main file of the application. Optional: without it the platform detects the language and the main file from the project manifest. */
+	main?: string;
 }
 
 /**

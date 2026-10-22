@@ -3,7 +3,7 @@ import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
-export type ApplicationLanguage = "javascript" | "typescript" | "bun" | "python" | "static" | "php" | "go" | "ruby" | "java" | "rust";
+export type ApplicationLanguage = "javascript" | "typescript" | "bun" | "python" | "static" | "php" | "go" | "ruby" | "java" | "rust" | "deno" | "dotnet" | "elixir";
 export const ApplicationLanguage = {
 	JAVASCRIPT: "javascript",
 	TYPESCRIPT: "typescript",
@@ -15,6 +15,9 @@ export const ApplicationLanguage = {
 	RUBY: "ruby",
 	JAVA: "java",
 	RUST: "rust",
+	DENO: "deno",
+	DOTNET: "dotnet",
+	ELIXIR: "elixir",
 } as const;
 
 /**
@@ -127,7 +130,6 @@ export interface APIApplicationFileContent {
 export interface APIApplicationFileUpload {
 	app_id: SnowFlake;
 	updated_at: ISODateString;
-	missing_dependencies: string[];
 	removed_directories: string[];
 }
 
@@ -227,7 +229,6 @@ export interface APIApplication {
 	 */
 	build_command: string | null;
 	offline_since: ISODateString | null;
-	missing_dependencies?: string[]; // Undeclared packages detected on build/deploy
 	/** Active Vertra Shield containment (burst/rate limit); `null` when there is none. */
 	shield_cooldown: APIApplicationShieldCooldown | null;
 	/** Deploy behavior: zero downtime, automatic rollback and health check. */
@@ -634,7 +635,16 @@ export interface APIApplicationScanSuggestions {
 	suggested_build_command?: string;
 	suggested_memory_mb?: number;
 	suggested_public_web?: boolean;
-	missing_dependencies?: string[];
+	/** Detected language; `null` when it could not be determined. */
+	language: ApplicationLanguage | null;
+	/** Detected main file; `null` when none was found. */
+	main: string | null;
+	/** Recommended version for the detected language; `null` when there is none. */
+	version: string | null;
+	/** Whether the project has a manifest file at the root. */
+	has_manifest: boolean;
+	/** Other languages with a manifest at the root when detection is ambiguous; empty otherwise. */
+	candidates: ApplicationLanguage[];
 }
 
 /**
