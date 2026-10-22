@@ -371,11 +371,6 @@ export interface RESTPostAPIApplicationRestartBody {
 	reinstall_dependencies?: boolean;
 	/** Runs the build command again even without code changes. Counts as a deploy toward the hourly limit. */
 	force_build?: boolean;
-	/**
-	 * After changing the app's language, removes the dependencies left by the previous runtime.
-	 * Must differ from the current language (`CLEANUP_LANGUAGE_SAME_AS_CURRENT`).
-	 */
-	cleanup_old_runtime_language?: ApplicationLanguage;
 }
 
 /**
