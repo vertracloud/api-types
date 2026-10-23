@@ -47,6 +47,12 @@ export interface APIDatabase {
 	ram: number;
 	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
 	port: number;
+	/**
+	 * User to connect with. Databases created from v26.4.8 on use `vertracloud` (default database `vertracloud`,
+	 * no superuser); older databases keep the engine's user (`postgres`, `default` or `root`). Read it instead of
+	 * deriving it from `type`.
+	 */
+	username: string;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	last_snapshot: ISODateString | null;
