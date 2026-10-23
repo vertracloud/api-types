@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.5.2
+
+### Patch Changes
+
+- 0274edf: `APIDatabase` gains `username`: the user to connect with. Databases created from v26.4.8 on use `vertracloud` (default database `vertracloud`, no superuser); older databases keep the engine's user (`postgres`, `default` or `root`).
+
 ## 0.5.1
 
 ### Patch Changes
