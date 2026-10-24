@@ -1,4 +1,4 @@
-import type { APIDatabase, APIDatabaseCertificate, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIPayload, DatabaseType, SnowFlake } from "../../v1";
+import type { APIDatabase, APIDatabaseCertificate, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIDatabaseVersions, APIPayload, DatabaseType, SnowFlake } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -31,6 +31,11 @@ export type RESTPostAPIDatabaseStartResponse = APIPayload<APIDatabaseOperationRe
 export type RESTPostAPIDatabaseStopResponse = APIPayload<APIDatabaseOperationResponse>;
 
 /**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/versions
+ */
+export type RESTGetAPIDatabaseVersionsResponse = APIPayload<APIDatabaseVersions>;
+
+/**
  * Body of `POST /databases` — JSON.
  *
  * `snapshot_id` creates the database with the **snapshot's engine** (its `resource_type`) and
@@ -43,6 +48,8 @@ export type RESTPostAPIDatabaseStopResponse = APIPayload<APIDatabaseOperationRes
  * - `SNAPSHOT_TYPE_MISMATCH` — the snapshot is from an application, or `type` does not match
  *   the snapshot's engine.
  * - `SNAPSHOT_TOO_LARGE` — the snapshot exceeds the size limit for creation.
+ * - `INVALID_DATABASE_VERSION` — `version` is not an available version of the engine.
+ * - `SNAPSHOT_VERSION_NEWER` — with `snapshot_id`, `version` is older than the snapshot's version.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/create
  */
@@ -59,6 +66,12 @@ export interface RESTPostAPIDatabaseCreateBody {
 	workspace_id?: string;
 	/** Creates the database from a database snapshot: snapshot's engine + restored data. */
 	snapshot_id?: string;
+	/**
+	 * Engine major line (see `GET /databases/versions`). Omitted, the recommended one is used. With `snapshot_id`,
+	 * the default is the snapshot's version, and only the same or a newer one is accepted
+	 * (`SNAPSHOT_VERSION_NEWER`). A value outside the catalog is rejected with `INVALID_DATABASE_VERSION`.
+	 */
+	version?: string;
 }
 
 /**

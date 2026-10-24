@@ -31,9 +31,25 @@ export const DatabaseCluster = {
 } as const;
 
 /**
+ * Versions of one database engine.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/versions
+ */
+export interface APIDatabaseVersionCatalog {
+	/** Line used when `version` is omitted on creation. Always included in `available`. */
+	recommended: string;
+	/** Lines you can create, from newest to oldest. */
+	available: string[];
+}
+
+/**
+ * Catalog of database versions, keyed by engine.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/versions
+ */
+export type APIDatabaseVersions = Record<DatabaseType, APIDatabaseVersionCatalog>;
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
-
 export interface APIDatabase {
 	id: SnowFlake;
 	cluster: DatabaseCluster;
@@ -53,6 +69,11 @@ export interface APIDatabase {
 	 * deriving it from `type`.
 	 */
 	username: string;
+	/**
+	 * Engine major line (for example `"18"`, `"8.0"`, `"9.7"`, `"8.2"`). Patch releases are applied by the platform
+	 * automatically on restart (stop/start), so the patch version is never exposed.
+	 */
+	version: string;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	last_snapshot: ISODateString | null;

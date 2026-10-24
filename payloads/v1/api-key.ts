@@ -150,6 +150,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 		group: "databases",
 		routes: [
 			{ method: "GET", path: "/v1/databases/status" },
+			{ method: "GET", path: "/v1/databases/versions" },
 			{ method: "GET", path: "/v1/databases/:id" },
 			{ method: "GET", path: "/v1/databases/:id/status" },
 			{ method: "GET", path: "/v1/databases/:id/metrics" },
