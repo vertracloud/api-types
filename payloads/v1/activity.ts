@@ -11,12 +11,13 @@ export const ActivityStatus = {
 } as const;
 
 /** Dashboard session only (not reachable with an API key). */
-export type ActivityTargetType = "app" | "database" | "workspace" | "audit";
+export type ActivityTargetType = "app" | "database" | "workspace" | "audit" | "image";
 export const ActivityTargetType = {
 	App: "app",
 	Database: "database",
 	Workspace: "workspace",
 	Audit: "audit",
+	Image: "image",
 } as const;
 
 /** Dashboard session only (not reachable with an API key). */

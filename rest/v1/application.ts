@@ -26,6 +26,7 @@ import type {
 	APIApplicationWebhookUrl,
 	APIPaginatedPayload,
 	APIPayload,
+	APISnapshotImageWarning,
 	ApplicationLanguage,
 	ApplicationZeroDowntime,
 	ISODateString,
@@ -308,7 +309,42 @@ export interface RESTPostAPIApplicationCreateBody {
  * background; follow the logs or poll the application until `status` is `up` or `down`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create
  */
-export type RESTPostAPIApplicationCreateResponse = APIPayload<APIApplication>;
+export type RESTPostAPIApplicationCreateResponse = APIPayload<
+	APIApplication & {
+		/** Creating from the snapshot of an application on a custom Docker image: the recorded image version no longer exists, so the application uses the image's current version. */
+		warning?: APISnapshotImageWarning;
+	}
+>;
+
+/**
+ * Body of `POST /v1/apps/image` (JSON). Creates an application that runs from a custom Docker image. The image must be
+ * ready (`status: "success"`), otherwise the call fails with `IMAGE_NOT_READY`. Several apps can share one image, each
+ * with its own variables.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create-from-image
+ */
+export interface RESTPostAPIApplicationImageBody {
+	/** Id of the image the app runs from. */
+	image_id: string;
+	/** Application name. */
+	name: string;
+	/** RAM in MB. */
+	memory: number;
+	description?: string;
+	/** `true` publishes the app on the web (`subdomain` and `port` apply); `false` is an app without traffic, such as a bot or worker. */
+	web: boolean;
+	/** `"random"` = the platform picks one at random. Only with `web: true`. */
+	subdomain?: string;
+	/** Port the app listens on. Only with `web: true`; default: the first `EXPOSE` of the image's `Dockerfile`, or `80`. The platform injects it as `PORT`. */
+	port?: number;
+	envs?: RESTPostAPIApplicationEnvironmentVariableBody[];
+	workspace_id?: string;
+}
+
+/**
+ * `202` — the application, with `status: "building"` and `custom_image` filled in.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create-from-image
+ */
+export type RESTPostAPIApplicationImageResult = APIPayload<APIApplication>;
 
 /**
  * Scans a zip before creating the application and returns suggestions (language, main file,
@@ -523,6 +559,11 @@ export type RESTPatchAPIApplicationSubdomainResponse = APIPayload<APIApplication
  */
 export interface RESTPostAPIApplicationWebPublishBody {
 	subdomain?: string;
+	/**
+	 * Only for an application on a custom image: the port the image listens on (1–65535), saved as the app's port.
+	 * Required when the app was created without web (`IMAGE_APP_PORT_REQUIRED`); ignored for other applications.
+	 */
+	port?: number;
 }
 
 /**
@@ -552,6 +593,12 @@ export interface RESTPostAPIApplicationWebhookCreateBody {
 	repo_name: string;
 	repo_id: string;
 	account_id: string;
+	/**
+	 * Branch the auto-deploy reacts to. Without it, a push on `main` or `master` deploys, as it always
+	 * did; with it, only a push on this branch does (a push on any other branch is ignored with a 200).
+	 * Linking again with another `branch` changes it; linking again without one goes back to `main` or `master`.
+	 */
+	branch?: string;
 }
 
 /**

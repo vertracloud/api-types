@@ -4,6 +4,7 @@ export * from "./api-error";
 export * from "./application";
 export * from "./billing";
 export * from "./blob";
+export * from "./custom-image";
 export * from "./database";
 export * from "./database-data";
 export * from "./notification";

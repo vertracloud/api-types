@@ -16,6 +16,8 @@ export type APIApiKeyScope =
 	| "databases:write"
 	| "databases:delete"
 	| "databases:credentials"
+	| "images:read"
+	| "images:write"
 	| "snapshots:read"
 	| "snapshots:write"
 	| "account:read"
@@ -40,6 +42,8 @@ export const APIApiKeyScope = {
 	DATABASES_WRITE: "databases:write",
 	DATABASES_DELETE: "databases:delete",
 	DATABASES_CREDENTIALS: "databases:credentials",
+	IMAGES_READ: "images:read",
+	IMAGES_WRITE: "images:write",
 	SNAPSHOTS_READ: "snapshots:read",
 	SNAPSHOTS_WRITE: "snapshots:write",
 	ACCOUNT_READ: "account:read",
@@ -68,7 +72,7 @@ export interface APIApiKeyRoute {
 
 export interface APIApiKeyScopeEntry {
 	/** Display group the scope belongs to. */
-	group: "apps" | "databases" | "snapshots" | "account" | "workspaces" | "billing" | "blob";
+	group: "apps" | "databases" | "images" | "snapshots" | "account" | "workspaces" | "billing" | "blob";
 	routes: APIApiKeyRoute[];
 }
 
@@ -107,6 +111,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 		group: "apps",
 		routes: [
 			{ method: "POST", path: "/v1/apps" },
+			{ method: "POST", path: "/v1/apps/image" },
 			{ method: "POST", path: "/v1/apps/:id/start" },
 			{ method: "POST", path: "/v1/apps/:id/stop" },
 			{ method: "POST", path: "/v1/apps/:id/restart" },
@@ -173,6 +178,29 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/databases/:id/credentials/certificate" },
 			{ method: "POST", path: "/v1/databases/:id/credentials/certificate/reset" },
 			{ method: "POST", path: "/v1/databases/:id/credentials/reset" },
+		],
+	},
+	/** Custom Docker images. `POST /v1/apps/image` (create an app from an image) is under `apps:write`. */
+	"images:read": {
+		group: "images",
+		routes: [
+			{ method: "GET", path: "/v1/images" },
+			{ method: "GET", path: "/v1/images/:image_id" },
+			{ method: "GET", path: "/v1/images/:image_id/versions" },
+			{ method: "GET", path: "/v1/images/:image_id/logs" },
+			{ method: "GET", path: "/v1/images/:image_id/context" },
+			{ method: "POST", path: "/v1/images/check" },
+		],
+	},
+	"images:write": {
+		group: "images",
+		routes: [
+			{ method: "POST", path: "/v1/images" },
+			{ method: "PUT", path: "/v1/images/:image_id" },
+			{ method: "PATCH", path: "/v1/images/:image_id" },
+			{ method: "DELETE", path: "/v1/images/:image_id" },
+			{ method: "PUT", path: "/v1/images/:image_id/github" },
+			{ method: "DELETE", path: "/v1/images/:image_id/github" },
 		],
 	},
 	"snapshots:read": {

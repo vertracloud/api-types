@@ -66,4 +66,12 @@ export const SnapshotScope = {
  */
 export interface APISnapshotRestoreResponse {
 	message: string;
+	/** Set when `restore_image_version` was requested but the image version recorded in the snapshot no longer exists: only the data was restored. */
+	warning?: APISnapshotImageWarning;
 }
+
+/**
+ * Warning of a snapshot of an application that runs a custom Docker image. `IMAGE_VERSION_NOT_FOUND`: the image version
+ * the snapshot recorded was removed by retention, so the application stays on its current version.
+ */
+export type APISnapshotImageWarning = "IMAGE_VERSION_NOT_FOUND";

@@ -189,8 +189,8 @@ export interface APIWorkspaceInfoResponse extends APIWorkspace {
 	resource_organization: APIWorkspaceResourceOrganization;
 }
 
-export type WorkspaceResourceType = "application" | "database";
-export const WorkspaceResourceType = { Application: "application", Database: "database" } as const satisfies Record<string, WorkspaceResourceType>;
+export type WorkspaceResourceType = "application" | "database" | "image";
+export const WorkspaceResourceType = { Application: "application", Database: "database", Image: "image" } as const satisfies Record<string, WorkspaceResourceType>;
 
 export type WorkspaceResourceOrganizationScope = "personal" | "workspace";
 export const WorkspaceResourceOrganizationScope = { Personal: "personal", Workspace: "workspace" } as const satisfies Record<string, WorkspaceResourceOrganizationScope>;

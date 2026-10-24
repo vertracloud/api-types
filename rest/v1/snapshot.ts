@@ -55,6 +55,8 @@ export type RESTPostAPISnapshotCreateResponse = APIPayload<APIResourceSnapshot>;
 export interface RESTPostAPISnapshotRestoreBody {
 	/** Target resource (same kind as the snapshot) when restoring into another resource. */
 	resource_id?: string;
+	/** Application on a custom Docker image: also go back to the image version the application ran when the snapshot was taken, if it still exists. Default `false` (data only). */
+	restore_image_version?: boolean;
 }
 
 /**

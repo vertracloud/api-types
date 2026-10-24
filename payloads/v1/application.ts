@@ -1,4 +1,5 @@
 import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
+import type { APICustomImageApp } from "./custom-image";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
@@ -131,6 +132,22 @@ export interface APIApplicationFileUpload {
 	app_id: SnowFlake;
 	updated_at: ISODateString;
 	removed_directories: string[];
+	/**
+	 * Only for an application on a custom Docker image: the upload is a commit that rebuilds the image (the files go on top of the
+	 * current build context). `null` or absent for a regular application.
+	 */
+	image_build?: APIApplicationImageBuild | null;
+	/** Readable summary for the CLI, e.g. that the image is rebuilding and the application restarts when the build succeeds. */
+	message?: string;
+}
+
+/**
+ * The image build started by a commit to an application on a custom Docker image.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
+ */
+export interface APIApplicationImageBuild {
+	image_id: string;
+	build_id: string;
 }
 
 /**
@@ -233,6 +250,18 @@ export interface APIApplication {
 	shield_cooldown: APIApplicationShieldCooldown | null;
 	/** Deploy behavior: zero downtime, automatic rollback and health check. */
 	deploy: APIApplicationDeploySettings;
+	/**
+	 * Custom Docker image the app runs from; `null` for a regular app. With an image, `language`, `version`,
+	 * `main_file`, `start_command` and `build_command` do not apply: they come from the image.
+	 */
+	custom_image:
+		| (APICustomImageApp & {
+				/** Id of the image. `id` and `name` of the base object are the application's, not the image's. */
+				image_id: string;
+				/** Port the app listens on and the platform routes to; `null` for an app without web traffic. */
+				port: number | null;
+		  })
+		| null;
 }
 
 /**
@@ -570,6 +599,11 @@ export interface APIApplicationWebhook {
 	webhook_url: string;
 	repo_owner: string;
 	repo_name: string;
+	/**
+	 * Branch the auto-deploy reacts to. `null` for a link created without one: it reacts to a push on
+	 * `main` or `master`, as it always did.
+	 */
+	branch: string | null;
 }
 
 /**

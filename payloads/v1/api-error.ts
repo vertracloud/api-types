@@ -124,6 +124,40 @@ export const API_ERROR_CODES = {
 	DOMAIN_PORT_LIMIT_REACHED: "DOMAIN_PORT_LIMIT_REACHED",
 	/** 404 — the domain's DNS provider does not support automatic configuration. */
 	DOMAIN_CONNECT_UNAVAILABLE: "DOMAIN_CONNECT_UNAVAILABLE",
+	/** 404 — the image does not exist or the caller cannot access it. */
+	IMAGE_NOT_FOUND: "IMAGE_NOT_FOUND",
+	/** 403 — the plan's limit of custom images was reached (images in any state count). */
+	MAX_IMAGES_REACHED: "MAX_IMAGES_REACHED",
+	/** 403 — the plan does not include custom Docker images. */
+	PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES: "PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES",
+	/** 409 — the image already has a build running. */
+	IMAGE_BUILD_IN_PROGRESS: "IMAGE_BUILD_IN_PROGRESS",
+	/** 409 — the image has no successful build yet, so it cannot be used to create apps. */
+	IMAGE_NOT_READY: "IMAGE_NOT_READY",
+	/** 400 — there is no file named exactly `Dockerfile` at the root of the build context. */
+	DOCKERFILE_NOT_FOUND: "DOCKERFILE_NOT_FOUND",
+	/** 400 — the `Dockerfile` has a refused instruction; `details` is an `APIDockerfileRefusedDetails`: `{ issues }` lists the `DockerfileIssueCode` findings. */
+	DOCKERFILE_REFUSED: "DOCKERFILE_REFUSED",
+	/** 400 — `confirm_name` is not the image name. */
+	IMAGE_NAME_MISMATCH: "IMAGE_NAME_MISMATCH",
+	/** 404 — the image has no version with that id. */
+	IMAGE_VERSION_NOT_FOUND: "IMAGE_VERSION_NOT_FOUND",
+	/** 503 — no host can build images right now. Try again later. */
+	IMAGE_BUILDER_UNAVAILABLE: "IMAGE_BUILDER_UNAVAILABLE",
+	/** 413 — the build context is too large: more than 100 MB compressed, more than 512 MB uncompressed, more than 50,000 entries, or a `Dockerfile` larger than 1 MB. */
+	IMAGE_CONTEXT_TOO_LARGE: "IMAGE_CONTEXT_TOO_LARGE",
+	/** Build error — the built image is larger than 10 GB uncompressed. */
+	IMAGE_TOO_LARGE: "IMAGE_TOO_LARGE",
+	/** Build error — the image sets a label in a namespace reserved for the platform (such as `vertra.*`; the build log names the refused label). */
+	IMAGE_LABEL_REFUSED: "IMAGE_LABEL_REFUSED",
+	/** Build error — the image declares a `VOLUME` inside `/app`, which is the application's own persistent disk. */
+	IMAGE_VOLUME_REFUSED: "IMAGE_VOLUME_REFUSED",
+	/** 400 — the application runs a custom image and has no port yet: send `port` to publish it on the web. */
+	IMAGE_APP_PORT_REQUIRED: "IMAGE_APP_PORT_REQUIRED",
+	/** 400 — the field (`main_file`, `language`, `version`, `start_command` or `build_command`) does not apply to an application that runs a custom image: it comes from the image. */
+	IMAGE_APP_FIELD_NOT_APPLICABLE: "IMAGE_APP_FIELD_NOT_APPLICABLE",
+	/** 409 — the application runs a custom image, so its code cannot be written into `/app` or deployed from GitHub; update the image instead. */
+	IMAGE_APP_CODE_NOT_APPLICABLE: "IMAGE_APP_CODE_NOT_APPLICABLE",
 	ENV_LIMIT_EXCEEDED: "ENV_LIMIT_EXCEEDED",
 	ENV_DUPLICATE_KEY: "ENV_DUPLICATE_KEY",
 	ENV_NOT_FOUND: "ENV_NOT_FOUND",
