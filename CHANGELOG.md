@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.5.3
+
+### Patch Changes
+
+- 955a761: Database engine versions: `APIDatabase` gains `version` (the engine major line), `RESTPostAPIDatabaseCreateBody` gains the optional `version`, and `GET /databases/versions` is typed by `RESTGetAPIDatabaseVersionsResponse` (`APIDatabaseVersions`, `APIDatabaseVersionCatalog`). New error codes `INVALID_DATABASE_VERSION` and `SNAPSHOT_VERSION_NEWER`.
+
 ## 0.5.2
 
 ### Patch Changes
