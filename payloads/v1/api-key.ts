@@ -18,6 +18,7 @@ export type APIApiKeyScope =
 	| "databases:credentials"
 	| "images:read"
 	| "images:write"
+	| "images:delete"
 	| "snapshots:read"
 	| "snapshots:write"
 	| "account:read"
@@ -44,6 +45,7 @@ export const APIApiKeyScope = {
 	DATABASES_CREDENTIALS: "databases:credentials",
 	IMAGES_READ: "images:read",
 	IMAGES_WRITE: "images:write",
+	IMAGES_DELETE: "images:delete",
 	SNAPSHOTS_READ: "snapshots:read",
 	SNAPSHOTS_WRITE: "snapshots:write",
 	ACCOUNT_READ: "account:read",
@@ -198,11 +200,15 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "POST", path: "/v1/images" },
 			{ method: "PUT", path: "/v1/images/:image_id" },
 			{ method: "PATCH", path: "/v1/images/:image_id" },
-			{ method: "DELETE", path: "/v1/images/:image_id" },
 			{ method: "PUT", path: "/v1/images/:image_id/github" },
 			{ method: "DELETE", path: "/v1/images/:image_id/github" },
 		],
 	},
+	/**
+	 * Delete a custom image. Only in the `full` preset, like `apps:delete`. Deleting an image that has
+	 * applications also deletes them, so an API key needs `apps:delete` as well in that case.
+	 */
+	"images:delete": { group: "images", routes: [{ method: "DELETE", path: "/v1/images/:image_id" }] },
 	"snapshots:read": {
 		group: "snapshots",
 		routes: [
