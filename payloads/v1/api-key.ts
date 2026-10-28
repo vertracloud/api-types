@@ -2,7 +2,7 @@ import type { ISODateString } from "../../common/v1";
 
 /**
  * API key scope, in the form `<resource>:<action>`. Presets: `read` = every `*:read`;
- * `write` = `read` + every `*:write`; `full` = all of them, including the ones without a
+ * `write` = `read` + every `*:write` + `templates:deploy`; `full` = all of them, including the ones without a
  * `read`/`write` suffix (delete, envs, files, credentials).
  * @see https://docs.vertracloud.app/api-reference/introduction#scopes
  */
@@ -31,6 +31,12 @@ export type APIApiKeyScope =
 	| "blob:write"
 	| "billing:read"
 	| "billing:write"
+	| "templates:read"
+	| "templates:write"
+	| "templates:deploy"
+	| "stacks:read"
+	| "stacks:write"
+	| "stacks:delete"
 	| "redeem:write";
 
 export const APIApiKeyScope = {
@@ -58,6 +64,12 @@ export const APIApiKeyScope = {
 	BLOB_WRITE: "blob:write",
 	BILLING_READ: "billing:read",
 	BILLING_WRITE: "billing:write",
+	TEMPLATES_READ: "templates:read",
+	TEMPLATES_WRITE: "templates:write",
+	TEMPLATES_DEPLOY: "templates:deploy",
+	STACKS_READ: "stacks:read",
+	STACKS_WRITE: "stacks:write",
+	STACKS_DELETE: "stacks:delete",
 	REDEEM_WRITE: "redeem:write",
 } as const satisfies Record<string, APIApiKeyScope>;
 
@@ -74,7 +86,7 @@ export interface APIApiKeyRoute {
 
 export interface APIApiKeyScopeEntry {
 	/** Display group the scope belongs to. */
-	group: "apps" | "databases" | "images" | "snapshots" | "account" | "workspaces" | "billing" | "blob";
+	group: "apps" | "databases" | "images" | "snapshots" | "account" | "workspaces" | "billing" | "blob" | "templates" | "stacks";
 	routes: APIApiKeyRoute[];
 }
 
@@ -129,6 +141,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "POST", path: "/v1/apps/:id/network/publish" },
 			{ method: "DELETE", path: "/v1/apps/:id/network/publish" },
 			{ method: "POST", path: "/v1/apps/:id/releases/:release_id/rollback" },
+			{ method: "POST", path: "/v1/apps/:id/template/detach" },
 		],
 	},
 	"apps:delete": { group: "apps", routes: [{ method: "DELETE", path: "/v1/apps/:id" }] },
@@ -268,6 +281,10 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "DELETE", path: "/v1/workspaces/:id/apps/:app_id" },
 			{ method: "POST", path: "/v1/workspaces/:id/databases/:db_id" },
 			{ method: "DELETE", path: "/v1/workspaces/:id/databases/:db_id" },
+			{ method: "POST", path: "/v1/workspaces/:id/templates/:template_id" },
+			{ method: "DELETE", path: "/v1/workspaces/:id/templates/:template_id" },
+			{ method: "POST", path: "/v1/workspaces/:id/stacks/:stack_id" },
+			{ method: "DELETE", path: "/v1/workspaces/:id/stacks/:stack_id" },
 			{ method: "POST", path: "/v1/workspaces/:id/folders" },
 			{ method: "PATCH", path: "/v1/workspaces/:id/folders/:folder_id" },
 			{ method: "DELETE", path: "/v1/workspaces/:id/folders/:folder_id" },
@@ -360,6 +377,99 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "PUT", path: "/v1/users/me/billing" },
 		],
 	},
+	/**
+	 * Templates: browse the catalog and your own templates, validate a manifest, read share links and read what an update would do.
+	 * The public catalog and the share link preview also work without a key; with one they need this scope.
+	 */
+	"templates:read": {
+		group: "templates",
+		routes: [
+			{ method: "GET", path: "/v1/templates" },
+			{ method: "GET", path: "/v1/templates/categories" },
+			{ method: "GET", path: "/v1/templates/:template_id" },
+			{ method: "GET", path: "/v1/templates/:template_id/versions" },
+			{ method: "POST", path: "/v1/templates/validate" },
+			{ method: "GET", path: "/v1/templates/:template_id/share-links" },
+			{ method: "GET", path: "/v1/share/templates/:token" },
+			{ method: "GET", path: "/v1/apps/:id/template/update" },
+			{ method: "GET", path: "/v1/stacks/:stack_id/template/update" },
+		],
+	},
+	/** Create and manage your private templates and their share links, and report a template. */
+	"templates:write": {
+		group: "templates",
+		routes: [
+			{ method: "POST", path: "/v1/templates" },
+			{ method: "POST", path: "/v1/templates/from-app/:app_id" },
+			{ method: "GET", path: "/v1/templates/from-app/:app_id/draft" },
+			{ method: "POST", path: "/v1/templates/from-stack/:stack_id" },
+			{ method: "GET", path: "/v1/templates/from-stack/:stack_id/draft" },
+			{ method: "PATCH", path: "/v1/templates/:template_id" },
+			{ method: "DELETE", path: "/v1/templates/:template_id" },
+			{ method: "PUT", path: "/v1/templates/:template_id/github" },
+			{ method: "DELETE", path: "/v1/templates/:template_id/github" },
+			{ method: "POST", path: "/v1/templates/:template_id/versions" },
+			{ method: "POST", path: "/v1/templates/:template_id/share-links" },
+			{ method: "DELETE", path: "/v1/templates/:template_id/share-links/:link_id" },
+			{ method: "POST", path: "/v1/share/templates/:token/copy" },
+			{ method: "POST", path: "/v1/share/templates/:token/report" },
+			{ method: "POST", path: "/v1/apps/:id/template/report" },
+		],
+	},
+	/**
+	 * Use a template: creates the applications, databases and stack it describes, and updates them to newer versions. Included in the
+	 * `write` preset. The deploy job and its progress stream are read with this scope too.
+	 */
+	"templates:deploy": {
+		group: "templates",
+		routes: [
+			{ method: "POST", path: "/v1/templates/:template_id/deploy" },
+			{ method: "POST", path: "/v1/share/templates/:token/deploy" },
+			{ method: "GET", path: "/v1/template-deploys/:deploy_id" },
+			{ method: "GET", path: "/v1/template-deploys/:deploy_id/events" },
+			{ method: "POST", path: "/v1/apps/:id/template/update" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/template/update" },
+		],
+	},
+	"stacks:read": {
+		group: "stacks",
+		routes: [
+			{ method: "GET", path: "/v1/stacks" },
+			{ method: "GET", path: "/v1/stacks/:stack_id" },
+			{ method: "GET", path: "/v1/stacks/:stack_id/bindings" },
+			{ method: "GET", path: "/v1/stacks/:stack_id/connection" },
+			{ method: "GET", path: "/v1/stacks/:stack_id/snapshots" },
+		],
+	},
+	/**
+	 * Create and change stacks, their members and connections, take and restore stack snapshots. Adding a database or a Blob folder to a
+	 * stack creates it and counts against the plan.
+	 */
+	"stacks:write": {
+		group: "stacks",
+		routes: [
+			{ method: "POST", path: "/v1/stacks" },
+			{ method: "POST", path: "/v1/stacks/transform" },
+			{ method: "PATCH", path: "/v1/stacks/:stack_id" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/members" },
+			{ method: "DELETE", path: "/v1/stacks/:stack_id/members/:resource_type/:resource_id" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/bindings" },
+			{ method: "PATCH", path: "/v1/stacks/:stack_id/bindings/:binding_id" },
+			{ method: "DELETE", path: "/v1/stacks/:stack_id/bindings/:binding_id" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/network-mode" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/databases" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/blob" },
+			{ method: "POST", path: "/v1/apps/:id/stack/databases" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/snapshots" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/snapshots/:snapshot_id/restore" },
+			{ method: "POST", path: "/v1/stacks/:stack_id/template/detach" },
+		],
+	},
+	/**
+	 * Delete a stack. Only in the `full` preset, like `apps:delete`. With `mode: "delete_all"` an API key also needs `apps:delete` and
+	 * `databases:delete`, and `blob:write` when the Blob files are deleted (`blob: "delete"`).
+	 */
+	"stacks:delete": { group: "stacks", routes: [{ method: "DELETE", path: "/v1/stacks/:stack_id" }] },
 	"redeem:write": { group: "billing", routes: [{ method: "POST", path: "/v1/redeem/:code" }] },
 };
 
@@ -368,7 +478,7 @@ export const API_KEY_SCOPE_LIST = Object.keys(API_KEY_SCOPES) as APIApiKeyScope[
 /** Scopes selected by a preset. `full` is the whole catalog. */
 export function apiKeyPresetScopes(preset: APIApiKeyPreset): APIApiKeyScope[] {
 	if (preset === "full") return API_KEY_SCOPE_LIST;
-	return API_KEY_SCOPE_LIST.filter((s) => s.endsWith(":read") || (preset === "write" && s.endsWith(":write")));
+	return API_KEY_SCOPE_LIST.filter((s) => s.endsWith(":read") || (preset === "write" && (s.endsWith(":write") || s === "templates:deploy")));
 }
 
 /** Maximum keys per account, entries in `allowed_ips`, and key name length. */
@@ -380,6 +490,12 @@ export const API_KEY_NAME_MAX_LENGTH = 40;
  * An API key as listed. The secret is returned only ONCE, in `APIApiKeyCreated`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/api-keys/list
  */
+export interface APIApiKeyManager {
+	type: "stack";
+	/** Id of the stack the key was created for. */
+	id: string;
+}
+
 export interface APIApiKey {
 	id: string;
 	name: string;
@@ -390,6 +506,17 @@ export interface APIApiKey {
 	scopes: APIApiKeyScope[];
 	/** Allowed IPs/CIDRs. Empty list = any IP. */
 	allowed_ips: string[];
+	/**
+	 * Blob folder the key is restricted to (ends in `/`); `null` = the whole Blob. A restricted key only works with the `blob:*`
+	 * scopes, can only reach objects under the folder and is refused account-level Blob operations (rules, domains, statistics)
+	 * with `BLOB_PREFIX_DENIED`. The S3 credentials derived from the key inherit the restriction.
+	 */
+	blob_prefix?: string | null;
+	/**
+	 * Set when the platform created the key for a stack. Such a key cannot be edited, rotated or revoked by hand: it is revoked
+	 * when the stack is dissolved or deleted. `null` for keys you created.
+	 */
+	managed_by?: APIApiKeyManager | null;
 	created_at: ISODateString;
 	last_used_at: ISODateString | null;
 }

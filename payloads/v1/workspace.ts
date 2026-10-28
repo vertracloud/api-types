@@ -189,8 +189,8 @@ export interface APIWorkspaceInfoResponse extends APIWorkspace {
 	resource_organization: APIWorkspaceResourceOrganization;
 }
 
-export type WorkspaceResourceType = "application" | "database" | "image";
-export const WorkspaceResourceType = { Application: "application", Database: "database", Image: "image" } as const satisfies Record<string, WorkspaceResourceType>;
+export type WorkspaceResourceType = "application" | "database" | "image" | "stack";
+export const WorkspaceResourceType = { Application: "application", Database: "database", Image: "image", Stack: "stack" } as const satisfies Record<string, WorkspaceResourceType>;
 
 export type WorkspaceResourceOrganizationScope = "personal" | "workspace";
 export const WorkspaceResourceOrganizationScope = { Personal: "personal", Workspace: "workspace" } as const satisfies Record<string, WorkspaceResourceOrganizationScope>;
@@ -208,11 +208,24 @@ export interface APIWorkspaceFolderItem extends APIWorkspaceResourceRef {
 	position: number;
 }
 
+/**
+ * Where a folder sits on the Flow canvas.
+ */
+export interface APIWorkspaceFolderFlowLayout {
+	x: number;
+	y: number;
+	collapsed?: boolean;
+}
+
 export interface APIWorkspaceResourceFolder {
 	id: SnowFlake;
 	name: string;
 	color: WorkspaceFolderColor;
 	position: number;
+	/** Free-text notes of the folder; `null` (or absent) when it has none. */
+	notes?: string | null;
+	/** Position of the folder on the Flow canvas; `null` (or absent) until it is placed. */
+	flow_layout?: APIWorkspaceFolderFlowLayout | null;
 	resources: APIWorkspaceFolderItem[];
 	created_at: ISODateString;
 	updated_at: ISODateString;

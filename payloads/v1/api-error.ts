@@ -1,5 +1,99 @@
 import { WORKSPACE_ERROR_CODES } from "./workspace";
 
+/**
+ * Error sentinels of the template routes. Stable English codes returned in `code`; clients are expected to translate them.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/templates/get
+ */
+export const TEMPLATE_ERROR_CODES = {
+	/** 404 — the template does not exist, was removed or is not visible to the caller. */
+	TEMPLATE_NOT_FOUND: "TEMPLATE_NOT_FOUND",
+	/** 404 — the template has no version with that number or id. */
+	TEMPLATE_VERSION_NOT_FOUND: "TEMPLATE_VERSION_NOT_FOUND",
+	/** 409 — another template of yours already uses the slug. */
+	TEMPLATE_SLUG_TAKEN: "TEMPLATE_SLUG_TAKEN",
+	/** 400 — the manifest is not valid; `details` is an `APITemplateManifestInvalidDetails`: `{ issues }`. */
+	TEMPLATE_MANIFEST_INVALID: "TEMPLATE_MANIFEST_INVALID",
+	/** 400 — an answer to a question is missing or invalid; `details.issues` lists the questions. */
+	TEMPLATE_INPUT_INVALID: "TEMPLATE_INPUT_INVALID",
+	/** 400 — a service that runs code was sent without its source file. */
+	TEMPLATE_SOURCE_REQUIRED: "TEMPLATE_SOURCE_REQUIRED",
+	/** 400 — the code sent to become a template holds a secret (a `.env` file, a private key or a token); `details` is `{ files: string[] }` with the paths. Remove the secret and send it again. */
+	TEMPLATE_SECRET_IN_SOURCE: "TEMPLATE_SECRET_IN_SOURCE",
+	/** 404 — the linked repository has no template manifest at its root. */
+	TEMPLATE_GITHUB_MANIFEST_NOT_FOUND: "TEMPLATE_GITHUB_MANIFEST_NOT_FOUND",
+	/** 403 — the plan is below what the template needs; `details` carries the `TemplateFitReason` and the plan required. */
+	TEMPLATE_PLAN_REQUIRED: "TEMPLATE_PLAN_REQUIRED",
+	/** 400 — not enough free memory for the template; `details` carries the memory needed and the memory free. */
+	TEMPLATE_RAM_INSUFFICIENT: "TEMPLATE_RAM_INSUFFICIENT",
+	/** 403 — the template runs an image and every custom image slot of the account is in use. */
+	TEMPLATE_IMAGE_SLOTS_EXHAUSTED: "TEMPLATE_IMAGE_SLOTS_EXHAUSTED",
+	/** 403 — the route reads or changes the code, files, commands or variables of an app that comes from a closed template. */
+	TEMPLATE_CLOSED: "TEMPLATE_CLOSED",
+	/** 403 — the plan's limit of private templates was reached. */
+	TEMPLATE_PRIVATE_LIMIT_REACHED: "TEMPLATE_PRIVATE_LIMIT_REACHED",
+	/** 409 — another deploy of the same template or stack is running. */
+	TEMPLATE_DEPLOY_IN_PROGRESS: "TEMPLATE_DEPLOY_IN_PROGRESS",
+	/** The deploy failed and was undone; `details.step` is the step that failed. */
+	TEMPLATE_DEPLOY_FAILED: "TEMPLATE_DEPLOY_FAILED",
+	/** 404 — the deploy job does not exist or belongs to another account. */
+	TEMPLATE_DEPLOY_NOT_FOUND: "TEMPLATE_DEPLOY_NOT_FOUND",
+	/** 409 — the `Idempotency-Key` was already used with a different request. */
+	IDEMPOTENCY_KEY_CONFLICT: "IDEMPOTENCY_KEY_CONFLICT",
+	/** 403 when creating an app from the image, 409 when rebuilding, committing to, linking a repository to or editing the context of it — the image of a template can only be used through the template. */
+	IMAGE_TEMPLATE_ONLY: "IMAGE_TEMPLATE_ONLY",
+	/** 403 — an app that came from a share link cannot be saved as a template or shared. */
+	TEMPLATE_SAVE_NOT_ALLOWED: "TEMPLATE_SAVE_NOT_ALLOWED",
+	/** 409 — the update cannot go ahead; `details` is an `APITemplateUpdateBlockedDetails` with the reason. */
+	TEMPLATE_UPDATE_BLOCKED: "TEMPLATE_UPDATE_BLOCKED",
+	/** 409 — the template is deprecated and cannot be used for new apps. */
+	TEMPLATE_DEPRECATED: "TEMPLATE_DEPRECATED",
+	/** 400 — the version asked for cannot be chosen: the template does not allow picking earlier versions. */
+	TEMPLATE_VERSION_NOT_SELECTABLE: "TEMPLATE_VERSION_NOT_SELECTABLE",
+	/** 404 — the share link does not exist. */
+	SHARE_LINK_NOT_FOUND: "SHARE_LINK_NOT_FOUND",
+	/** 410 — the author revoked the share link. */
+	SHARE_LINK_REVOKED: "SHARE_LINK_REVOKED",
+	/** 410 — the share link expired. */
+	SHARE_LINK_EXPIRED: "SHARE_LINK_EXPIRED",
+	/** 410 — the share link reached its limit of uses. */
+	SHARE_LINK_EXHAUSTED: "SHARE_LINK_EXHAUSTED",
+	/** 403 — the variable is injected by the template and cannot be read or changed. */
+	MANAGED_ENV_READONLY: "MANAGED_ENV_READONLY",
+	/** 409 — the change detaches the application from its template (it stops receiving versions); repeat the request with `confirm_detach` set to confirm. `details` is an `APITemplateDetachConfirmationDetails`. */
+	TEMPLATE_DETACH_CONFIRMATION_REQUIRED: "TEMPLATE_DETACH_CONFIRMATION_REQUIRED",
+	/** 409 — the template marks the service as migrating its data on update, so rolling back only the code is blocked; `details` is an `APITemplateRollbackRequiresDataDetails`. Restore the snapshot the update took instead. */
+	TEMPLATE_ROLLBACK_REQUIRES_DATA: "TEMPLATE_ROLLBACK_REQUIRES_DATA",
+	/** The storage the template catalog is imported from is not configured or not reachable, so the catalog cannot be updated. */
+	TEMPLATE_STORAGE_UNAVAILABLE: "TEMPLATE_STORAGE_UNAVAILABLE",
+} as const;
+export type TemplateErrorCode = (typeof TEMPLATE_ERROR_CODES)[keyof typeof TEMPLATE_ERROR_CODES];
+
+/**
+ * Error sentinels of the stack routes. Stable English codes returned in `code`; clients are expected to translate them.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/get
+ */
+export const STACK_ERROR_CODES = {
+	/** 404 — the stack does not exist or belongs to another account. */
+	STACK_NOT_FOUND: "STACK_NOT_FOUND",
+	/** 409 — the resource is already in another stack, or is not in the same account or workspace as the stack. */
+	STACK_MEMBER_CONFLICT: "STACK_MEMBER_CONFLICT",
+	/** 404 — the resource is not a member of the stack. */
+	STACK_MEMBER_NOT_FOUND: "STACK_MEMBER_NOT_FOUND",
+	/** 404 — the stack has no connection with that id. */
+	STACK_BINDING_NOT_FOUND: "STACK_BINDING_NOT_FOUND",
+	/** 400 — the network mode is not available: only `public` can be used for now. */
+	STACK_NETWORK_MODE_UNAVAILABLE: "STACK_NETWORK_MODE_UNAVAILABLE",
+	/** 403 — the member comes from a closed template and cannot leave the stack. */
+	STACK_SERVICE_LOCKED: "STACK_SERVICE_LOCKED",
+	/** 400 — `confirm_name` is not the stack name. */
+	STACK_NAME_MISMATCH: "STACK_NAME_MISMATCH",
+	/** 400 — the folder has no application, or no database, to put in a stack. */
+	STACK_TRANSFORM_EMPTY: "STACK_TRANSFORM_EMPTY",
+	/** 409 — the stack already has a Blob folder with that prefix. */
+	STACK_BLOB_PREFIX_TAKEN: "STACK_BLOB_PREFIX_TAKEN",
+} as const;
+export type StackErrorCode = (typeof STACK_ERROR_CODES)[keyof typeof STACK_ERROR_CODES];
+
 /** Stable error sentinels returned by routes available to API keys. */
 export const API_ERROR_CODES = {
 	ACCESS_DENIED: "ACCESS_DENIED",
@@ -26,6 +120,10 @@ export const API_ERROR_CODES = {
 	APP_NOT_PUBLISHED: "APP_NOT_PUBLISHED",
 	APP_ALREADY_IN_WORKSPACE: "APP_ALREADY_IN_WORKSPACE",
 	APP_NOT_FOUND_IN_WORKSPACE: "APP_NOT_FOUND_IN_WORKSPACE",
+	/** 403 — the API key is restricted to a Blob folder (`blob_prefix`) and the operation is outside it, or it is an account-level operation (rules, domains, statistics). */
+	BLOB_PREFIX_DENIED: "BLOB_PREFIX_DENIED",
+	/** 403 — the API key was created by the platform for a stack: it cannot be edited, only revoked together with the stack. */
+	API_KEY_MANAGED: "API_KEY_MANAGED",
 	/** 404 — the object does not exist or belongs to another account. */
 	BLOB_OBJECT_NOT_FOUND: "BLOB_OBJECT_NOT_FOUND",
 	/** 409 — the path is taken and `overwrite` is not set. */
@@ -130,6 +228,8 @@ export const API_ERROR_CODES = {
 	MAX_IMAGES_REACHED: "MAX_IMAGES_REACHED",
 	/** 403 — the plan does not include custom Docker images. */
 	PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES: "PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES",
+	/** 409 — the image is the source of the current version of one of your private templates; `details` is `{ templates: string[] }` with their ids. Remove or replace it in the template first. */
+	IMAGE_IN_USE: "IMAGE_IN_USE",
 	/** 409 — the image already has a build running. */
 	IMAGE_BUILD_IN_PROGRESS: "IMAGE_BUILD_IN_PROGRESS",
 	/** 409 — the image has no successful build yet, so it cannot be used to create apps. */
@@ -282,6 +382,8 @@ export const API_ERROR_CODES = {
 	STORAGE_FULL: "STORAGE_FULL",
 	TARGET_IS_DIRECTORY: "TARGET_IS_DIRECTORY",
 	...WORKSPACE_ERROR_CODES,
+	...TEMPLATE_ERROR_CODES,
+	...STACK_ERROR_CODES,
 } as const;
 
 export const APIErrorCode = API_ERROR_CODES;

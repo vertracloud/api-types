@@ -1,5 +1,5 @@
 import type { APIPaginatedPayload, APIPayload, APIUser, APIUserApiKey, APIUserApiKeyRequestEvent, APIUserInfoResponse, APIUserSession, ISODateString, UserLanguage } from "../../v1";
-import type { APIWorkspaceResourceFolder, APIWorkspaceResourceOrganization, WorkspaceFolderColor } from "../../v1";
+import type { APIWorkspaceFolderFlowLayout, APIWorkspaceResourceFolder, APIWorkspaceResourceOrganization, WorkspaceFolderColor } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/me
@@ -28,12 +28,20 @@ export interface RESTPostAPIUserResourceFolderBody {
 	name: string;
 	color?: WorkspaceFolderColor;
 	position?: number;
+	/** Free-text notes. `null` removes them (PATCH). */
+	notes?: string | null;
+	/** Position on the Flow canvas. `null` removes it (PATCH). */
+	flow_layout?: APIWorkspaceFolderFlowLayout | null;
 }
 export type RESTPostAPIUserResourceFolderResponse = APIPayload<APIWorkspaceResourceFolder>;
 export interface RESTPatchAPIUserResourceFolderBody {
 	name?: string;
 	color?: WorkspaceFolderColor;
 	position?: number;
+	/** Free-text notes. `null` removes them (PATCH). */
+	notes?: string | null;
+	/** Position on the Flow canvas. `null` removes it (PATCH). */
+	flow_layout?: APIWorkspaceFolderFlowLayout | null;
 }
 export type RESTPatchAPIUserResourceFolderResponse = APIPayload<APIWorkspaceResourceFolder>;
 export type RESTDeleteAPIUserResourceFolderResponse = APIPayload<null>;

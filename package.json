@@ -33,7 +33,7 @@
 	},
 	"scripts": {
 		"build": "run-s clean lint tsc",
-		"clean": "rimraf {common,payloads,rest}/**/*.{*js,d.*ts,*map} {utils,v*}.{*js,d.*ts,*map}",
+		"clean": "rimraf {common,payloads,rest}/**/*.{*js,d.*ts,*map} {utils,v*,workspace-*}.{*js,d.*ts,*map}",
 		"lint": "biome check --fix .",
 		"tsc": "tsup",
 		"check-types": "tsc --noEmit",
@@ -43,27 +43,12 @@
 		"release": "npm run build && changeset publish"
 	},
 	"license": "MIT",
-	"files": [
-		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
-		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
-	],
+	"files": ["{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}", "{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/vertracloud/api-types.git"
 	},
-	"keywords": [
-		"api",
-		"vertracloud",
-		"vertra cloud",
-		"vertra cloud api",
-		"vertra",
-		"types",
-		"typescript",
-		"paas",
-		"hosting",
-		"deploy",
-		"brazil"
-	],
+	"keywords": ["api", "vertracloud", "vertra cloud", "vertra cloud api", "vertra", "types", "typescript", "paas", "hosting", "deploy", "brazil"],
 	"author": "Eydrenn Araujo",
 	"bugs": {
 		"url": "https://github.com/vertracloud/api-types/issues"

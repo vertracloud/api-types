@@ -1,4 +1,4 @@
-import type { APIDatabase, APIDatabaseCertificate, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIDatabaseVersions, APIPayload, DatabaseType, SnowFlake } from "../../v1";
+import type { APIDatabase, APIDatabaseCertificate, APIDatabaseCertificateReset, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIDatabaseVersions, APIPayload, DatabaseType, SnowFlake } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -117,7 +117,7 @@ export type RESTGetAPIDatabaseCertificateResponse = APIPayload<APIDatabaseCertif
  * Returns the newly issued certificate.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/reset
  */
-export type RESTPostAPIDatabaseResetCertificateResponse = APIPayload<APIDatabaseCertificate>;
+export type RESTPostAPIDatabaseResetCertificateResponse = APIPayload<APIDatabaseCertificateReset>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/resetpassword

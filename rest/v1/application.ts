@@ -71,6 +71,18 @@ export interface RESTGetAPIApplicationMetricsQuery extends RESTAPIWorkspaceQuery
 export type RESTGetAPIApplicationMetricsResponse = APIPayload<APIApplicationMetric[]>;
 
 /**
+ * `confirm_detach` of the routes that change the code of an application. An application that came from an open template (one that lets you change the
+ * code) stops receiving versions of the template when its code is changed: without `confirm_detach` set to `true` the request fails with
+ * `409 TEMPLATE_DETACH_CONFIRMATION_REQUIRED` (`details` is an `APITemplateDetachConfirmationDetails`) and changes nothing; with it the change is made and the
+ * application is detached. Sent in the JSON body, as a text part of a multipart body or, on any of these routes, as the query `confirm_detach=true`.
+ * Ignored for an application that does not come from a template.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/templates/detach
+ */
+export interface RESTAPIConfirmDetach {
+	confirm_detach?: boolean;
+}
+
+/**
  * `GET /v1/apps/:id/files`. `path` absent = the application root.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/files
  */
@@ -108,6 +120,8 @@ export type RESTGetAPIApplicationFileContentResponse = APIPayload<APIApplication
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
 export interface RESTPostAPIApplicationFileUploadQuery extends RESTAPIWorkspaceQuery {
+	/** See `RESTAPIConfirmDetach`. */
+	confirm_detach?: "true" | "false";
 	restart?: "true" | "false";
 	path?: string;
 }
@@ -123,7 +137,7 @@ export type RESTPostAPIApplicationFileUploadResponse = APIPayload<APIApplication
  * surrounding spaces are trimmed and an empty value is stored as `null`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
-export interface RESTPostAPIApplicationFileUploadBody {
+export interface RESTPostAPIApplicationFileUploadBody extends RESTAPIConfirmDetach {
 	/** Zip or single file. */
 	file: unknown;
 	message?: string;
@@ -178,7 +192,7 @@ export type RESTPostAPIApplicationRollbackResponse = APIPayload<APIApplicationRe
  * Creates or overwrites a file. Without `content`, creates (or truncates to) an empty file.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/save
  */
-export interface RESTPutAPIApplicationFileBody {
+export interface RESTPutAPIApplicationFileBody extends RESTAPIConfirmDetach {
 	path: string;
 	content?: string;
 	/** ISO 8601 datetime from the last read; a mismatch returns `409 FILE_MODIFIED`. */
@@ -194,7 +208,7 @@ export type RESTPutAPIApplicationFileResponse = APIPayload<null>;
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/delete
  */
-export interface RESTDeleteAPIApplicationFileBody {
+export interface RESTDeleteAPIApplicationFileBody extends RESTAPIConfirmDetach {
 	path: string;
 	workspace_id?: string;
 }
@@ -207,7 +221,7 @@ export type RESTDeleteAPIApplicationFileResponse = APIPayload<null>;
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/move
  */
-export interface RESTPatchAPIApplicationFileMoveBody {
+export interface RESTPatchAPIApplicationFileMoveBody extends RESTAPIConfirmDetach {
 	path: string;
 	to: string;
 	workspace_id?: string;
@@ -274,6 +288,8 @@ export type RESTDeleteAPIApplicationEnvironmentResponse = APIPayload<null>;
  * - `SNAPSHOT_TYPE_MISMATCH` — the snapshot is from a database, not an application.
  * - `SNAPSHOT_TOO_LARGE` — the snapshot exceeds the size limit for creation.
  *
+ * A snapshot of an application of a closed template (`APIResourceSnapshot.closed`) creates an application with the same closed policy.
+ *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create
  */
 export interface RESTPostAPIApplicationCreateBody {
@@ -319,7 +335,8 @@ export type RESTPostAPIApplicationCreateResponse = APIPayload<
 /**
  * Body of `POST /v1/apps/image` (JSON). Creates an application that runs from a custom Docker image. The image must be
  * ready (`status: "success"`), otherwise the call fails with `IMAGE_NOT_READY`. Several apps can share one image, each
- * with its own variables.
+ * with its own variables. An image that belongs to a template (a platform image or a `template_copy`) is refused with
+ * `IMAGE_TEMPLATE_ONLY`: use the template instead.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create-from-image
  */
 export interface RESTPostAPIApplicationImageBody {
@@ -588,7 +605,7 @@ export type RESTGetAPIApplicationWebhookUrlResponse = APIPayload<APIApplicationW
  * Creates the auto-deploy webhook from an already connected repository.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/deploys/create
  */
-export interface RESTPostAPIApplicationWebhookCreateBody {
+export interface RESTPostAPIApplicationWebhookCreateBody extends RESTAPIConfirmDetach {
 	owner: string;
 	repo_name: string;
 	repo_id: string;

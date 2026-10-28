@@ -2,6 +2,7 @@ import type {
 	APIPayload,
 	APIWorkspace,
 	APIWorkspaceActionRequest,
+	APIWorkspaceFolderFlowLayout,
 	APIWorkspaceInfoResponse,
 	APIWorkspaceInvite,
 	APIWorkspaceInviteCreated,
@@ -64,6 +65,10 @@ export interface RESTPostAPIWorkspaceResourceFolderBody {
 	name: string;
 	color?: WorkspaceFolderColor;
 	position?: number;
+	/** Free-text notes. `null` removes them (PATCH). */
+	notes?: string | null;
+	/** Position on the Flow canvas. `null` removes it (PATCH). */
+	flow_layout?: APIWorkspaceFolderFlowLayout | null;
 }
 export type RESTPostAPIWorkspaceResourceFolderResponse = APIPayload<APIWorkspaceResourceFolder>;
 
@@ -71,6 +76,10 @@ export interface RESTPatchAPIWorkspaceResourceFolderBody {
 	name?: string;
 	color?: WorkspaceFolderColor;
 	position?: number;
+	/** Free-text notes. `null` removes them (PATCH). */
+	notes?: string | null;
+	/** Position on the Flow canvas. `null` removes it (PATCH). */
+	flow_layout?: APIWorkspaceFolderFlowLayout | null;
 }
 export type RESTPatchAPIWorkspaceResourceFolderResponse = APIPayload<APIWorkspaceResourceFolder>;
 export type RESTDeleteAPIWorkspaceResourceFolderResponse = APIPayload<null>;
@@ -204,6 +213,19 @@ export type RESTPostAPIWorkspaceResourceLinkResponse = APIPayload<null>;
  * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/links/remove-app
  */
 export type RESTDeleteAPIWorkspaceResourceLinkResponse = APIPayload<null>;
+
+/**
+ * `POST /v1/workspaces/:id/templates/:template_id` and `POST /v1/workspaces/:id/stacks/:stack_id` — owner only. Moves a private template, or a
+ * stack, from your account to the workspace.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/links/add-template
+ */
+export type RESTPostAPIWorkspaceTemplateStackLinkResponse = APIPayload<null>;
+
+/**
+ * `DELETE /v1/workspaces/:id/templates/:template_id` and `DELETE /v1/workspaces/:id/stacks/:stack_id` — owner only. Moves it back to your account.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/links/remove-template
+ */
+export type RESTDeleteAPIWorkspaceTemplateStackLinkResponse = APIPayload<null>;
 
 // ---------------------------------------------------------------------------
 // Action requests

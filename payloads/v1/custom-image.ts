@@ -40,6 +40,29 @@ export const CustomImageOwner = {
 } as const;
 
 /**
+ * Where an image comes from. `own` is built from your own context; `template_copy` is the slot an image of a template takes
+ * in your account: it cannot be rebuilt or edited, and it goes away when the last application that uses it does.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/get
+ */
+export type CustomImageKind = "own" | "template_copy";
+export const CustomImageKind = {
+	Own: "own",
+	TemplateCopy: "template_copy",
+} as const;
+
+/**
+ * Readable origin of an image that came from a template.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/get
+ */
+export interface APICustomImageOrigin {
+	template_id: string;
+	/** Name of the template, as shown in the list. */
+	template_name: { "pt-br": string; en?: string; es?: string };
+	/** Author of the template as shown to you; `null` for a template of the platform. */
+	author_display: string | null;
+}
+
+/**
  * Finding of the `Dockerfile` check. Refusals block the build; warnings do not.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/check
  */
@@ -124,6 +147,10 @@ export interface APICustomImage {
 	/** Free-text description, up to 128 characters; `null` when the image has none. */
 	description: string | null;
 	owner: CustomImageOwner;
+	/** `own` (default) or `template_copy`. Absent in older payloads, where it means `own`. */
+	kind?: CustomImageKind;
+	/** Template the image came from when `kind` is `template_copy`; `null` (or absent) otherwise. */
+	origin?: APICustomImageOrigin | null;
 	/** State of the latest build. */
 	status: CustomImageStatus;
 	/** Readable reason of the latest failed build; `null` when it did not fail. */

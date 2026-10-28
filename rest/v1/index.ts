@@ -11,6 +11,8 @@ export * from "./oauth";
 export * from "./orders";
 export * from "./redeem";
 export * from "./snapshot";
+export * from "./stack";
 export * from "./status";
+export * from "./template";
 export * from "./user";
 export * from "./workspace";

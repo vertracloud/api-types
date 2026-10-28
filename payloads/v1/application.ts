@@ -1,5 +1,6 @@
 import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
 import type { APICustomImageApp } from "./custom-image";
+import type { APITemplateEffectivePermissions, APITemplateOrigin } from "./template-origin";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
@@ -203,6 +204,17 @@ export interface APIApplicationDeploySettings {
 }
 
 /**
+ * The template an application was created from.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
+ */
+export interface APIApplicationTemplate extends APITemplateOrigin {
+	/** Id of the service of the template this application is; `null` when the template has a single service. */
+	service_id: string | null;
+	/** What the template lets you do with this application. */
+	permissions: APITemplateEffectivePermissions;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
 export interface APIApplication {
@@ -254,6 +266,12 @@ export interface APIApplication {
 	 * Custom Docker image the app runs from; `null` for a regular app. With an image, `language`, `version`,
 	 * `main_file`, `start_command` and `build_command` do not apply: they come from the image.
 	 */
+	/** Stack the application belongs to; `null` (or absent) when it is not in one. */
+	stack_id?: SnowFlake | null;
+	/** Id of the service of the stack's template this application is; `null` (or absent) when the user added it. */
+	stack_service_key?: string | null;
+	/** Template the application was created from; `null` (or absent) for an application that did not come from one. */
+	template?: APIApplicationTemplate | null;
 	custom_image:
 		| (APICustomImageApp & {
 				/** Id of the image. `id` and `name` of the base object are the application's, not the image's. */
@@ -360,7 +378,24 @@ export interface APIApplicationEnvironment {
 	key: string;
 	value: string;
 	note: string | null;
+	/**
+	 * Set when the variable is managed by a connection of a stack: the platform keeps it up to date and the panel marks it as managed.
+	 * Editing it by hand turns it into an ordinary variable. `null` (or absent) for a variable you own. Variables the author of a
+	 * template hid are never listed.
+	 */
+	managed_by?: APIApplicationEnvironmentManager | null;
 	created_at: ISODateString;
+}
+
+/**
+ * The connection that manages an environment variable.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/enviroments/get
+ */
+export interface APIApplicationEnvironmentManager {
+	type: "stack_binding";
+	binding_id: string;
+	/** The stack of the connection. `null` for the address variable of an application that is not in a stack (the connection of the application with itself). */
+	stack_id: SnowFlake | null;
 }
 
 /**

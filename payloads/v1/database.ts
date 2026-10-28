@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
+import type { APIRestartRequired, ISODateString, SnowFlake, UserPlanName } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -74,6 +74,10 @@ export interface APIDatabase {
 	 * automatically on restart (stop/start), so the patch version is never exposed.
 	 */
 	version: string;
+	/** Stack the database belongs to; `null` (or absent) when it is not in one. */
+	stack_id?: SnowFlake | null;
+	/** Id of the service of the stack's template this database is; `null` (or absent) when the user added it. */
+	stack_service_key?: string | null;
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	last_snapshot: ISODateString | null;
@@ -129,7 +133,17 @@ export interface APIDatabaseCertificate {
 	crt: string;
 	key: string;
 	pem: string;
+	/** CA certificate (PEM) that signs the database server certificate. May be absent on older databases. */
+	ca?: string;
+	/** Client identity as PKCS#12, base64-encoded, empty password (for drivers such as Prisma 6). May be absent on older databases. */
+	p12?: string;
 }
+
+/**
+ * The new certificate, after a reset, together with the applications of stacks connected to the database that must restart to read it.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/reset
+ */
+export interface APIDatabaseCertificateReset extends APIDatabaseCertificate, APIRestartRequired {}
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/metrics
@@ -145,6 +159,6 @@ export interface APIDatabaseMetrics {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/resetpassword
  */
-export interface APIDatabasePasswordReset {
+export interface APIDatabasePasswordReset extends APIRestartRequired {
 	password: string;
 }

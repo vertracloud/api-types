@@ -29,6 +29,7 @@ export type RESTPostAPISnapshotRestoreQuery = RESTGetAPISnapshotsQuery;
 
 /**
  * `GET /v1/users/:id/snapshots/:snapshot_id/download`.
+ * A snapshot marked `closed` cannot be downloaded: the route returns `TEMPLATE_CLOSED`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/download
  */
 export type RESTGetAPISnapshotDownloadQuery = RESTGetAPISnapshotsQuery;
@@ -49,7 +50,8 @@ export type RESTGetAPIGroupedSnapshotsResponse = APIPayload<APIGroupedResourceSn
 export type RESTPostAPISnapshotCreateResponse = APIPayload<APIResourceSnapshot>;
 
 /**
- * Optional body of the restore. `resource_id` absent = restore into the resource of the URL's `:id`.
+ * Optional body of the restore. `resource_id` absent = restore into the resource of the URL's `:id`. A snapshot marked `closed` only restores into an application of the same
+ * template (otherwise `TEMPLATE_CLOSED`).
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/restore
  */
 export interface RESTPostAPISnapshotRestoreBody {

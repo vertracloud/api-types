@@ -32,6 +32,12 @@ export interface APIResourceSnapshot {
 	 * For the CURRENT resource name, use `APIGroupedResourceSnapshots.resource_name`.
 	 */
 	resource_name: string | null;
+	/**
+	 * `true` for a snapshot of an application that came from a closed template. It cannot be downloaded (not even after the
+	 * application is deleted), only restores into an application of the same template, and an application created from it stays
+	 * closed; anything else returns `TEMPLATE_CLOSED`. Absent or `false` otherwise.
+	 */
+	closed?: boolean;
 }
 
 /**
