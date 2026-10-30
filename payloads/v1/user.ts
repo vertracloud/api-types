@@ -43,8 +43,6 @@ export interface APIUserInfoResponse extends APIUser {
 	applications: APIApplication[];
 	databases: APIDatabase[];
 	connections: APIUserConnection[];
-	/** `false` while templates (using and creating them) are not available for this account yet. */
-	can_use_templates: boolean;
 	/** Saved resource organization (folders, favorites) of this account. */
 	resource_organization: APIWorkspaceResourceOrganization;
 }
