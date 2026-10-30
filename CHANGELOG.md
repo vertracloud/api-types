@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.5.6
+
+### Patch Changes
+
+- 296719c: Remove `APIUserInfoResponse.can_use_templates`. Every account sees templates; whether an account can use them is answered by the API itself, which refuses with `403 FORBIDDEN` while templates are rolling out to that account.
+
 ## 0.5.5
 
 ### Patch Changes
