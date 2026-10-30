@@ -59,7 +59,7 @@ export interface RESTPostAPIStackBindingInput {
 export interface RESTPostAPIStackBody {
 	name: string;
 	description?: string | null;
-	/** Only `public` is available for now (`private` answers 400 `STACK_NETWORK_MODE_UNAVAILABLE`). Default `public`. */
+	/** Only `public` is accepted (`private` answers 400 `STACK_NETWORK_MODE_UNAVAILABLE`). Default `public`. */
 	network_mode?: StackNetworkMode;
 	members?: { resource_type: Exclude<StackMemberType, "blob">; resource_id: SnowFlake }[];
 	/** Connections between the members. */
@@ -240,7 +240,7 @@ export interface RESTGetAPIStackConnectionQuery extends RESTAPIWorkspaceQuery {
 export type RESTGetAPIStackConnectionResponse = APIPayload<APIStackConnectionInfo>;
 
 /**
- * Body of `POST /v1/stacks/:stack_id/network-mode` (JSON). Only `public` is accepted for now; `private` returns `STACK_NETWORK_MODE_UNAVAILABLE`.
+ * Body of `POST /v1/stacks/:stack_id/network-mode` (JSON). Only `public` is accepted; `private` returns `STACK_NETWORK_MODE_UNAVAILABLE`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/network-mode
  */
 export interface RESTPostAPIStackNetworkModeBody {

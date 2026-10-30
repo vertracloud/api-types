@@ -2,7 +2,7 @@ import type { APITemplateOrigin, ApplicationLanguage, ApplicationStatus, Databas
 
 /**
  * How the members of a stack reach each other. `public` uses the public addresses of the services (databases with client
- * certificates); `private` is reserved for a plan with the private network and is not available yet.
+ * certificates); it is the only mode accepted (`private` answers `STACK_NETWORK_MODE_UNAVAILABLE`).
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/network-mode
  */
 export type StackNetworkMode = "public" | "private";
@@ -62,12 +62,12 @@ export const StackDeleteMode = {
  * `database` and the paths of the client certificates `ssl.ca_path`, `ssl.cert_path`, `ssl.key_path`, `ssl.pem_path`
  * (key, certificate and CA in one file, the format MongoDB reads) and `ssl.p12_path` (PKCS#12 with an empty password, the format
  * Prisma 6 and earlier read); `prisma_url` is a PostgreSQL URL written for Prisma 6 and earlier (`sslidentity` points to the PKCS#12 file) and
- * is never added by default: add it to the connection when the application uses that Prisma. For another app:
- * `url`. For a Blob folder: `endpoint`, `bucket`, `region`, `prefix`, `access_key_id`, `secret_access_key` and
+ * is never added by default: add it to the connection when the application uses that Prisma. For another app (or the app itself):
+ * `url` and `domain` (the host name only, without scheme; both follow a change of subdomain or domain). For a Blob folder: `endpoint`, `bucket`, `region`, `prefix`, `access_key_id`, `secret_access_key` and
  * `public_base_url` (empty when the folder is private).
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/bindings/create
  */
-export type StackBindingValue = "url" | "host" | "port" | "user" | "password" | "database" | "ssl.ca_path" | "ssl.cert_path" | "ssl.key_path" | "ssl.p12_path" | "ssl.pem_path" | "prisma_url" | "endpoint" | "bucket" | "region" | "prefix" | "access_key_id" | "secret_access_key" | "public_base_url";
+export type StackBindingValue = "url" | "host" | "port" | "user" | "password" | "database" | "ssl.ca_path" | "ssl.cert_path" | "ssl.key_path" | "ssl.p12_path" | "ssl.pem_path" | "prisma_url" | "endpoint" | "bucket" | "region" | "prefix" | "access_key_id" | "secret_access_key" | "public_base_url" | "domain";
 export const StackBindingValue = {
 	Url: "url",
 	Host: "host",
@@ -88,6 +88,7 @@ export const StackBindingValue = {
 	AccessKeyId: "access_key_id",
 	SecretAccessKey: "secret_access_key",
 	PublicBaseUrl: "public_base_url",
+	Domain: "domain",
 } as const;
 
 /**

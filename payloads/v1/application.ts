@@ -212,6 +212,11 @@ export interface APIApplicationTemplate extends APITemplateOrigin {
 	service_id: string | null;
 	/** What the template lets you do with this application. */
 	permissions: APITemplateEffectivePermissions;
+	/**
+	 * Deploy settings the template locks for this application (`PATCH /v1/apps/:id/config` refuses another value with `TEMPLATE_SETTING_LOCKED`).
+	 * Empty once the application is detached.
+	 */
+	locked_deploy_settings?: ("zero_downtime" | "auto_rollback")[];
 }
 
 /**

@@ -34,6 +34,11 @@ v*.*js
 v*.*map
 v*.d.*ts
 
+# Chunks de tipo que o tsup gera na raiz (nome com hash, muda a cada build): `v1.d.ts` e os `payloads/**` os importam.
+workspace-*.*js
+workspace-*.*map
+workspace-*.d.*ts
+
 common/**/*.*js
 common/**/*.*map
 common/**/*.d.*ts

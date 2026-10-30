@@ -29,6 +29,8 @@ export const TEMPLATE_ERROR_CODES = {
 	TEMPLATE_IMAGE_SLOTS_EXHAUSTED: "TEMPLATE_IMAGE_SLOTS_EXHAUSTED",
 	/** 403 — the route reads or changes the code, files, commands or variables of an app that comes from a closed template. */
 	TEMPLATE_CLOSED: "TEMPLATE_CLOSED",
+	/** 403 — `PATCH /v1/apps/:id/config` changes a deploy setting that the template of the app locks (`deploy.zero_downtime` or `deploy.auto_rollback` with `locked: true`); `details` is `{ setting: "zero_downtime" | "auto_rollback" }`. Going back to the value of the template is always accepted. */
+	TEMPLATE_SETTING_LOCKED: "TEMPLATE_SETTING_LOCKED",
 	/** 403 — the plan's limit of private templates was reached. */
 	TEMPLATE_PRIVATE_LIMIT_REACHED: "TEMPLATE_PRIVATE_LIMIT_REACHED",
 	/** 409 — another deploy of the same template or stack is running. */
@@ -39,7 +41,7 @@ export const TEMPLATE_ERROR_CODES = {
 	TEMPLATE_DEPLOY_NOT_FOUND: "TEMPLATE_DEPLOY_NOT_FOUND",
 	/** 409 — the `Idempotency-Key` was already used with a different request. */
 	IDEMPOTENCY_KEY_CONFLICT: "IDEMPOTENCY_KEY_CONFLICT",
-	/** 403 when creating an app from the image, 409 when rebuilding, committing to, linking a repository to or editing the context of it — the image of a template can only be used through the template. */
+	/** 403 when creating an app from the image, 409 when rebuilding, committing to, linking a repository to or editing the context of it, and 409 when deleting the template image slot while an app of the template still runs it — the image of a template can only be used through the template. The slot is released when the last app that uses it is deleted. */
 	IMAGE_TEMPLATE_ONLY: "IMAGE_TEMPLATE_ONLY",
 	/** 403 — an app that came from a share link cannot be saved as a template or shared. */
 	TEMPLATE_SAVE_NOT_ALLOWED: "TEMPLATE_SAVE_NOT_ALLOWED",
@@ -81,7 +83,7 @@ export const STACK_ERROR_CODES = {
 	STACK_MEMBER_NOT_FOUND: "STACK_MEMBER_NOT_FOUND",
 	/** 404 — the stack has no connection with that id. */
 	STACK_BINDING_NOT_FOUND: "STACK_BINDING_NOT_FOUND",
-	/** 400 — the network mode is not available: only `public` can be used for now. */
+	/** 400 — the network mode is not accepted: only `public` can be used. */
 	STACK_NETWORK_MODE_UNAVAILABLE: "STACK_NETWORK_MODE_UNAVAILABLE",
 	/** 403 — the member comes from a closed template and cannot leave the stack. */
 	STACK_SERVICE_LOCKED: "STACK_SERVICE_LOCKED",

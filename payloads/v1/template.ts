@@ -16,7 +16,7 @@ export const TemplateVisibility = {
 	Public: "public",
 	/** Listed with a beta badge. */
 	Beta: "beta",
-	/** Not listed; reachable by its slug. */
+	/** Not listed; readable by its slug, and deployable only by accounts that already have an app from it. */
 	Hidden: "hidden",
 	/** No longer maintained: out of the gallery and cannot be used for new apps. Apps that already run keep running and are told it is deprecated. */
 	Deprecated: "deprecated",
@@ -214,7 +214,7 @@ export const TemplateFitReason = {
 	ImagePlan: "image_plan",
 	/** A service runs an image and every custom image slot is in use. */
 	ImageSlots: "image_slots",
-	/** The template needs the private network, which the plan does not include. */
+	/** A link of the template does not work over public addresses (`private: required`), so it does not fit this account. */
 	PrivateNetwork: "private_network",
 	/** A service is a Blob Storage folder and the plan does not include Blob Storage. */
 	BlobPlan: "blob_plan",
@@ -504,11 +504,11 @@ export interface APITemplateHealthcheck {
 }
 
 /**
- * A link between two services of the template that only works with the private network.
+ * A link between two services of the template.
  * @see https://docs.vertracloud.app/api-reference/endpoint/templates/get
  */
 export interface APITemplateConnection {
-	/** `required`: the link does not work over public addresses, so the template needs a plan with the private network. */
+	/** `required`: the link does not work over public addresses; the template stays out of the public gallery and fits no account. */
 	private?: "required";
 }
 
@@ -854,6 +854,20 @@ export interface APITemplateValidation {
 	/** Sum of the minimum memory of every service (MB); `null` when it cannot be calculated. */
 	ram_min_total: number | null;
 	services: APITemplateServiceSummary[];
+	/** What is valid but limits the template, like a connection that keeps the template out of the public gallery. */
+	warnings?: APITemplateValidationWarning[];
+}
+
+/**
+ * A warning from manifest validation: the manifest is valid, but something limits the template.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/templates/validate
+ */
+export interface APITemplateValidationWarning {
+	/** Path of the field in the manifest (`services.app.connections.db`). */
+	path: string;
+	code: "private_network_unavailable";
+	/** Readable explanation in English. */
+	message: string;
 }
 
 // ---------------------------------------------------------------------------

@@ -134,7 +134,7 @@ export interface RESTPostAPITemplateDeployBody {
 	inputs?: Record<string, APITemplateInputValue>;
 	/** Choices per service, by service id. */
 	services?: Record<string, RESTPostAPITemplateDeployServiceOptions>;
-	/** Only `public` is available for now; `private` answers 400 `STACK_NETWORK_MODE_UNAVAILABLE`. */
+	/** Only `public` is accepted; `private` answers 400 `STACK_NETWORK_MODE_UNAVAILABLE`. */
 	network_mode?: StackNetworkMode;
 	/** Workspace that will own what is created. */
 	workspace_id?: string;
