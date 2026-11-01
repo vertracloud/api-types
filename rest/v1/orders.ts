@@ -1,4 +1,4 @@
-import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse, APIOrderListItem, APIOrderPixPayment, APIOrderReceipt, APIOrderStatus, APIPayload, OrderProvider, OrderType } from "../../v1";
+import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse, APIOrderListItem, APIOrderPixPayment, APIOrderQuote, APIOrderReceipt, APIOrderStatus, APIPayload, BillingMonths, OrderProvider, OrderType, UserPlanName } from "../../v1";
 
 /**
  * A missing `plan` or `months` returns 400 `MISSING_PLAN_OR_MONTHS`.
@@ -6,8 +6,8 @@ import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse
  */
 export interface RESTPostAPIOrderCreateBody {
 	plan: string;
-	/** 1, 3 or 12. The Economy plan only accepts 1. Anything else returns 400 `INVALID_MONTHS`. */
-	months: number;
+	/** 1, 3, 6 or 12. Plans of the previous grid follow the periods they were sold with. Anything else returns 400 `INVALID_MONTHS`. */
+	months: BillingMonths;
 	coupon?: string;
 	/** Defaults to `"purchase"`. */
 	type?: OrderType;
@@ -28,9 +28,23 @@ export type RESTPostAPIOrderCreateResponse = APIPayload<APIOrderCreateResponse>;
 export interface RESTPostAPIOrderCouponPreviewBody {
 	coupon: string;
 	plan: string;
-	/** 1, 3 or 12. */
-	months: number;
+	/** 1, 3, 6 or 12. */
+	months: BillingMonths;
 }
+
+/**
+ * `POST /v1/orders/quote`. Prices a plan and period, with an optional coupon,
+ * without creating an order or using the coupon. Accepts a Dashboard session or an API key with the
+ * `billing:read` scope. Fails with 400 `INVALID_PLAN`, 400 `INVALID_MONTHS`,
+ * 400 `PLAN_NOT_FOR_SALE` and the `COUPON_*` codes that `POST /v1/orders` returns for the same coupon.
+ */
+export interface RESTPostAPIOrderQuoteBody {
+	plan: UserPlanName;
+	months: BillingMonths;
+	coupon?: string;
+}
+
+export type RESTPostAPIOrderQuoteResponse = APIPayload<APIOrderQuote>;
 
 export type RESTPostAPIOrderCouponPreviewResponse = APIPayload<APIOrderCouponPreview>;
 

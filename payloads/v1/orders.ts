@@ -1,4 +1,4 @@
-import type { ISODateString } from "../../v1";
+import type { BillingMonths, ISODateString, UserPlanName } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/billing/create-order
@@ -57,7 +57,7 @@ export interface APIOrderCreateResponse {
 
 /**
  * Price an order would have with a coupon, without creating the order or using the coupon.
- * Prices already include the billing-period discount (3 months −5%, 12 −15%).
+ * Prices already include the billing-period discount (see `GET /v1/plans` for the discounts).
  */
 export interface APIOrderCouponPreview {
 	/** The coupon code as registered. */
@@ -69,6 +69,26 @@ export interface APIOrderCouponPreview {
 	price: number;
 	/** Payment methods the coupon allows, same rule as `APIOrderCreateResponse.allowed_payment_methods`. */
 	allowed_payment_methods: OrderProvider[];
+}
+
+/**
+ * Price of a plan for a period, with the period discount and an optional coupon applied. Amounts are in BRL.
+ */
+export interface APIOrderQuote {
+	plan: UserPlanName;
+	months: BillingMonths;
+	/** Monthly list price times the months, before any discount. */
+	list_price: number;
+	period_discount_percent: number;
+	/** `null` when no coupon was sent. */
+	coupon: { code: string; discount: number } | null;
+	/** Final price. */
+	total: number;
+	/** `true` when the quote uses the price the account had before the current grid. */
+	legacy_price: boolean;
+	/** Until when the legacy price applies. `null` when `legacy_price` is `false`. */
+	legacy_price_until: ISODateString | null;
+	payment_methods: ("pix" | "card")[];
 }
 
 /**

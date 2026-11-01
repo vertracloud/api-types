@@ -363,6 +363,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/orders" },
 			{ method: "GET", path: "/v1/orders/:orderId/status" },
 			{ method: "GET", path: "/v1/users/me/billing" },
+			{ method: "POST", path: "/v1/orders/quote" },
 		],
 	},
 	/**

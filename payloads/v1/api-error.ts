@@ -347,6 +347,8 @@ export const API_ERROR_CODES = {
 	PLAN_REQUIRED: "PLAN_REQUIRED",
 	PLAN_MISMATCH_FOR_RENEWAL: "PLAN_MISMATCH_FOR_RENEWAL",
 	PLAN_NOT_ALLOWED: "PLAN_NOT_ALLOWED",
+	/** 400 — the plan is not part of the current grid (plans of the previous grid are no longer sold). */
+	PLAN_NOT_FOR_SALE: "PLAN_NOT_FOR_SALE",
 	RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
 	REFUND_AMOUNT_EXCEEDS_PRICE: "REFUND_AMOUNT_EXCEEDS_PRICE",
 	/** 409 — the release is already the active one. */

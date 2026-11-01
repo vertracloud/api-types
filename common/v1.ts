@@ -58,19 +58,58 @@ export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;
 
-export type EnterprisePlanSizes = 4 | 6 | 8 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 30 | 32;
+/** Plan families of the current grid. */
+export type PlanFamily = "starter" | "pro" | "business" | "enterprise";
+
+export const PlanFamily = {
+	STARTER: "starter",
+	PRO: "pro",
+	BUSINESS: "business",
+	ENTERPRISE: "enterprise",
+} as const satisfies Record<string, PlanFamily>;
+
+/** Memory sizes in GB. */
+export type StarterPlanSizes = 1 | 2;
+export type ProPlanSizes = 4 | 6 | 8;
+export type BusinessPlanSizes = 12 | 16 | 24;
+export type EnterprisePlanSizes = 32 | 48 | 64 | 96 | 128 | 160 | 192 | 224 | 256 | 288 | 320 | 384 | 448 | 512;
+
+/** Enterprise sizes of the previous grid. Kept while accounts still hold those plans. */
+export type LegacyEnterprisePlanSizes = 4 | 6 | 8 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 30 | 32;
+
+/** Plans of the current grid. */
+export type V3PlanName = `starter-${StarterPlanSizes}` | `pro-${ProPlanSizes}` | `business-${BusinessPlanSizes}` | `enterprise-${EnterprisePlanSizes}`;
+
+/** Plans of the previous grid. Accepted while there are subscribers; no longer sold. */
+export type LegacyPlanName = "economy" | "pro" | "scale" | "intermediary" | `enterprise-${LegacyEnterprisePlanSizes}`;
 
 /**
  * Name of a plan. An account without a plan has no name: the API sends `null`.
+ * `enterprise-32` exists in both grids and now refers to the current plan.
  * @see https://docs.vertracloud.app/knowledge-base#plan-names
  */
-export type UserPlanName = "economy" | "pro" | "scale" | "intermediary" | `enterprise-${EnterprisePlanSizes}`;
+export type UserPlanName = V3PlanName | LegacyPlanName;
 
+/**
+ * Plan name constants.
+ * Current grid: `STARTER_*`, `PRO_4`, `PRO_6`, `PRO_8`, `BUSINESS_*` and `ENTERPRISE_32` to `ENTERPRISE_512`.
+ * Legacy (accepted while there are subscribers, no longer sold): `ECONOMY`, `PRO`, `SCALE`, `INTERMEDIARY`
+ * and `ENTERPRISE_4` to `ENTERPRISE_30`.
+ */
 export const UserPlanName = {
 	ECONOMY: "economy",
 	PRO: "pro",
 	SCALE: "scale",
 	INTERMEDIARY: "intermediary",
+
+	STARTER_1: "starter-1",
+	STARTER_2: "starter-2",
+	PRO_4: "pro-4",
+	PRO_6: "pro-6",
+	PRO_8: "pro-8",
+	BUSINESS_12: "business-12",
+	BUSINESS_16: "business-16",
+	BUSINESS_24: "business-24",
 
 	ENTERPRISE_4: "enterprise-4",
 	ENTERPRISE_6: "enterprise-6",
@@ -86,4 +125,27 @@ export const UserPlanName = {
 	ENTERPRISE_28: "enterprise-28",
 	ENTERPRISE_30: "enterprise-30",
 	ENTERPRISE_32: "enterprise-32",
+	ENTERPRISE_48: "enterprise-48",
+	ENTERPRISE_64: "enterprise-64",
+	ENTERPRISE_96: "enterprise-96",
+	ENTERPRISE_128: "enterprise-128",
+	ENTERPRISE_160: "enterprise-160",
+	ENTERPRISE_192: "enterprise-192",
+	ENTERPRISE_224: "enterprise-224",
+	ENTERPRISE_256: "enterprise-256",
+	ENTERPRISE_288: "enterprise-288",
+	ENTERPRISE_320: "enterprise-320",
+	ENTERPRISE_384: "enterprise-384",
+	ENTERPRISE_448: "enterprise-448",
+	ENTERPRISE_512: "enterprise-512",
 } as const satisfies Record<string, UserPlanName>;
+
+/** Billing period in months. */
+export type BillingMonths = 1 | 3 | 6 | 12;
+
+export const BillingMonths = {
+	ONE: 1,
+	THREE: 3,
+	SIX: 6,
+	TWELVE: 12,
+} as const satisfies Record<string, BillingMonths>;
