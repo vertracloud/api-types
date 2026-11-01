@@ -84,7 +84,7 @@ export interface APIOrderQuote {
 	coupon: { code: string; discount: number } | null;
 	/** Final price. */
 	total: number;
-	/** `true` when the quote uses the price the account had before the current grid. */
+	/** `true` when the quote uses the price the account already paid for its previous plan. */
 	legacy_price: boolean;
 	/** Until when the legacy price applies. `null` when `legacy_price` is `false`. */
 	legacy_price_until: ISODateString | null;

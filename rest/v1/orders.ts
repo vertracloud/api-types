@@ -6,7 +6,7 @@ import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse
  */
 export interface RESTPostAPIOrderCreateBody {
 	plan: string;
-	/** 1, 3, 6 or 12. Plans of the previous grid follow the periods they were sold with. Anything else returns 400 `INVALID_MONTHS`. */
+	/** 1, 3, 6 or 12. Anything else returns 400 `INVALID_MONTHS`. */
 	months: BillingMonths;
 	coupon?: string;
 	/** Defaults to `"purchase"`. */

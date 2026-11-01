@@ -58,7 +58,7 @@ export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;
 
-/** Plan families of the current grid. */
+/** Plan families. */
 export type PlanFamily = "starter" | "pro" | "business" | "enterprise";
 
 export const PlanFamily = {

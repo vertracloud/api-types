@@ -1,13 +1,5 @@
 import type { BillingMonths, PlanFamily, PlanName } from "../../v1";
 
-/** Plan grid in force: `"v3"` is the current one, `"legacy"` the previous one. */
-export type PlanGrid = "legacy" | "v3";
-
-export const PlanGrid = {
-	LEGACY: "legacy",
-	V3: "v3",
-} as const satisfies Record<string, PlanGrid>;
-
 /** A billing period and its discount over the monthly price. */
 export interface APIPlanCycle {
 	months: BillingMonths;
@@ -62,9 +54,9 @@ export interface APIPlanFeatures {
 
 export interface APIPlan {
 	name: PlanName;
-	/** `null` for legacy plans. */
+	/** `null` for a plan that is no longer sold. */
 	family: PlanFamily | null;
-	/** `true` for plans of the previous grid. */
+	/** `true` for a plan that is no longer sold. */
 	legacy: boolean;
 	memory_mb: number;
 	/** Highest vCPU count one application can use. */
@@ -78,7 +70,6 @@ export interface APIPlan {
 
 /** The plans currently for sale and the billing periods with their discounts. */
 export interface APIPlansCatalog {
-	grid: PlanGrid;
 	cycles: APIPlanCycle[];
 	plans: APIPlan[];
 }
