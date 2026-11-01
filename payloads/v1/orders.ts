@@ -1,4 +1,4 @@
-import type { BillingMonths, ISODateString, UserPlanName } from "../../v1";
+import type { BillingMonths, ISODateString, PlanName } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/billing/create-order
@@ -75,7 +75,7 @@ export interface APIOrderCouponPreview {
  * Price of a plan for a period, with the period discount and an optional coupon applied. Amounts are in BRL.
  */
 export interface APIOrderQuote {
-	plan: UserPlanName;
+	plan: PlanName;
 	months: BillingMonths;
 	/** Monthly list price times the months, before any discount. */
 	list_price: number;

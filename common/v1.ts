@@ -74,34 +74,16 @@ export type ProPlanSizes = 4 | 6 | 8;
 export type BusinessPlanSizes = 12 | 16 | 24;
 export type EnterprisePlanSizes = 32 | 48 | 64 | 96 | 128 | 160 | 192 | 224 | 256 | 288 | 320 | 384 | 448 | 512;
 
-/** Enterprise sizes of the previous grid. Kept while accounts still hold those plans. */
-export type LegacyEnterprisePlanSizes = 4 | 6 | 8 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 30 | 32;
-
-/** Plans of the current grid. */
-export type V3PlanName = `starter-${StarterPlanSizes}` | `pro-${ProPlanSizes}` | `business-${BusinessPlanSizes}` | `enterprise-${EnterprisePlanSizes}`;
-
-/** Plans of the previous grid. Accepted while there are subscribers; no longer sold. */
-export type LegacyPlanName = "economy" | "pro" | "scale" | "intermediary" | `enterprise-${LegacyEnterprisePlanSizes}`;
-
 /**
  * Name of a plan. An account without a plan has no name: the API sends `null`.
- * `enterprise-32` exists in both grids and now refers to the current plan.
  * @see https://docs.vertracloud.app/knowledge-base#plan-names
  */
-export type UserPlanName = V3PlanName | LegacyPlanName;
+export type PlanName = `starter-${StarterPlanSizes}` | `pro-${ProPlanSizes}` | `business-${BusinessPlanSizes}` | `enterprise-${EnterprisePlanSizes}`;
 
 /**
- * Plan name constants.
- * Current grid: `STARTER_*`, `PRO_4`, `PRO_6`, `PRO_8`, `BUSINESS_*` and `ENTERPRISE_32` to `ENTERPRISE_512`.
- * Legacy (accepted while there are subscribers, no longer sold): `ECONOMY`, `PRO`, `SCALE`, `INTERMEDIARY`
- * and `ENTERPRISE_4` to `ENTERPRISE_30`.
+ * Plan name constants: `STARTER_*`, `PRO_4`, `PRO_6`, `PRO_8`, `BUSINESS_*` and `ENTERPRISE_32` to `ENTERPRISE_512`.
  */
-export const UserPlanName = {
-	ECONOMY: "economy",
-	PRO: "pro",
-	SCALE: "scale",
-	INTERMEDIARY: "intermediary",
-
+export const PlanName = {
 	STARTER_1: "starter-1",
 	STARTER_2: "starter-2",
 	PRO_4: "pro-4",
@@ -111,19 +93,6 @@ export const UserPlanName = {
 	BUSINESS_16: "business-16",
 	BUSINESS_24: "business-24",
 
-	ENTERPRISE_4: "enterprise-4",
-	ENTERPRISE_6: "enterprise-6",
-	ENTERPRISE_8: "enterprise-8",
-	ENTERPRISE_12: "enterprise-12",
-	ENTERPRISE_14: "enterprise-14",
-	ENTERPRISE_16: "enterprise-16",
-	ENTERPRISE_18: "enterprise-18",
-	ENTERPRISE_20: "enterprise-20",
-	ENTERPRISE_22: "enterprise-22",
-	ENTERPRISE_24: "enterprise-24",
-	ENTERPRISE_26: "enterprise-26",
-	ENTERPRISE_28: "enterprise-28",
-	ENTERPRISE_30: "enterprise-30",
 	ENTERPRISE_32: "enterprise-32",
 	ENTERPRISE_48: "enterprise-48",
 	ENTERPRISE_64: "enterprise-64",
@@ -138,7 +107,7 @@ export const UserPlanName = {
 	ENTERPRISE_384: "enterprise-384",
 	ENTERPRISE_448: "enterprise-448",
 	ENTERPRISE_512: "enterprise-512",
-} as const satisfies Record<string, UserPlanName>;
+} as const satisfies Record<string, PlanName>;
 
 /** Billing period in months. */
 export type BillingMonths = 1 | 3 | 6 | 12;

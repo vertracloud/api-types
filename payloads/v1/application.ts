@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
+import type { ISODateString, PlanName, SnowFlake } from "../../v1";
 import type { APICustomImageApp } from "./custom-image";
 import type { APITemplateEffectivePermissions, APITemplateOrigin } from "./template-origin";
 
@@ -51,11 +51,10 @@ export const ApplicationBuildError = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
-export type ApplicationCluster = number;
+export type ApplicationCluster = 1 | 2;
 export const ApplicationCluster = {
 	USA_1: 1,
 	USA_2: 2,
-	USA_3: 3,
 } as const;
 
 /**
@@ -230,7 +229,7 @@ export interface APIApplication {
 	description?: string;
 	owner_id: string; // UUID
 	/** Owner's plan; `null` when the owner has no plan. */
-	owner_plan: UserPlanName | null;
+	owner_plan: PlanName | null;
 	language: ApplicationLanguage;
 	ram: number;
 	status: ApplicationStatus;

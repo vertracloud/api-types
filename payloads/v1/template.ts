@@ -1,4 +1,4 @@
-import type { APIErrorCode, ApplicationLanguage, ApplicationZeroDowntime, DatabaseType, ISODateString, SnowFlake, UserPlanName, WorkspaceResourceType } from "../../v1";
+import type { APIErrorCode, ApplicationLanguage, ApplicationZeroDowntime, DatabaseType, ISODateString, PlanName, SnowFlake, WorkspaceResourceType } from "../../v1";
 export { type APITemplateEffectivePermissions, type APITemplateI18nText, type APITemplateOrigin, TemplateOrigin } from "./template-origin";
 import type { APITemplateEffectivePermissions, APITemplateI18nText, TemplateOrigin } from "./template-origin";
 
@@ -765,7 +765,7 @@ export interface APITemplate {
 	/** The user brings the key of the AI model. */
 	byok: boolean;
 	/** Id of the lowest plan that can use it, calculated from the requirements and the declared `min_plan`. */
-	required_plan: UserPlanName | (string & {});
+	required_plan: PlanName | (string & {});
 	/** `false` for a closed template: whoever uses it cannot see its code. Public templates are always open. */
 	code_view: boolean;
 	/** Number of times a public template was used; `null` for private templates. */
@@ -850,7 +850,7 @@ export interface APITemplateValidation {
 	/** Empty when `valid`. */
 	issues: APITemplateValidationIssue[];
 	/** Calculated from the manifest; `null` when it is not valid enough to calculate. */
-	required_plan: UserPlanName | (string & {}) | null;
+	required_plan: PlanName | (string & {}) | null;
 	/** Sum of the minimum memory of every service (MB); `null` when it cannot be calculated. */
 	ram_min_total: number | null;
 	services: APITemplateServiceSummary[];
@@ -1084,7 +1084,7 @@ export interface APITemplateSharePreview {
 	services: APITemplateServiceSummary[];
 	creates_stack: boolean;
 	ram_min_total: number;
-	required_plan: UserPlanName | (string & {});
+	required_plan: PlanName | (string & {});
 	/** Custom image slots the receiver would use: one per distinct image of the template, so it can be more than 1. */
 	image_slots_needed: number;
 	/** Always `false`: the platform does not review private templates. */

@@ -1,4 +1,4 @@
-import type { BillingMonths, PlanFamily, UserPlanName } from "../../v1";
+import type { BillingMonths, PlanFamily, PlanName } from "../../v1";
 
 /** Plan grid in force: `"v3"` is the current one, `"legacy"` the previous one. */
 export type PlanGrid = "legacy" | "v3";
@@ -61,7 +61,7 @@ export interface APIPlanFeatures {
 }
 
 export interface APIPlan {
-	name: UserPlanName;
+	name: PlanName;
 	/** `null` for legacy plans. */
 	family: PlanFamily | null;
 	/** `true` for plans of the previous grid. */

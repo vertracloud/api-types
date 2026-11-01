@@ -1,4 +1,4 @@
-import type { APIRestartRequired, ISODateString, SnowFlake, UserPlanName } from "../../v1";
+import type { APIRestartRequired, ISODateString, PlanName, SnowFlake } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -23,11 +23,10 @@ export const DatabaseStatus = {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
  */
-export type DatabaseCluster = number;
+export type DatabaseCluster = 1 | 2;
 export const DatabaseCluster = {
 	USA_1: 1,
 	USA_2: 2,
-	USA_3: 3,
 } as const;
 
 /**
@@ -58,7 +57,7 @@ export interface APIDatabase {
 	description: string;
 	owner_id: SnowFlake;
 	/** Owner's plan; `null` when the owner has no plan. */
-	owner_plan: UserPlanName | null;
+	owner_plan: PlanName | null;
 	status: DatabaseStatus;
 	ram: number;
 	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"

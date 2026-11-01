@@ -1,4 +1,4 @@
-import type { ISODateString, SnowFlake, UserPlanName } from "../../v1";
+import type { ISODateString, PlanName, SnowFlake } from "../../v1";
 import type { APIApplication, APIDatabase } from "./index";
 
 /**
@@ -184,7 +184,7 @@ export interface APIWorkspaceInfoResponse extends APIWorkspace {
 	permissions: WorkspacePermission[];
 	is_owner: boolean;
 	/** Owner's plan — it determines which features the workspace has; `null` when the owner has no plan. */
-	owner_plan: UserPlanName | null;
+	owner_plan: PlanName | null;
 	/** The caller's saved resource organization (folders, favorites) in this workspace. */
 	resource_organization: APIWorkspaceResourceOrganization;
 }

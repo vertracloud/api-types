@@ -1,4 +1,4 @@
-import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse, APIOrderListItem, APIOrderPixPayment, APIOrderQuote, APIOrderReceipt, APIOrderStatus, APIPayload, BillingMonths, OrderProvider, OrderType, UserPlanName } from "../../v1";
+import type { APIOrderCardPayment, APIOrderCouponPreview, APIOrderCreateResponse, APIOrderListItem, APIOrderPixPayment, APIOrderQuote, APIOrderReceipt, APIOrderStatus, APIPayload, BillingMonths, OrderProvider, OrderType, PlanName } from "../../v1";
 
 /**
  * A missing `plan` or `months` returns 400 `MISSING_PLAN_OR_MONTHS`.
@@ -39,7 +39,7 @@ export interface RESTPostAPIOrderCouponPreviewBody {
  * 400 `PLAN_NOT_FOR_SALE` and the `COUPON_*` codes that `POST /v1/orders` returns for the same coupon.
  */
 export interface RESTPostAPIOrderQuoteBody {
-	plan: UserPlanName;
+	plan: PlanName;
 	months: BillingMonths;
 	coupon?: string;
 }

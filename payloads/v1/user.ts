@@ -1,4 +1,4 @@
-import type { ISODateString, UserPlanName } from "../../v1";
+import type { ISODateString, PlanName } from "../../v1";
 import type { APIApplication, APIDatabase, APIWorkspaceResourceOrganization } from "./index";
 
 /**
@@ -59,7 +59,7 @@ export interface APIUserPlanMemory {
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserPlan {
-	name: UserPlanName;
+	name: PlanName;
 	expires_at: ISODateString;
 	duration: number;
 	memory: APIUserPlanMemory;
