@@ -1,5 +1,13 @@
 # @vertracloud/api-types
 
+## 0.6.1
+
+### Patch Changes
+
+- f5d4b0a: Add Web Analytics for applications. New routes `GET /v1/apps/:id/analytics` (traffic), `/analytics/errors`, `/analytics/performance` and `/analytics/requests`, with their `RESTGetAPIApplicationAnalytics*Query` and `...Response` types and the shared `RESTAPIApplicationAnalyticsRangeQuery` (window) and `RESTAPIApplicationAnalyticsFilters` (one filter per dimension). New payloads `APIApplicationAnalyticsTraffic`, `APIApplicationAnalyticsErrors`, `APIApplicationAnalyticsPerformance` and `APIApplicationAnalyticsRequestList`, with their summaries, series points, breakdown and latency entries, `APIApplicationAnalyticsPeriod` (the previous period of `compare=true`, or the period chosen with `compare_start`), `APIApplicationAnalyticsRequest` (one request of the log) and `APIApplicationAnalyticsRangeExceedsPlanDetails`. New enums `ApplicationAnalyticsDimension`, `ApplicationAnalyticsInterval`, `ApplicationAnalyticsStatusClass` and `ApplicationAnalyticsOrder`, and the `ANALYTICS_NO_VALUE` constant. Open unions with companion constants for known values (`ApplicationAnalyticsDevice`, `ApplicationAnalyticsHTTPMethod`, `ApplicationAnalyticsProtocol`, `ApplicationAnalyticsCacheStatus`), filters typed per dimension (`ApplicationAnalyticsFilterValues`) and the generic `APIApplicationAnalyticsReport`. `compare_start` on the traffic, errors and performance queries compares against a custom period of the same length. The four routes are part of the `apps:read` API key scope.
+
+  New error codes `PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_PERFORMANCE`, `PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_REQUESTS`, `ANALYTICS_RANGE_EXCEEDS_PLAN` and `ANALYTICS_BUSY` (`ANALYTICS_ERROR_CODES`). The plans listing gains `features.web_analytics_performance`, `features.web_analytics_requests` and `limits.web_analytics_history_days`.
+
 ## 0.6.0
 
 ### Minor Changes
