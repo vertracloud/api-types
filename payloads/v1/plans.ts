@@ -26,6 +26,8 @@ export interface APIPlanLimits {
 	release_versions: number;
 	release_retention_days: number;
 	max_custom_images: number;
+	/** How many days back Web Analytics can be read. */
+	web_analytics_history_days: number;
 	blob: APIPlanBlobLimits;
 }
 
@@ -50,6 +52,10 @@ export interface APIPlanFeatures {
 	blob_unlimited_upload_rate: boolean;
 	blob_no_cache: boolean;
 	blob_short_expiration: boolean;
+	/** Web Analytics performance details (`GET /v1/apps/:id/analytics/performance`). */
+	web_analytics_performance: boolean;
+	/** Web Analytics request log (`GET /v1/apps/:id/analytics/requests`). */
+	web_analytics_requests: boolean;
 }
 
 export interface APIPlan {

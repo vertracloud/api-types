@@ -96,6 +96,23 @@ export const STACK_ERROR_CODES = {
 } as const;
 export type StackErrorCode = (typeof STACK_ERROR_CODES)[keyof typeof STACK_ERROR_CODES];
 
+/**
+ * Error sentinels of the Web Analytics routes (`/v1/apps/:id/analytics*`). A bad window is `INVALID_RANGE`
+ * and too many queries is `RATE_LIMIT_EXCEEDED`, both shared with other routes.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/analytics/traffic
+ */
+export const ANALYTICS_ERROR_CODES = {
+	/** 403 — the plan does not include the performance details (`features.web_analytics_performance`). */
+	PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_PERFORMANCE: "PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_PERFORMANCE",
+	/** 403 — the plan does not include the request log (`features.web_analytics_requests`). */
+	PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_REQUESTS: "PLAN_DOES_NOT_SUPPORT_WEB_ANALYTICS_REQUESTS",
+	/** 400 — `start` is earlier than the plan can read (`limits.web_analytics_history_days`); `details` is an `APIApplicationAnalyticsRangeExceedsPlanDetails`. */
+	ANALYTICS_RANGE_EXCEEDS_PLAN: "ANALYTICS_RANGE_EXCEEDS_PLAN",
+	/** 503 — analytics is under high demand and no earlier answer is available. Try again after `details.retry_after` seconds (also sent in the `Retry-After` header). */
+	ANALYTICS_BUSY: "ANALYTICS_BUSY",
+} as const;
+export type AnalyticsErrorCode = (typeof ANALYTICS_ERROR_CODES)[keyof typeof ANALYTICS_ERROR_CODES];
+
 /** Stable error sentinels returned by routes available to API keys. */
 export const API_ERROR_CODES = {
 	ACCESS_DENIED: "ACCESS_DENIED",
@@ -301,6 +318,7 @@ export const API_ERROR_CODES = {
 	INVALID_PLAN: "INVALID_PLAN",
 	INVALID_PLAN_NAME: "INVALID_PLAN_NAME",
 	INVALID_RAM_LIMIT: "INVALID_RAM_LIMIT",
+	/** 400 — the time window is logically invalid: `start` is after `end`, `end` is in the future or the window is longer than the route allows (30 days for analytics). A malformed date is a `400 VALIDATION_ERROR` instead. */
 	INVALID_RANGE: "INVALID_RANGE",
 	INVALID_SUBDOMAIN_FORMAT: "INVALID_SUBDOMAIN_FORMAT",
 	INVALID_VERSION: "INVALID_VERSION",
@@ -349,6 +367,7 @@ export const API_ERROR_CODES = {
 	PLAN_NOT_ALLOWED: "PLAN_NOT_ALLOWED",
 	/** 400 — the plan is no longer sold. */
 	PLAN_NOT_FOR_SALE: "PLAN_NOT_FOR_SALE",
+	/** 429 — too many requests. The `Retry-After` header (seconds) is always sent; the analytics routes also send `details.retry_after` with the same value, so do not rely on `details` for other routes. */
 	RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
 	REFUND_AMOUNT_EXCEEDS_PRICE: "REFUND_AMOUNT_EXCEEDS_PRICE",
 	/** 409 — the release is already the active one. */
@@ -388,6 +407,7 @@ export const API_ERROR_CODES = {
 	...WORKSPACE_ERROR_CODES,
 	...TEMPLATE_ERROR_CODES,
 	...STACK_ERROR_CODES,
+	...ANALYTICS_ERROR_CODES,
 } as const;
 
 export const APIErrorCode = API_ERROR_CODES;

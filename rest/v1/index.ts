@@ -1,4 +1,5 @@
 export * from "./activity";
+export * from "./analytics";
 export * from "./api-key";
 export * from "./application";
 export * from "./billing";
