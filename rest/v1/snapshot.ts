@@ -1,4 +1,4 @@
-import type { APIGroupedResourceSnapshots, APIPayload, APIResourceSnapshot, APISnapshotRestoreResponse, SnapshotScope } from "../../v1";
+import type { APIGroupedResourceSnapshots, APIPayload, APIResourceSnapshot, APISnapshotDownloadURL, APISnapshotRestoreResponse, SnapshotScope } from "../../v1";
 
 /**
  * `GET /v1/users/:id/snapshots` — snapshots of one resource. Every snapshot route under
@@ -29,10 +29,17 @@ export type RESTPostAPISnapshotRestoreQuery = RESTGetAPISnapshotsQuery;
 
 /**
  * `GET /v1/users/:id/snapshots/:snapshot_id/download`.
+ * By default the response is the zip: snapshots up to 100 MB are served directly (`200`), larger ones answer `302 Found` with a short-lived `Location`
+ * (valid for a few minutes) that serves the zip; HTTP clients that follow redirects (browsers, `fetch`, the SDKs, `curl -L`) receive the file in both cases.
+ * With `redirect=false` it always answers `200` with that link as JSON (`RESTGetAPISnapshotDownloadURLResponse`), for clients that want to start the
+ * download themselves.
  * A snapshot marked `closed` cannot be downloaded: the route returns `TEMPLATE_CLOSED`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/download
  */
-export type RESTGetAPISnapshotDownloadQuery = RESTGetAPISnapshotsQuery;
+export interface RESTGetAPISnapshotDownloadQuery extends RESTGetAPISnapshotsQuery {
+	/** `false` returns the download link as JSON instead of redirecting. Default `true`. */
+	redirect?: boolean;
+}
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/getall
@@ -67,6 +74,13 @@ export interface RESTPostAPISnapshotRestoreBody {
 export type RESTPostAPISnapshotRestoreResponse = APIPayload<APISnapshotRestoreResponse>;
 
 /**
+ * Body after following the redirect of the download (the zip itself).
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/download
  */
 export type RESTGetAPISnapshotDownloadResponse = ArrayBuffer;
+
+/**
+ * `GET /v1/users/:id/snapshots/:snapshot_id/download?redirect=false`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/snapshots/download
+ */
+export type RESTGetAPISnapshotDownloadURLResponse = APIPayload<APISnapshotDownloadURL>;

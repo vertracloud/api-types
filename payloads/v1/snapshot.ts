@@ -81,3 +81,13 @@ export interface APISnapshotRestoreResponse {
  * the snapshot recorded was removed by retention, so the application stays on its current version.
  */
 export type APISnapshotImageWarning = "IMAGE_VERSION_NOT_FOUND";
+
+/** Download link of a snapshot, returned with `redirect=false`. */
+export interface APISnapshotDownloadURL {
+	/** Short-lived link that serves the zip directly; it needs no `Authorization` header. */
+	url: string;
+	/** When the link stops working. */
+	expires_at: ISODateString;
+	/** Suggested file name of the zip. */
+	filename: string;
+}

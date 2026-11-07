@@ -135,6 +135,8 @@ export const API_ERROR_CODES = {
 	APP_HAS_NO_SUBDOMAIN: "APP_HAS_NO_SUBDOMAIN",
 	/** 409 — the application is still building; wait until the build ends. */
 	APP_BUILDING: "APP_BUILDING",
+	/** 413 — the application (or database) is too large to download as a zip on the spot. Create a snapshot and download the snapshot instead: snapshots have no size limit on download. */
+	DOWNLOAD_TOO_LARGE: "DOWNLOAD_TOO_LARGE",
 	APP_NOT_FOUND: "APP_NOT_FOUND",
 	APP_NOT_PUBLISHED: "APP_NOT_PUBLISHED",
 	APP_ALREADY_IN_WORKSPACE: "APP_ALREADY_IN_WORKSPACE",
