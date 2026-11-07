@@ -80,7 +80,7 @@ export const DockerfileIssueCode = {
 	MOUNT_SSH: "mount_ssh",
 	/** Refusal: `--mount=type=secret`. */
 	MOUNT_SECRET: "mount_secret",
-	/** Warning: `WORKDIR` at `/app` or below. `/app` is the app's persistent disk, so what the image puts there is hidden by the mount. */
+	/** Warning: the final stage of the `Dockerfile` sets `WORKDIR` at `/app` or below. `/app` is the app's persistent disk, mounted over the image at runtime, so files the image puts there are hidden; use another directory, such as `/srv`. */
 	WORKDIR_APP: "workdir_app",
 	/** Warning: `.env*` files in the context. They are removed before the build; their keys become app variables. */
 	ENV_FILE_IN_CONTEXT: "env_file_in_context",
@@ -167,6 +167,10 @@ export interface APICustomImage {
 	apps: APICustomImageApp[];
 	/** Linked GitHub repository and branch; `null` when the image is not linked. */
 	github: { repository: string; branch: string } | null;
+	/** When `true`, every successful build of the image restarts the image's running apps on the new version (stopped apps are not started). Images created from a GitHub repository start with `true`, the others with `false`. */
+	auto_update_apps: boolean;
+	/** Warnings of the `Dockerfile` check of the latest build (same codes as `APIDockerfileCheck.warnings`); empty when there are none or the image was built before this field existed. */
+	warnings: DockerfileIssue[];
 	/** Current version of the image; `null` while no build has succeeded. */
 	current_version_id: string | null;
 	created_at: ISODateString;

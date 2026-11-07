@@ -66,7 +66,7 @@ export type RESTPostAPICustomImageResult = APIPayload<APICustomImage>;
 export type RESTGetAPICustomImageResult = APIPayload<APICustomImage>;
 
 /**
- * Body of `PATCH /v1/images/:image_id` (JSON). Renames the image and/or changes its description, without building anything:
+ * Body of `PATCH /v1/images/:image_id` (JSON). Renames the image, changes its description and/or the automatic update of its apps, without building anything:
  * apps keep running and nothing is restarted. At least one field is required (otherwise `VALIDATION_ERROR`).
  *
  * Error codes: `VALIDATION_ERROR` (empty body, name out of range or already used by another of your images, description too
@@ -78,6 +78,8 @@ export interface RESTPatchAPICustomImageBody {
 	name?: string;
 	/** New description, up to 128 characters (free text). `null` or an empty string removes it. */
 	description?: string | null;
+	/** Turns on or off the automatic restart of the image's running apps after each successful build. */
+	auto_update_apps?: boolean;
 }
 
 /**
