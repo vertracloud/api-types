@@ -12,6 +12,8 @@ export interface RESTPostAPIOrderCreateBody {
 	/** Defaults to `"purchase"`. */
 	type?: OrderType;
 	source?: string;
+	/** Dashboard session only. Ignored with an API key (the balance is never used). */
+	use_referral_balance?: boolean;
 }
 
 /**
@@ -42,6 +44,8 @@ export interface RESTPostAPIOrderQuoteBody {
 	plan: PlanName;
 	months: BillingMonths;
 	coupon?: string;
+	/** Dashboard session only. Ignored with an API key (the balance is never used). */
+	use_referral_balance?: boolean;
 }
 
 export type RESTPostAPIOrderQuoteResponse = APIPayload<APIOrderQuote>;

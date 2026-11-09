@@ -32,6 +32,17 @@ export const OrderProvider = {
 } as const;
 
 /**
+ * Which discount an order or quote applied: the coupon sent with the request or the first-purchase
+ * referral discount.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/billing/create-order
+ */
+export type OrderDiscountSource = "coupon" | "referral";
+export const OrderDiscountSource = {
+	COUPON: "coupon",
+	REFERRAL: "referral",
+} as const;
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/billing/create-order
  */
 export interface APIOrderCreateResponse {
@@ -45,6 +56,8 @@ export interface APIOrderCreateResponse {
 	discount: APIOrderDiscount;
 	/** Final price, after the discount. */
 	price: number;
+	/** Referral balance used on the order, in BRL. `0` when none was used. The balance is already subtracted from `price`. */
+	referral_balance_amount: number;
 	expires_at: ISODateString | null;
 	/**
 	 * Payment methods the order accepts. The Economy plan and a coupon restricted to one method narrow
@@ -80,9 +93,19 @@ export interface APIOrderQuote {
 	/** Monthly list price times the months, before any discount. */
 	list_price: number;
 	period_discount_percent: number;
-	/** `null` when no coupon was sent. */
+	/** `null` when no coupon was sent, or when the referral discount won over it (see `discount_source`). */
 	coupon: { code: string; discount: number } | null;
-	/** Final price. */
+	/**
+	 * Amount of the first-purchase referral discount, in BRL, present even when a coupon wins over it
+	 * (the two never add up: the larger one applies). `null` when the account has no referral discount
+	 * available for this order.
+	 */
+	referral_discount: number | null;
+	/** Referral balance the order would use, in BRL, already subtracted from `total`. `0` unless `use_referral_balance` was `true` and the account has available balance. */
+	referral_balance_applied: number;
+	/** Which discount was applied: the coupon or the referral discount. `null` when neither was. */
+	discount_source: OrderDiscountSource | null;
+	/** Final price, after the discount and the referral balance. */
 	total: number;
 	/** `true` when the quote uses the price the account already paid for its previous plan. */
 	legacy_price: boolean;
@@ -98,6 +121,8 @@ export interface APIOrderDiscount {
 	/** `null` when no coupon was applied. */
 	percent: number | null;
 	coupon: string | null;
+	/** Which discount `percent` comes from. `null` when no discount was applied. */
+	source: OrderDiscountSource | null;
 	/** Price before the discount. */
 	price: number;
 }

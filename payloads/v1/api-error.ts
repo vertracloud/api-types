@@ -113,6 +113,22 @@ export const ANALYTICS_ERROR_CODES = {
 } as const;
 export type AnalyticsErrorCode = (typeof ANALYTICS_ERROR_CODES)[keyof typeof ANALYTICS_ERROR_CODES];
 
+/**
+ * Error sentinels of the referral routes (`/v1/referrals*`). Dashboard session only; API keys get 403 `API_KEY_SCOPE_DENIED`.
+ * Stable English codes returned in `code`; clients are expected to translate them.
+ */
+export const REFERRAL_ERROR_CODES = {
+	/** 400 — the code does not exist or its link is disabled. The answer is the same for both, so it does not reveal whether a code exists. */
+	REFERRAL_CODE_INVALID: "REFERRAL_CODE_INVALID",
+	/** 409 — the account already has a referrer; the first attribution is final. */
+	REFERRAL_ALREADY_ATTRIBUTED: "REFERRAL_ALREADY_ATTRIBUTED",
+	/** 400 — the code belongs to the same account. */
+	REFERRAL_SELF: "REFERRAL_SELF",
+	/** 409 — the account already paid an order, so it can no longer be referred. */
+	REFERRAL_ALREADY_PAID: "REFERRAL_ALREADY_PAID",
+} as const;
+export type ReferralErrorCode = (typeof REFERRAL_ERROR_CODES)[keyof typeof REFERRAL_ERROR_CODES];
+
 /** Stable error sentinels returned by routes available to API keys. */
 export const API_ERROR_CODES = {
 	ACCESS_DENIED: "ACCESS_DENIED",
@@ -410,6 +426,7 @@ export const API_ERROR_CODES = {
 	...TEMPLATE_ERROR_CODES,
 	...STACK_ERROR_CODES,
 	...ANALYTICS_ERROR_CODES,
+	...REFERRAL_ERROR_CODES,
 } as const;
 
 export const APIErrorCode = API_ERROR_CODES;
