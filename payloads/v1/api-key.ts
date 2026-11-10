@@ -216,6 +216,7 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 		routes: [
 			{ method: "POST", path: "/v1/images" },
 			{ method: "PUT", path: "/v1/images/:image_id" },
+			{ method: "POST", path: "/v1/images/:image_id/rebuild" },
 			{ method: "PATCH", path: "/v1/images/:image_id" },
 			{ method: "PUT", path: "/v1/images/:image_id/github" },
 			{ method: "DELETE", path: "/v1/images/:image_id/github" },

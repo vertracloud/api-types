@@ -105,6 +105,26 @@ export interface RESTPutAPICustomImageBody {
 export type RESTPutAPICustomImageResult = APIPayload<APICustomImage>;
 
 /**
+ * `POST /v1/images/:image_id/rebuild` — builds the image again **without uploading anything**. There is no body.
+ *
+ * The source depends on the image: an image linked to GitHub is built from the current tip of its linked branch; any other
+ * image is built from the build context of its latest build, **including a build that failed**. Use it to retry a failed
+ * build. It counts toward the hourly deploy budget like any other build, and it is refused with `IMAGE_BUILD_IN_PROGRESS`
+ * while another build of the image runs. Apps are only restarted if the image has `auto_update_apps` turned on.
+ *
+ * Error codes: `IMAGE_NOT_FOUND`, `ACCESS_DENIED` (system images, or a workspace member without the right to rebuild),
+ * `IMAGE_TEMPLATE_ONLY` (images that came from a template), `IMAGE_BUILD_IN_PROGRESS`, `OPERATION_IN_PROGRESS` (the image
+ * is being deleted), `IMAGE_NOT_READY` (the image has no stored build context to build from), `DEPLOY_RATE_LIMITED`,
+ * `PLAN_REQUIRED`, `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `IMAGE_BUILDER_UNAVAILABLE`, `DOCKERFILE_NOT_FOUND`,
+ * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `INVALID_ZIP` (the stored context or the repository archive is not a
+ * readable ZIP) and, for an image linked to GitHub, `INSTALLATION_NOT_FOUND` and `FETCH_ZIP_ERROR`.
+ *
+ * `202` — the image, with `status: "building"`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/rebuild-source
+ */
+export type RESTPostAPICustomImageRebuildResult = APIPayload<APICustomImage>;
+
+/**
  * Body of `DELETE /v1/images/:image_id`. Deletes the image, its versions, its context **and every application created
  * from it**. Refused with `IMAGE_BUILD_IN_PROGRESS` while a build runs.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/delete
