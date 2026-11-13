@@ -281,7 +281,7 @@ export const API_ERROR_CODES = {
 	IMAGE_VERSION_NOT_FOUND: "IMAGE_VERSION_NOT_FOUND",
 	/** 503 — image builds are unavailable at the moment, or a build waited too long in the queue. Try again later. */
 	IMAGE_BUILDER_UNAVAILABLE: "IMAGE_BUILDER_UNAVAILABLE",
-	/** 429 — too many image builds: the daily limit of the plan (per owner) or 10 builds per hour on the same image. `details` is an `APIImageBuildRateLimitedDetails`; try again at `retry_at`. */
+	/** 429 — too many image builds: the daily limit of the plan (per owner) or the hourly limit on the same image. `details` is an `APIImageBuildRateLimitedDetails`; try again at `retry_at`. */
 	IMAGE_BUILD_RATE_LIMITED: "IMAGE_BUILD_RATE_LIMITED",
 	/** 413 — the build context is too large: more than 100 MB compressed, more than 512 MB uncompressed, more than 50,000 entries, or a `Dockerfile` larger than 1 MB. */
 	IMAGE_CONTEXT_TOO_LARGE: "IMAGE_CONTEXT_TOO_LARGE",

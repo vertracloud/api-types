@@ -8,4 +8,4 @@ Describe the build log stream (`GET /v1/images/:image_id/logs`) as step-based: `
 
 The `IMAGE_BUILDER_UNAVAILABLE` message now also covers builds that are unavailable at the moment.
 
-Add the `IMAGE_BUILD_RATE_LIMITED` error (HTTP 429) with `APIImageBuildRateLimitedDetails` (`limit`, `window`, `scope`, `retry_at`) for image builds above the plan's daily limit or 10 per hour on one image.
+Add the `IMAGE_BUILD_RATE_LIMITED` error (HTTP 429) with `APIImageBuildRateLimitedDetails` (`limit`, `window`, `scope`, `retry_at`) for image builds above the plan's daily limit or the hourly limit on one image.
