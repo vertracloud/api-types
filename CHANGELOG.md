@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.7.1
+
+### Patch Changes
+
+- ee2be51: Rename the `machine` platform step of the build log to `prepare` and reword the build phase docs.
+
 ## 0.7.0
 
 ### Minor Changes
