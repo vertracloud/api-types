@@ -275,6 +275,8 @@ export const API_ERROR_CODES = {
 	DOCKERFILE_NOT_FOUND: "DOCKERFILE_NOT_FOUND",
 	/** 400 — the `Dockerfile` has a refused instruction; `details` is an `APIDockerfileRefusedDetails`: `{ issues }` lists the `DockerfileIssueCode` findings. */
 	DOCKERFILE_REFUSED: "DOCKERFILE_REFUSED",
+	/** 409 — another of your images already uses this name (names are unique per account). `details.path` is `"name"`. */
+	IMAGE_NAME_TAKEN: "IMAGE_NAME_TAKEN",
 	/** 400 — `confirm_name` is not the image name. */
 	IMAGE_NAME_MISMATCH: "IMAGE_NAME_MISMATCH",
 	/** 404 — the image has no version with that id. */

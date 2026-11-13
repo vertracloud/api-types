@@ -33,7 +33,7 @@ export type RESTGetAPICustomImagesResult = APIPayload<APICustomImage[]>;
  *
  * Error codes: `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `MAX_IMAGES_REACHED`, `DOCKERFILE_NOT_FOUND`,
  * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`, `IMAGE_BUILD_RATE_LIMITED`,
- * `IMAGE_UPLOAD_NOT_FOUND`, `IMAGE_UPLOAD_INCOMPLETE`.
+ * `IMAGE_UPLOAD_NOT_FOUND`, `IMAGE_UPLOAD_INCOMPLETE`, `IMAGE_NAME_TAKEN`.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/create
  */
@@ -73,8 +73,8 @@ export type RESTGetAPICustomImageResult = APIPayload<APICustomImage>;
  * Body of `PATCH /v1/images/:image_id` (JSON). Renames the image, changes its description and/or the automatic update of its apps, without building anything:
  * apps keep running and nothing is restarted. At least one field is required (otherwise `VALIDATION_ERROR`).
  *
- * Error codes: `VALIDATION_ERROR` (empty body, name out of range or already used by another of your images, description too
- * long), `IMAGE_NOT_FOUND`, `ACCESS_DENIED` (system images cannot be changed).
+ * Error codes: `VALIDATION_ERROR` (empty body, name out of range, description too long), `IMAGE_NAME_TAKEN` (another of your
+ * images already uses the name), `IMAGE_NOT_FOUND`, `ACCESS_DENIED` (system images cannot be changed).
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/update
  */
 export interface RESTPatchAPICustomImageBody {
