@@ -31,7 +31,7 @@ export type RESTGetAPICustomImagesResult = APIPayload<APICustomImage[]>;
  * build starts in the background and the image is returned with `status: "building"`.
  *
  * Error codes: `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `MAX_IMAGES_REACHED`, `DOCKERFILE_NOT_FOUND`,
- * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`.
+ * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`, `IMAGE_BUILD_RATE_LIMITED`.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/create
  */
@@ -114,7 +114,7 @@ export type RESTPutAPICustomImageResult = APIPayload<APICustomImage>;
  *
  * Error codes: `IMAGE_NOT_FOUND`, `ACCESS_DENIED` (system images, or a workspace member without the right to rebuild),
  * `IMAGE_TEMPLATE_ONLY` (images that came from a template), `IMAGE_BUILD_IN_PROGRESS`, `OPERATION_IN_PROGRESS` (the image
- * is being deleted), `IMAGE_NOT_READY` (the image has no stored build context to build from), `DEPLOY_RATE_LIMITED`,
+ * is being deleted), `IMAGE_NOT_READY` (the image has no stored build context to build from), `DEPLOY_RATE_LIMITED`, `IMAGE_BUILD_RATE_LIMITED`,
  * `PLAN_REQUIRED`, `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `IMAGE_BUILDER_UNAVAILABLE`, `DOCKERFILE_NOT_FOUND`,
  * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `INVALID_ZIP` (the stored context or the repository archive is not a
  * readable ZIP) and, for an image linked to GitHub, `INSTALLATION_NOT_FOUND` and `FETCH_ZIP_ERROR`.
@@ -158,8 +158,11 @@ export interface RESTGetAPICustomImageLogsQuery extends RESTAPICustomImageWorksp
 }
 
 /**
- * `GET /v1/images/:image_id/logs` is a **Server-Sent Events** stream, not JSON. Each `log` event carries one line of the
- * build log as text. The stream first repeats the history and then follows the build live.
+ * `GET /v1/images/:image_id/logs` is a **Server-Sent Events** stream, not JSON. It first repeats the history of the build
+ * and then follows it live, with three kinds of event, each with a JSON `data`:
+ * - `step`: `APICustomImageLogStep`, the progress of a step (platform or `Dockerfile`);
+ * - `log`: `APICustomImageLogLine`, one line of text, tied to a step by `step_id`;
+ * - `end`: `APICustomImageLogEnd`, once, when the build is over. The log of every build, successful or failed, stays available after it ends.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
  */
 export type RESTGetAPICustomImageLogsResult = string;

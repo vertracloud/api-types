@@ -16,6 +16,106 @@ export const CustomImageStatus = {
 } as const;
 
 /**
+ * Stage of a build that is running. Only meaningful while `APICustomImage.status` is `building`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/get
+ */
+export type CustomImageBuildPhase = "queued" | "starting" | "building" | "verifying";
+export const CustomImageBuildPhase = {
+	/** Waiting for a free build machine; see `APICustomImage.queue_position`. */
+	Queued: "queued",
+	/** A build machine was assigned and is getting ready. */
+	Starting: "starting",
+	/** The `Dockerfile` is being built. */
+	Building: "building",
+	/** The image was built and the platform is checking and measuring it. */
+	Verifying: "verifying",
+} as const;
+
+/**
+ * Who runs a step of the build log: the platform (queue, machine, context, push, verification) or the user's `Dockerfile`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
+ */
+export type CustomImageLogStepKind = "platform" | "dockerfile";
+export const CustomImageLogStepKind = {
+	/** A step run by the platform. Its `step_id` is one of `CustomImageLogPlatformStep`. */
+	Platform: "platform",
+	/** A step of the user's `Dockerfile`; `name` is the instruction as the builder reports it. */
+	Dockerfile: "dockerfile",
+} as const;
+
+/**
+ * `step_id` of the steps the platform itself reports, in the order they happen.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
+ */
+export type CustomImageLogPlatformStep = "queue" | "machine" | "context" | "push" | "verify" | "done";
+export const CustomImageLogPlatformStep = {
+	/** Waiting for a build machine. */
+	Queue: "queue",
+	/** Preparing the build machine. */
+	Machine: "machine",
+	/** Downloading and validating the build context. */
+	Context: "context",
+	/** Sending the image to the registry. */
+	Push: "push",
+	/** Checking the image and measuring its size. */
+	Verify: "verify",
+	/** Closing the build. */
+	Done: "done",
+} as const;
+
+/** Progress of one step of the build log. */
+export type CustomImageLogStepStatus = "pending" | "running" | "cached" | "succeeded" | "failed";
+export const CustomImageLogStepStatus = {
+	Pending: "pending",
+	Running: "running",
+	/** The step was served from the build cache (`Dockerfile` steps only). */
+	Cached: "cached",
+	Succeeded: "succeeded",
+	Failed: "failed",
+} as const;
+
+/**
+ * Data of the `step` event of the build log stream. It is sent again each time the step changes.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
+ */
+export interface APICustomImageLogStep {
+	/** Identifies the step. For `platform` steps it is a `CustomImageLogPlatformStep`; for `dockerfile` steps it is assigned by the builder. */
+	step_id: string;
+	kind: CustomImageLogStepKind;
+	/** Readable name of the step. */
+	name: string;
+	status: CustomImageLogStepStatus;
+	/** Absent until the step starts. */
+	started_at?: ISODateString;
+	/** Absent until the step ends. */
+	finished_at?: ISODateString;
+}
+
+/**
+ * Data of the `log` event of the build log stream: one line of text.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
+ */
+export interface APICustomImageLogLine {
+	/** Position of the line in the build log, from 0; use it to drop lines repeated after a reconnection. */
+	seq: number;
+	/** Unix time of the line, in milliseconds. */
+	ts: number;
+	/** Step the line belongs to; `null` when it belongs to none. */
+	step_id: string | null;
+	text: string;
+}
+
+/**
+ * Data of the `end` event of the build log stream, sent once when the build is over.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
+ */
+export interface APICustomImageLogEnd {
+	status: CustomImageStatus;
+	/** `true` when the log hit the size limit and its tail was dropped. */
+	truncated: boolean;
+}
+
+/**
  * What triggered the build that produced an image version.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/versions
  */
@@ -112,6 +212,21 @@ export interface APIDockerfileRefusedDetails {
 }
 
 /**
+ * The `details` of the `IMAGE_BUILD_RATE_LIMITED` error (HTTP 429): which limit was reached and when a build fits again.
+ * Every build that enters the queue counts, including those that later fail or are cancelled.
+ */
+export interface APIImageBuildRateLimitedDetails {
+	/** The limit that was reached. */
+	limit: number;
+	/** Rolling window of the limit: 24 hours (`day`) or 1 hour (`hour`). */
+	window: "day" | "hour";
+	/** `owner` = builds of the account or workspace owner per day; `image` = builds of this image per hour. */
+	scope: "owner" | "image";
+	/** ISO 8601 time at which the oldest counted build leaves the window. */
+	retry_at: string;
+}
+
+/**
  * Result of checking a `Dockerfile` and its context file list, before building.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/check
  */
@@ -153,8 +268,16 @@ export interface APICustomImage {
 	origin?: APICustomImageOrigin | null;
 	/** State of the latest build. */
 	status: CustomImageStatus;
+	/** Stage of the build in progress; `null` when `status` is not `building`. */
+	build_phase: CustomImageBuildPhase | null;
+	/** Place in the build queue (1 = next); `null` unless `build_phase` is `queued`. */
+	queue_position: number | null;
+	/** When the build in progress entered the queue; `null` when `status` is not `building`. */
+	queued_at: ISODateString | null;
 	/** Readable reason of the latest failed build; `null` when it did not fail. */
 	error: string | null;
+	/** Code of the latest failed build (e.g. `IMAGE_BUILDER_UNAVAILABLE`, `BUILD_FAILED`); `null` when it did not fail. */
+	error_code: string | null;
 	/** Digest (`sha256:...`) of the current version; `null` while no build has succeeded. */
 	digest: string | null;
 	/** Size of the current version, uncompressed, in bytes; `null` while no build has succeeded. */
