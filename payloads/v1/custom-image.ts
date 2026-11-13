@@ -21,9 +21,9 @@ export const CustomImageStatus = {
  */
 export type CustomImageBuildPhase = "queued" | "starting" | "building" | "verifying";
 export const CustomImageBuildPhase = {
-	/** Waiting for a free build machine; see `APICustomImage.queue_position`. */
+	/** Waiting in the build queue; see `APICustomImage.queue_position`. */
 	Queued: "queued",
-	/** A build machine was assigned and is getting ready. */
+	/** The build is starting. */
 	Starting: "starting",
 	/** The `Dockerfile` is being built. */
 	Building: "building",
@@ -32,7 +32,7 @@ export const CustomImageBuildPhase = {
 } as const;
 
 /**
- * Who runs a step of the build log: the platform (queue, machine, context, push, verification) or the user's `Dockerfile`.
+ * Who runs a step of the build log: the platform (queue, preparation, context, push, verification) or the user's `Dockerfile`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
  */
 export type CustomImageLogStepKind = "platform" | "dockerfile";
@@ -47,12 +47,12 @@ export const CustomImageLogStepKind = {
  * `step_id` of the steps the platform itself reports, in the order they happen.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/logs
  */
-export type CustomImageLogPlatformStep = "queue" | "machine" | "context" | "push" | "verify" | "done";
+export type CustomImageLogPlatformStep = "queue" | "prepare" | "context" | "push" | "verify" | "done";
 export const CustomImageLogPlatformStep = {
-	/** Waiting for a build machine. */
+	/** Waiting in the build queue. */
 	Queue: "queue",
-	/** Preparing the build machine. */
-	Machine: "machine",
+	/** Preparing the build. */
+	Prepare: "prepare",
 	/** Downloading and validating the build context. */
 	Context: "context",
 	/** Sending the image to the registry. */
