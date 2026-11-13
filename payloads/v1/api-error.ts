@@ -285,6 +285,10 @@ export const API_ERROR_CODES = {
 	IMAGE_BUILD_RATE_LIMITED: "IMAGE_BUILD_RATE_LIMITED",
 	/** 413 — the build context is too large: more than 100 MB compressed, more than 512 MB uncompressed, more than 50,000 entries, or a `Dockerfile` larger than 1 MB. */
 	IMAGE_CONTEXT_TOO_LARGE: "IMAGE_CONTEXT_TOO_LARGE",
+	/** 404 — the `upload_id` does not exist, expired, was already used or belongs to another account. Reserve a new upload. */
+	IMAGE_UPLOAD_NOT_FOUND: "IMAGE_UPLOAD_NOT_FOUND",
+	/** 409 — the reserved upload has not been received yet (the `PUT` to the upload URL did not finish or was refused). */
+	IMAGE_UPLOAD_INCOMPLETE: "IMAGE_UPLOAD_INCOMPLETE",
 	/** Build error — the built image is larger than 10 GB uncompressed. */
 	IMAGE_TOO_LARGE: "IMAGE_TOO_LARGE",
 	/** Build error — the image sets a label in a namespace reserved for the platform (such as `vertra.*`; the build log names the refused label). */

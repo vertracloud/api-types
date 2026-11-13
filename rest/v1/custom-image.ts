@@ -1,4 +1,4 @@
-import type { APICustomImage, APICustomImageVersion, APIDockerfileCheck, APIPayload } from "../../v1";
+import type { APICustomImage, APICustomImageUpload, APICustomImageVersion, APIDockerfileCheck, APIPayload } from "../../v1";
 
 /**
  * Query accepted by every `/v1/images/:image_id/*` route (and by `GET /v1/images`) to act on a workspace image, like
@@ -23,7 +23,8 @@ export type RESTGetAPICustomImagesResult = APIPayload<APICustomImage[]>;
 /**
  * Body of `POST /v1/images` — **`multipart/form-data`**. `file` is a file part and every other field a text field.
  *
- * The build context has **two mutually exclusive sources**: `file`, or `github_repository` (with an optional `github_branch`).
+ * The build context has **three mutually exclusive sources**: `file`, `upload_id` (a ZIP already sent with a direct upload, see
+ * `POST /v1/images/uploads`: use it for large files), or `github_repository` (with an optional `github_branch`).
  * A repository in one of your GitHub App installations is **linked**: every push to the branch rebuilds the image. A public
  * repository outside your installations is built **once**, with no link (`github` is `null`); install the GitHub App to
  * get automatic rebuilds.
@@ -31,7 +32,8 @@ export type RESTGetAPICustomImagesResult = APIPayload<APICustomImage[]>;
  * build starts in the background and the image is returned with `status: "building"`.
  *
  * Error codes: `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `MAX_IMAGES_REACHED`, `DOCKERFILE_NOT_FOUND`,
- * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`, `IMAGE_BUILD_RATE_LIMITED`.
+ * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`, `IMAGE_BUILD_RATE_LIMITED`,
+ * `IMAGE_UPLOAD_NOT_FOUND`, `IMAGE_UPLOAD_INCOMPLETE`.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/create
  */
@@ -40,8 +42,10 @@ export interface RESTPostAPICustomImageBody {
 	name: string;
 	/** Optional free-text description, up to 128 characters (the same limit as an application description). An empty value means no description. */
 	description?: string;
-	/** Build context: a ZIP file, up to 100 MB. Absent when the source is GitHub. */
+	/** Build context: a ZIP file, up to 100 MB. Absent when the source is `upload_id` or GitHub. */
 	file?: unknown;
+	/** Alternative to `file`: the `upload_id` of a ZIP sent with a direct upload (`POST /v1/images/uploads`). Single use. */
+	upload_id?: string;
 	/** Alternative to `file`: GitHub repository (`owner/name`) to build from. */
 	github_repository?: string;
 	/**
@@ -89,14 +93,39 @@ export interface RESTPatchAPICustomImageBody {
 export type RESTPatchAPICustomImageResult = APIPayload<APICustomImage>;
 
 /**
- * Body of `PUT /v1/images/:image_id` — **`multipart/form-data`**. Rebuilds the image replacing the whole build context.
+ * Body of `PUT /v1/images/:image_id` — **`multipart/form-data`**. Rebuilds the image replacing the whole build context, sent as
+ * `file` or as the `upload_id` of a direct upload (exactly one of them).
  * Refused with `IMAGE_BUILD_IN_PROGRESS` while another build of the image runs. Apps are never restarted by a rebuild.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/rebuild
  */
 export interface RESTPutAPICustomImageBody {
 	/** New build context: a ZIP file, up to 100 MB. */
-	file: unknown;
+	file?: unknown;
+	/** Alternative to `file`: the `upload_id` of a ZIP sent with a direct upload (`POST /v1/images/uploads`). Single use. */
+	upload_id?: string;
 }
+
+/**
+ * Body of `POST /v1/images/uploads` (JSON). Reserves a **direct upload** of a build context: the ZIP goes from the client
+ * straight to storage, which makes it the right path for large files. Send the file with `PUT` to the returned `url` and
+ * `headers`, then pass the `upload_id` to `POST /v1/images` or `PUT /v1/images/:image_id`. The upload is checked exactly like
+ * a `file`.
+ *
+ * Error codes: `VALIDATION_ERROR`, `IMAGE_CONTEXT_TOO_LARGE`, `IMAGE_BUILDER_UNAVAILABLE`, `RATE_LIMIT_EXCEEDED`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/upload
+ */
+export interface RESTPostAPICustomImageUploadBody {
+	/** Size of the ZIP in bytes, up to 100 MB. */
+	size: number;
+	/** SHA-256 of the ZIP: 64 lowercase hexadecimal characters. Storage refuses any other content. */
+	sha256: string;
+}
+
+/**
+ * `201` — the reserved upload.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/images/upload
+ */
+export type RESTPostAPICustomImageUploadResult = APIPayload<APICustomImageUpload>;
 
 /**
  * `202` — the image, with `status: "building"`.

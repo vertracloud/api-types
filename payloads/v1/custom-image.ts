@@ -304,6 +304,19 @@ export interface APICustomImage {
  * A successful build of an image. Each success is a new version of the same image.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/versions
  */
+/**
+ * A reserved direct upload of a build context (`POST /v1/images/uploads`). Send the ZIP with `PUT` to `url` with exactly
+ * `headers`: the URL only accepts the declared file (its size and SHA-256 are signed) until `expires_at`. Then use `upload_id`
+ * once, in `POST /v1/images` or `PUT /v1/images/:image_id`.
+ */
+export interface APICustomImageUpload {
+	upload_id: string;
+	url: string;
+	headers: Record<string, string>;
+	/** ISO 8601. */
+	expires_at: string;
+}
+
 export interface APICustomImageVersion {
 	id: string;
 	/** Digest (`sha256:...`) of this version. */
