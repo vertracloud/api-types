@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.7.3
+
+### Patch Changes
+
+- 05e83b5: `IMAGE_NAME_TAKEN` (409): creating, renaming or rebuilding into a name another of your images already uses now answers this code instead of `VALIDATION_ERROR`. `details.path` stays `"name"`.
+
 ## 0.7.2
 
 ### Patch Changes
