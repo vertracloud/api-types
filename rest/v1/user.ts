@@ -70,6 +70,12 @@ export type RESTPostAPIUserGenerateApiKeyResponse = APIPayload<APIUserApiKey>;
 export type RESTGetAPIUserSessionsResponse = APIPayload<APIUserSession[]>;
 
 /**
+ * `DELETE /v1/users/me/sessions` — Dashboard session only: signs out of every session of the account except the current one.
+ * Requires `X-Action-Code` (action `revoke_sessions`, no target; see `RESTPostAPIUserActionCodeBody`). Without the header: 403
+ * `ACTION_CODE_REQUIRED`; wrong, expired or used code: 400 `ACTION_CODE_INVALID`; after too many wrong codes: 429 `TOO_MANY_ATTEMPTS`.
+ */
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/api-key-requests
  */
 export interface RESTGetAPIUserApiKeyRequestsQuery {

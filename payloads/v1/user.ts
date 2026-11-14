@@ -131,8 +131,9 @@ export interface APIUserApiKeyRequestEvent {
  * - `disable_renewal`: `PATCH /v1/users/me/billing/renewal` with `auto_renew: false`. No target.
  * - `delete_workspace`: `DELETE /v1/workspaces/:id`. Target: the workspace id.
  * - `reset_database_password`: `POST /v1/databases/:id/credentials/reset`. Target: the database id.
+ * - `revoke_sessions`: `DELETE /v1/users/me/sessions` (sign out of every other session). No target.
  */
-export type APIActionCodeAction = "link_provider" | "create_api_key" | "downgrade" | "remove_card" | "disable_renewal" | "delete_workspace" | "reset_database_password";
+export type APIActionCodeAction = "link_provider" | "create_api_key" | "downgrade" | "remove_card" | "disable_renewal" | "delete_workspace" | "reset_database_password" | "revoke_sessions";
 export const APIActionCodeAction = {
 	LINK_PROVIDER: "link_provider",
 	CREATE_API_KEY: "create_api_key",
@@ -141,6 +142,7 @@ export const APIActionCodeAction = {
 	DISABLE_RENEWAL: "disable_renewal",
 	DELETE_WORKSPACE: "delete_workspace",
 	RESET_DATABASE_PASSWORD: "reset_database_password",
+	REVOKE_SESSIONS: "revoke_sessions",
 } as const;
 
 /** Sign-in providers that `link_provider` targets. */
