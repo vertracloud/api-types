@@ -143,6 +143,27 @@ export const API_ERROR_CODES = {
 	API_KEY_SCOPE_DENIED: "API_KEY_SCOPE_DENIED",
 	/** 403 — the route only accepts a dashboard session; API keys are refused. */
 	WEBSITE_ONLY: "WEBSITE_ONLY",
+	/** 403 — dashboard session only: the request needs a captcha right now. Solve the challenge and repeat the request with `turnstile_token`. */
+	CAPTCHA_REQUIRED: "CAPTCHA_REQUIRED",
+	/**
+	 * 403 — dashboard session only: the action needs a confirmation code sent by e-mail. `details` is `{ action: APIActionCodeAction }`.
+	 * Ask for the code with `POST /v1/users/me/action-codes` and repeat the request with the `X-Action-Code` header. API keys never get it.
+	 */
+	ACTION_CODE_REQUIRED: "ACTION_CODE_REQUIRED",
+	/** 400 — the `X-Action-Code` is wrong, expired, already used, or was issued for another action or target. Each wrong code counts as an attempt. */
+	ACTION_CODE_INVALID: "ACTION_CODE_INVALID",
+	/** 429 — too many wrong codes (sign-in code or `X-Action-Code`): the code was discarded. Ask for a new one. */
+	TOO_MANY_ATTEMPTS: "TOO_MANY_ATTEMPTS",
+	/** 400 — the sign-in code sent by e-mail is wrong or was already used. */
+	INVALID_CODE: "INVALID_CODE",
+	/** 400 — the sign-in code sent by e-mail expired; ask for a new one. */
+	EXPIRED_CODE: "EXPIRED_CODE",
+	/** 409 — the account already has another account of this sign-in provider linked; unlink it first. */
+	PROVIDER_ALREADY_LINKED: "PROVIDER_ALREADY_LINKED",
+	/** 400 — this sign-in provider account is already linked to another Vertra Cloud account. */
+	ACCOUNT_ALREADY_LINKED: "ACCOUNT_ALREADY_LINKED",
+	/** 503 — a service the request depends on is temporarily unavailable; try again in a few seconds (`Retry-After` when sent). */
+	SERVICE_UNAVAILABLE: "SERVICE_UNAVAILABLE",
 	AUTH_TOKEN_MISSING: "AUTH_TOKEN_MISSING",
 	ACCOUNT_BANNED: "ACCOUNT_BANNED",
 	APP_SHIELD_COOLDOWN: "APP_SHIELD_COOLDOWN",
@@ -220,6 +241,11 @@ export const API_ERROR_CODES = {
 	/** 400 — the plan can only be paid by PIX. */
 	CARD_NOT_ALLOWED_FOR_PLAN: "CARD_NOT_ALLOWED_FOR_PLAN",
 	CARD_NOT_FOUND: "CARD_NOT_FOUND",
+	/**
+	 * 429 — dashboard session only: too many declined card attempts, or too many new cards in a day. Adding a card and paying
+	 * with a card are paused; `details` is an `APICardAttemptsLockedDetails` (`retry_after` in seconds, `scope`). Nothing is sent to the card network.
+	 */
+	CARD_ATTEMPTS_LOCKED: "CARD_ATTEMPTS_LOCKED",
 	CERTIFICATE_NOT_FOUND: "CERTIFICATE_NOT_FOUND",
 	CONTAINER_ALREADY_RUNNING: "CONTAINER_ALREADY_RUNNING",
 	/** 400 — no active coupon with this code. */

@@ -387,6 +387,8 @@ export type RESTPostAPIApplicationScanResponse = APIPayload<APIApplicationScanSu
 export type RESTDeleteAPIApplicationResponse = APIPayload<null>;
 
 /**
+ * With an API key, the `apps:files` scope is required (not `apps:read`).
+ *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/download
  */
 export type RESTGetAPIApplicationDownloadResponse = ArrayBuffer;
@@ -434,6 +436,9 @@ export type RESTPostAPIApplicationRestartResponse = APIPayload<APIApplicationOpe
 /**
  * Body for updating the app configuration. Every field is optional, but at least one must be
  * provided.
+ *
+ * With an API key, the route needs `apps:write`; changing `start_command`, `build_command` or `main_file` to a
+ * different value also needs `apps:files`, otherwise the request fails with 403 `API_KEY_SCOPE_DENIED`.
  *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/updateconfig
  */

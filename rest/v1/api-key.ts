@@ -6,6 +6,10 @@ import type { APIApiKey, APIApiKeyCreated, APIApiKeyScope, APIPayload } from "..
  */
 export type RESTGetAPIUserApiKeysResponse = APIPayload<APIApiKey[]>;
 
+/**
+ * `POST /v1/users/me/api-keys` — Dashboard session only: requires `X-Action-Code` (action `create_api_key`, see
+ * `RESTPostAPIUserActionCodeBody`). The code is checked after the body. Without the header: 403 `ACTION_CODE_REQUIRED`; wrong, expired or used code: 400 `ACTION_CODE_INVALID`; after too many wrong codes: 429 `TOO_MANY_ATTEMPTS`.
+ */
 export interface RESTPostAPIUserApiKeyCreateBody {
 	/** 1–40 characters. */
 	name: string;

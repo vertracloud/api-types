@@ -71,3 +71,21 @@ export interface APIBillingRenewal {
 	/** `true` when the current plan can renew on a card (paid plan, not Economy) and a default card exists. */
 	eligible: boolean;
 }
+
+/** Which card attempt limit refused the request (the `scope` of `APICardAttemptsLockedDetails`). */
+export type CardAttemptsLockScope = "account" | "ip" | "daily";
+export const CardAttemptsLockScope = {
+	/** Too many declined card attempts on the account. */
+	Account: "account",
+	/** Too many declined card attempts from the network the request came from. */
+	Ip: "ip",
+	/** Too many new cards started by the account in the last 24 hours. */
+	Daily: "daily",
+} as const;
+
+/** The `details` of the `CARD_ATTEMPTS_LOCKED` error (HTTP 429). */
+export interface APICardAttemptsLockedDetails {
+	/** Seconds until a new attempt is accepted. */
+	retry_after: number;
+	scope: CardAttemptsLockScope;
+}

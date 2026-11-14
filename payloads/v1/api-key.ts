@@ -100,6 +100,14 @@ export interface APIApiKeyScopeEntry {
  *
  * The rollback `POST` with `restore_environment: true` also requires `apps:envs` for an API key;
  * without it the request returns 403 `API_KEY_SCOPE_DENIED`.
+ *
+ * `PATCH /v1/apps/:id/config` stays under `apps:write`, but when the body changes what the application
+ * runs (`start_command`, `build_command` or `main_file` with a value different from the current one) an
+ * API key also needs `apps:files`; without it the request returns 403 `API_KEY_SCOPE_DENIED`. Changing
+ * the name, memory, runtime or deploy settings only needs `apps:write`.
+ *
+ * Keys created before the download moved to `apps:files` are not updated: a key with only `apps:read`
+ * can no longer download the application.
  */
 export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 	"apps:read": {
@@ -116,7 +124,6 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/apps/:id/analytics/performance" },
 			{ method: "GET", path: "/v1/apps/:id/analytics/requests" },
 			{ method: "GET", path: "/v1/apps/:id/logs" },
-			{ method: "GET", path: "/v1/apps/:id/download" },
 			{ method: "GET", path: "/v1/apps/:id/deploys" },
 			{ method: "GET", path: "/v1/apps/:id/deploys/webhook" },
 			{ method: "GET", path: "/v1/apps/:id/releases" },
@@ -158,9 +165,11 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/apps/:id/releases/:release_id/rollback" },
 		],
 	},
+	/** Read and change the application's code. Downloading the application (`GET /v1/apps/:id/download`) is under this scope, not `apps:read`. */
 	"apps:files": {
 		group: "apps",
 		routes: [
+			{ method: "GET", path: "/v1/apps/:id/download" },
 			{ method: "GET", path: "/v1/apps/:id/files" },
 			{ method: "GET", path: "/v1/apps/:id/files/tree" },
 			{ method: "GET", path: "/v1/apps/:id/files/content" },

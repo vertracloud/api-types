@@ -120,6 +120,9 @@ export type RESTGetAPIDatabaseCertificateResponse = APIPayload<APIDatabaseCertif
 export type RESTPostAPIDatabaseResetCertificateResponse = APIPayload<APIDatabaseCertificateReset>;
 
 /**
+ * `POST /v1/databases/:id/credentials/reset`. With a dashboard session it requires `X-Action-Code` (action
+ * `reset_database_password`, target the database id; see `RESTPostAPIUserActionCodeBody`), checked after access to the database.
+ * Without the header: 403 `ACTION_CODE_REQUIRED`; wrong, expired or used code: 400 `ACTION_CODE_INVALID`; after too many wrong codes: 429 `TOO_MANY_ATTEMPTS`. API keys (scope `databases:credentials`) do not use the code.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/resetpassword
  */
 export type RESTPostAPIDatabaseResetPasswordResponse = APIPayload<APIDatabasePasswordReset>;

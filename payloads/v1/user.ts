@@ -116,3 +116,46 @@ export interface APIUserApiKeyRequestEvent {
 	response_body: string | null;
 	occurred_at: ISODateString;
 }
+
+/**
+ * High-impact actions that a dashboard session confirms with a code sent by e-mail. Dashboard session only: requests made with an
+ * API key never need a code. Ask for the code with `POST /v1/users/me/action-codes`, then send it in the `X-Action-Code` header of
+ * the protected route. A code is valid once, for 10 minutes, for one action and one target.
+ *
+ * - `link_provider`: start linking a sign-in provider (`GET /v1/auth/{google,github,discord}/link`). Target: the provider. For GitHub
+ *   the code is only asked while the account has no GitHub connected; once connected, linking a different GitHub account returns 409
+ *   `PROVIDER_ALREADY_LINKED` (disconnect it first).
+ * - `create_api_key`: `POST /v1/users/me/api-keys`. No target.
+ * - `downgrade`: `POST /v1/users/me/downgrade`. No target.
+ * - `remove_card`: `DELETE /v1/users/me/cards/:cardId`. Target: the card id.
+ * - `disable_renewal`: `PATCH /v1/users/me/billing/renewal` with `auto_renew: false`. No target.
+ * - `delete_workspace`: `DELETE /v1/workspaces/:id`. Target: the workspace id.
+ * - `reset_database_password`: `POST /v1/databases/:id/credentials/reset`. Target: the database id.
+ */
+export type APIActionCodeAction = "link_provider" | "create_api_key" | "downgrade" | "remove_card" | "disable_renewal" | "delete_workspace" | "reset_database_password";
+export const APIActionCodeAction = {
+	LINK_PROVIDER: "link_provider",
+	CREATE_API_KEY: "create_api_key",
+	DOWNGRADE: "downgrade",
+	REMOVE_CARD: "remove_card",
+	DISABLE_RENEWAL: "disable_renewal",
+	DELETE_WORKSPACE: "delete_workspace",
+	RESET_DATABASE_PASSWORD: "reset_database_password",
+} as const;
+
+/** Sign-in providers that `link_provider` targets. */
+export type APIActionCodeProvider = "google" | "github" | "discord";
+export const APIActionCodeProvider = {
+	GOOGLE: "google",
+	GITHUB: "github",
+	DISCORD: "discord",
+} as const;
+
+/** Name of the request header that carries the confirmation code. */
+export const ACTION_CODE_HEADER = "X-Action-Code";
+
+/** A confirmation code was sent to the account e-mail. The code itself only travels by e-mail. */
+export interface APIActionCodeRequested {
+	/** When the code stops working (10 minutes after the request). */
+	expires_at: ISODateString;
+}

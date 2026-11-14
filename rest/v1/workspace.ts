@@ -52,7 +52,9 @@ export type RESTPutAPIWorkspaceUpdateBody = Partial<RESTPostAPIWorkspaceCreateBo
 export type RESTPutAPIWorkspaceUpdateResponse = APIPayload<APIWorkspace>;
 
 /**
- * `DELETE /v1/workspaces/:id` — soft delete, owner only.
+ * `DELETE /v1/workspaces/:id` — soft delete, owner only. With a dashboard session it requires `X-Action-Code` (action
+ * `delete_workspace`, target the workspace id; see `RESTPostAPIUserActionCodeBody`), checked after ownership. Without the header: 403 `ACTION_CODE_REQUIRED`; wrong, expired or used code: 400 `ACTION_CODE_INVALID`; after too many wrong codes: 429 `TOO_MANY_ATTEMPTS`.
+ * API keys (scope `workspaces:delete`) do not use the code.
  * @see https://docs.vertracloud.app/api-reference/endpoint/workspaces/delete
  */
 export type RESTDeleteAPIWorkspaceResponse = APIPayload<null>;

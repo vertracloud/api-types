@@ -104,7 +104,7 @@ export interface RESTPostAPIOrderCardPaymentBody {
  * 400 `CARD_NOT_ALLOWED_FOR_PLAN` for the Economy plan, 400 `COUPON_PAYMENT_METHOD` when the order's
  * coupon excludes card, 400 `PAYMENT_METHOD_UNAVAILABLE` when card payments are not available,
  * 402 `CARD_DECLINED` when the bank refuses the charge, 409 `ORDER_NOT_PAYABLE` while a PIX payment of
- * the order is being confirmed, and 429 `RATE_LIMIT_EXCEEDED` while another payment of the account is
- * being started.
+ * the order is being confirmed, 429 `RATE_LIMIT_EXCEEDED` while another payment of the account is
+ * being started, and 429 `CARD_ATTEMPTS_LOCKED` after too many declined card attempts (`APICardAttemptsLockedDetails`).
  */
 export type RESTPostAPIOrderCardPaymentResponse = APIPayload<APIOrderCardPayment>;
