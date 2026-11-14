@@ -1,5 +1,12 @@
 # @vertracloud/api-types
 
+## 0.7.5
+
+### Patch Changes
+
+- 5b382e2: Removes `RESTPostAPIUserGenerateApiKeyResponse`: the `POST /v1/users/me/generate-api-key` route no longer exists. Create keys with `POST /v1/users/me/api-keys` (`RESTPostAPIUserApiKeyCreateResponse`).
+- ed16ad1: `APIActionCodeAction` gains `revoke_sessions`: signing out of every other session (`DELETE /v1/users/me/sessions`) now asks for a confirmation code in the dashboard (`X-Action-Code`).
+
 ## 0.7.4
 
 ### Patch Changes
