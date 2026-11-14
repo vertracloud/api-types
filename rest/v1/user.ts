@@ -1,4 +1,4 @@
-import type { APIActionCodeAction, APIActionCodeRequested, APIPaginatedPayload, APIPayload, APIUser, APIUserApiKey, APIUserApiKeyRequestEvent, APIUserInfoResponse, APIUserSession, ISODateString, UserLanguage } from "../../v1";
+import type { APIActionCodeAction, APIActionCodeRequested, APIPaginatedPayload, APIPayload, APIUser, APIUserApiKeyRequestEvent, APIUserInfoResponse, APIUserSession, ISODateString, UserLanguage } from "../../v1";
 import type { APIWorkspaceFolderFlowLayout, APIWorkspaceResourceFolder, APIWorkspaceResourceOrganization, WorkspaceFolderColor } from "../../v1";
 
 /**
@@ -57,12 +57,6 @@ export interface RESTPutAPIUserFavoriteBody {
 }
 export type RESTPutAPIUserFavoriteResponse = APIPayload<APIWorkspaceResourceOrganization>;
 export type RESTDeleteAPIUserFavoriteResponse = APIPayload<APIWorkspaceResourceOrganization>;
-
-/**
- * Legacy CLI route; prefer the API key management under `/v1/users/me/api-keys`.
- * @see https://docs.vertracloud.app/api-reference/endpoint/users/api-keys/create
- */
-export type RESTPostAPIUserGenerateApiKeyResponse = APIPayload<APIUserApiKey>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/users/sessions
