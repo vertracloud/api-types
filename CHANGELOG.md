@@ -1,5 +1,13 @@
 # @vertracloud/api-types
 
+## 0.7.4
+
+### Patch Changes
+
+- d551dd1: Confirmation codes for high-impact actions in the dashboard: `APIActionCodeAction`, `APIActionCodeProvider`, `ACTION_CODE_HEADER`, `APIActionCodeRequested`, `RESTPostAPIUserActionCodeBody`/`Response` (`POST /v1/users/me/action-codes`, dashboard session only) and the error codes `ACTION_CODE_REQUIRED`, `ACTION_CODE_INVALID`, `TOO_MANY_ATTEMPTS`, `INVALID_CODE`, `EXPIRED_CODE`, `PROVIDER_ALREADY_LINKED`, `ACCOUNT_ALREADY_LINKED` and `SERVICE_UNAVAILABLE`. Requests made with an API key are not affected.
+- d551dd1: API key scopes: `GET /v1/apps/:id/download` moves from `apps:read` to `apps:files`, and `PATCH /v1/apps/:id/config` also requires `apps:files` when it changes `start_command`, `build_command` or `main_file`.
+- d551dd1: Card attempt limits in the dashboard: the error codes `CARD_ATTEMPTS_LOCKED` (429, `details` is the new `APICardAttemptsLockedDetails` with `retry_after` and `scope`, typed by `CardAttemptsLockScope`) and `CAPTCHA_REQUIRED` (403), and `RESTPostAPIBillingCardSetupBody` with the optional `turnstile_token` for `POST /v1/users/me/cards/setup`. Requests made with an API key are not affected.
+
 ## 0.7.3
 
 ### Patch Changes
