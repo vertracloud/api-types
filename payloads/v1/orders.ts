@@ -66,6 +66,8 @@ export interface APIOrderCreateResponse {
 	 * 400 `CARD_NOT_ALLOWED_FOR_PLAN` (Economy).
 	 */
 	allowed_payment_methods: OrderProvider[];
+	/** Same as {@link APIOrderQuote.proration}; `duration` is then the days left in the cycle. */
+	proration?: APIOrderProration | null;
 }
 
 /**
@@ -82,6 +84,27 @@ export interface APIOrderCouponPreview {
 	price: number;
 	/** Payment methods the coupon allows, same rule as `APIOrderCreateResponse.allowed_payment_methods`. */
 	allowed_payment_methods: OrderProvider[];
+}
+
+/**
+ * Upgrade that charges only the price difference for the days left in the current billing cycle. The
+ * expiration date does not change, and the next renewal is on the new plan, in the same cycle.
+ * Applies when the account has an active paid plan with more than 14 days left; otherwise the upgrade
+ * is priced as a regular purchase and this field is `null`. A coupon applies to the difference with its
+ * usual rules (plan, period = `cycle_months`, payment method); the first-purchase referral discount does
+ * not apply; the referral balance does. Amounts are in BRL.
+ */
+export interface APIOrderProration {
+	/** Plan the account is on before the upgrade. */
+	current_plan: PlanName;
+	/** Billing cycle of the account, in months. `months` of the quote and the next renewal follow it. */
+	cycle_months: BillingMonths;
+	/** Days left until `expires_at`, with two decimals. */
+	remaining_days: number;
+	/** Current expiration date, kept by the upgrade (ISO 8601). */
+	expires_at: ISODateString;
+	/** Price of the next renewal on the new plan, for `cycle_months`, before any coupon. */
+	renewal_price: number;
 }
 
 /**
@@ -112,6 +135,13 @@ export interface APIOrderQuote {
 	/** Until when the legacy price applies. `null` when `legacy_price` is `false`. */
 	legacy_price_until: ISODateString | null;
 	payment_methods: ("pix" | "card")[];
+	/**
+	 * Present when the upgrade charges only the difference: `total` is the difference, `months` is the
+	 * account's cycle (the `months` sent is ignored), a coupon is applied to the difference and
+	 * `referral_discount` is `null`.
+	 * `null` or absent for a regular purchase.
+	 */
+	proration?: APIOrderProration | null;
 }
 
 /**
@@ -139,6 +169,8 @@ export interface APIOrderStatus {
 	allowed_payment_methods: OrderProvider[];
 	/** When the order (invoice) expires if unpaid (ISO 8601). */
 	expires_at: ISODateString | null;
+	/** `true` for an upgrade that charges only the difference (see {@link APIOrderProration}). */
+	prorated?: boolean;
 }
 
 /**
@@ -155,6 +187,8 @@ export interface APIOrderListItem {
 	paid_at: ISODateString | null;
 	/** A payment receipt exists for this order (`GET /v1/orders/:orderId/receipt`). */
 	has_receipt: boolean;
+	/** `true` for an upgrade that charges only the difference (see {@link APIOrderProration}). */
+	prorated?: boolean;
 }
 
 /**
