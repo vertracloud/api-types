@@ -89,8 +89,8 @@ export interface APIOrderCouponPreview {
 /**
  * Upgrade that charges only the price difference for the days left in the current billing cycle. The
  * expiration date does not change, and the next renewal is on the new plan, in the same cycle.
- * Applies when the account has an active paid plan with more than 14 days left; otherwise the upgrade
- * is priced as a regular purchase and this field is `null`. A coupon applies to the difference with its
+ * Applies when the account has an active plan whose current period was paid by Pix or card and has more
+ * than 14 days left; otherwise the upgrade is priced as a regular purchase and this field is `null`. A coupon applies to the difference with its
  * usual rules (plan, period = `cycle_months`, payment method); the first-purchase referral discount does
  * not apply; the referral balance does. Amounts are in BRL.
  */

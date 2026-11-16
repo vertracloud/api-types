@@ -39,8 +39,8 @@ export interface RESTPostAPIOrderCouponPreviewBody {
  * without creating an order or using the coupon. Accepts a Dashboard session or an API key with the
  * `billing:read` scope. Fails with 400 `INVALID_PLAN`, 400 `INVALID_MONTHS`,
  * 400 `PLAN_NOT_FOR_SALE` and the `COUPON_*` codes that `POST /v1/orders` returns for the same coupon.
- * For an upgrade of an account with an active paid plan and more than 14 days left, the quote charges only
- * the difference and fills `proration` (see `APIOrderProration`).
+ * For an upgrade of an account whose current period was paid by Pix or card and has more than 14 days left,
+ * the quote charges only the difference and fills `proration` (see `APIOrderProration`).
  */
 export interface RESTPostAPIOrderQuoteBody {
 	plan: PlanName;
