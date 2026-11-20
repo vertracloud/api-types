@@ -80,8 +80,7 @@ export type RESTGetAPIOrderReceiptResponse = APIPayload<APIOrderReceipt>;
 /**
  * `POST /v1/orders/:orderId/initiate/pix`. Calling it again returns the same QR code while it is valid;
  * it expires with the order (`expires_at`).
- * Fails with 404 `ORDER_NOT_FOUND`, 403 `FORBIDDEN` when the order belongs to another account,
- * 400 `ORDER_NOT_PAYABLE` when the order is paid, cancelled or expired, 400 `COUPON_PAYMENT_METHOD`
+ * Fails with 404 `ORDER_NOT_FOUND`, 400 `ORDER_NOT_PAYABLE` when the order is paid, cancelled or expired, 400 `COUPON_PAYMENT_METHOD`
  * when the order's coupon excludes PIX, 409 `ORDER_NOT_PAYABLE` while a card payment of the order is
  * being confirmed, 400 `PAYMENT_METHOD_UNAVAILABLE` when online payments are not available, 400
  * `INVALID_PARAMS` for a malformed `orderId`, and 429 `RATE_LIMIT_EXCEEDED` while another payment of the
@@ -101,8 +100,7 @@ export interface RESTPostAPIOrderCardPaymentBody {
  * `POST /v1/orders/:orderId/pay/card` — Dashboard session only. Charges a saved card. Paying by card
  * keeps the plan renewing automatically on the default card.
  * Fails with 403 `WEBSITE_ONLY` for API keys, 400 `INVALID_PARAMS` for a malformed `orderId`, 400
- * `INVALID_PAYLOAD` without a `card_id`, 404 `ORDER_NOT_FOUND`, 403 `FORBIDDEN` when the order belongs to
- * another account, 404 `CARD_NOT_FOUND`, 400 `ORDER_NOT_PAYABLE` when the order is paid, cancelled or expired,
+ * `INVALID_PAYLOAD` without a `card_id`, 404 `ORDER_NOT_FOUND`, 404 `CARD_NOT_FOUND`, 400 `ORDER_NOT_PAYABLE` when the order is paid, cancelled or expired,
  * 400 `CARD_NOT_ALLOWED_FOR_PLAN` for the Economy plan, 400 `COUPON_PAYMENT_METHOD` when the order's
  * coupon excludes card, 400 `PAYMENT_METHOD_UNAVAILABLE` when card payments are not available,
  * 402 `CARD_DECLINED` when the bank refuses the charge, 409 `ORDER_NOT_PAYABLE` while a PIX payment of
