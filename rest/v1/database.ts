@@ -47,7 +47,7 @@ export type RESTGetAPIDatabaseVersionsResponse = APIPayload<APIDatabaseVersions>
  * - `SNAPSHOT_NOT_FOUND` — the snapshot does not exist or does not belong to the user.
  * - `SNAPSHOT_TYPE_MISMATCH` — the snapshot is from an application, or `type` does not match
  *   the snapshot's engine.
- * - `SNAPSHOT_TOO_LARGE` — the snapshot exceeds the size limit for creation.
+ * - `SNAPSHOT_EXCEEDS_STORAGE` — the snapshot's data does not fit in the disk of the chosen RAM (`APISnapshotExceedsStorageDetails`).
  * - `INVALID_DATABASE_VERSION` — `version` is not an available version of the engine.
  * - `SNAPSHOT_VERSION_NEWER` — with `snapshot_id`, `version` is older than the snapshot's version.
  *
@@ -75,11 +75,19 @@ export interface RESTPostAPIDatabaseCreateBody {
 }
 
 /**
+ * `201` — the database. With `snapshot_id`, `202` instead: the data comes back from the snapshot in the background (`restore_job_id`);
+ * if the restore fails, the database is kept as it is (it accepts connections from the start) and the job's `reason` says why.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/create
  */
-export type RESTPostAPIDatabaseCreateResponse = APIPayload<APIDatabase>;
+export type RESTPostAPIDatabaseCreateResponse = APIPayload<
+	APIDatabase & {
+		/** Only with `snapshot_id`: the restore job to follow on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+		restore_job_id?: SnowFlake;
+	}
+>;
 
 /**
+ * Deletes the database right away. It is permanent: take a snapshot first if you may need the data again.
  * Returns the id of the deleted database.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/delete
  */

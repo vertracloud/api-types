@@ -1,4 +1,4 @@
-import type { APIErrorCode, ApplicationLanguage, ApplicationZeroDowntime, DatabaseType, ISODateString, PlanName, SnowFlake, WorkspaceResourceType } from "../../v1";
+import type { APIErrorCode, APIStackSnapshotJob, ApplicationLanguage, ApplicationZeroDowntime, DatabaseType, ISODateString, PlanName, SnowFlake, WorkspaceResourceType } from "../../v1";
 export { type APITemplateEffectivePermissions, type APITemplateI18nText, type APITemplateOrigin, TemplateOrigin } from "./template-origin";
 import type { APITemplateEffectivePermissions, APITemplateI18nText, TemplateOrigin } from "./template-origin";
 
@@ -144,7 +144,7 @@ export type TemplateDeployStep = "validate" | "snapshot" | "network" | "database
 export const TemplateDeployStep = {
 	/** Plan, memory, limits and answers are checked. */
 	Validate: "validate",
-	/** An update takes a safety snapshot of the app or stack before changing anything. */
+	/** An update takes a snapshot of the app or stack before changing anything. */
 	Snapshot: "snapshot",
 	/** The stack network is prepared. */
 	Network: "network",
@@ -166,7 +166,7 @@ export const TemplateDeployStep = {
 	Healthcheck: "healthcheck",
 	/** The outputs shown at the end are saved. */
 	Outputs: "outputs",
-	/** An update that failed goes back to the safety snapshot. */
+	/** An update that failed goes back to that snapshot. */
 	Rollback: "rollback",
 } as const;
 
@@ -883,6 +883,8 @@ export interface APITemplateDeployStepState {
 	status: TemplateDeployStepStatus;
 	started_at: ISODateString | null;
 	finished_at: ISODateString | null;
+	/** Update only, on `snapshot` and `rollback`: the job of each app or database. Follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+	jobs?: APIStackSnapshotJob[];
 }
 
 /**
@@ -998,7 +1000,7 @@ export interface APITemplateDetachConfirmationDetails {
 export interface APITemplateRollbackRequiresDataDetails {
 	/** The template's software migrates its data when it updates, so older code cannot run on the data as it is now. */
 	reason: "with_data_required";
-	/** Where to go instead: restore the safety snapshot taken before the update, which brings back the code and the databases together. */
+	/** Where to go instead: restore the snapshot taken before the update, which brings back the code and the databases together. */
 	restore: "update_snapshot";
 }
 

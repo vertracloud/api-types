@@ -33,7 +33,8 @@ export interface APIPlanLimits {
 
 export interface APIPlanFeatures {
 	web_published: boolean;
-	daily_backups: boolean;
+	daily_app_backups: boolean;
+	daily_database_backups: boolean;
 	create_backup: boolean;
 	advanced_metrics: boolean;
 	create_workspace: boolean;
@@ -45,7 +46,6 @@ export interface APIPlanFeatures {
 	rollback: boolean;
 	auto_rollback: boolean;
 	zero_downtime: boolean;
-	delete_snapshot: boolean;
 	powered_by_badge: boolean;
 	blob_metadata: boolean;
 	blob_share_password: boolean;

@@ -30,6 +30,7 @@ import type {
 	ApplicationZeroDowntime,
 	ISODateString,
 	RESTAPIWorkspaceQuery,
+	SnowFlake,
 } from "../../v1";
 
 /**
@@ -285,7 +286,7 @@ export type RESTDeleteAPIApplicationEnvironmentResponse = APIPayload<null>;
  * - `SOURCE_CONFLICT` — `file` and `snapshot_id` together.
  * - `SNAPSHOT_NOT_FOUND` — the snapshot does not exist or does not belong to the user.
  * - `SNAPSHOT_TYPE_MISMATCH` — the snapshot is from a database, not an application.
- * - `SNAPSHOT_TOO_LARGE` — the snapshot exceeds the size limit for creation.
+ * - `SNAPSHOT_EXCEEDS_STORAGE` — the snapshot's data does not fit in the disk of the chosen RAM (`APISnapshotExceedsStorageDetails`).
  *
  * A snapshot of an application of a closed template (`APIResourceSnapshot.closed`) creates an application with the same closed policy.
  *
@@ -320,14 +321,20 @@ export interface RESTPostAPIApplicationCreateBody {
 }
 
 /**
- * `202` — the application, with `status: "building"`. The build and first start continue in the
+ * With `file`: `202` — the application, with `status: "building"`. The build and first start continue in the
  * background; follow the logs or poll the application until `status` is `up` or `down`.
+ *
+ * With `snapshot_id`: `202` — the application and `restore_job_id`. Its files come back from the snapshot in the background,
+ * whatever the size of the snapshot; the application (re)starts when the restore finishes. If the restore fails, an application
+ * created from a code snapshot is deleted, and one on a custom Docker image is kept as it is and started again; the job's `reason` says why.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create
  */
 export type RESTPostAPIApplicationCreateResponse = APIPayload<
 	APIApplication & {
 		/** Creating from the snapshot of an application on a custom Docker image: the recorded image version no longer exists, so the application uses the image's current version. */
 		warning?: APISnapshotImageWarning;
+		/** Only with `snapshot_id`: the restore job to follow on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+		restore_job_id?: SnowFlake;
 	}
 >;
 
@@ -363,16 +370,10 @@ export interface RESTPostAPIApplicationImageBody {
 export type RESTPostAPIApplicationImageResult = APIPayload<APIApplication>;
 
 /**
+ * Deletes the application right away. It is permanent: take a snapshot first if you may need the files again.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/delete
  */
 export type RESTDeleteAPIApplicationResponse = APIPayload<null>;
-
-/**
- * With an API key, the `apps:files` scope is required (not `apps:read`).
- *
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/download
- */
-export type RESTGetAPIApplicationDownloadResponse = ArrayBuffer;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime

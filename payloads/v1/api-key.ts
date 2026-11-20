@@ -106,8 +106,8 @@ export interface APIApiKeyScopeEntry {
  * API key also needs `apps:files`; without it the request returns 403 `API_KEY_SCOPE_DENIED`. Changing
  * the name, memory, runtime or deploy settings only needs `apps:write`.
  *
- * Keys created before the download moved to `apps:files` are not updated: a key with only `apps:read`
- * can no longer download the application.
+ * Downloading the whole application has no route of its own: take a snapshot (`POST /v1/users/:id/snapshots`,
+ * `snapshots:write`) and download it (`GET /v1/users/:id/snapshots/:snapshot_id/download`, `snapshots:read`).
  */
 export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 	"apps:read": {
@@ -165,11 +165,10 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/apps/:id/releases/:release_id/rollback" },
 		],
 	},
-	/** Read and change the application's code. Downloading the application (`GET /v1/apps/:id/download`) is under this scope, not `apps:read`. */
+	/** Read and change the application's code. Downloading the whole application is a snapshot: `snapshots:write` to take it and `snapshots:read` to download it. */
 	"apps:files": {
 		group: "apps",
 		routes: [
-			{ method: "GET", path: "/v1/apps/:id/download" },
 			{ method: "GET", path: "/v1/apps/:id/files" },
 			{ method: "GET", path: "/v1/apps/:id/files/tree" },
 			{ method: "GET", path: "/v1/apps/:id/files/content" },
@@ -196,10 +195,16 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "PUT", path: "/v1/databases/:id" },
 			{ method: "POST", path: "/v1/databases/:id/start" },
 			{ method: "POST", path: "/v1/databases/:id/stop" },
+		],
+	},
+	/** Delete a database or reset its data (`POST /v1/databases/:id/reset` erases every table). Only in the `full` preset. */
+	"databases:delete": {
+		group: "databases",
+		routes: [
+			{ method: "DELETE", path: "/v1/databases/:id" },
 			{ method: "POST", path: "/v1/databases/:id/reset" },
 		],
 	},
-	"databases:delete": { group: "databases", routes: [{ method: "DELETE", path: "/v1/databases/:id" }] },
 	"databases:credentials": {
 		group: "databases",
 		routes: [
@@ -243,6 +248,8 @@ export const API_KEY_SCOPES: Record<APIApiKeyScope, APIApiKeyScopeEntry> = {
 			{ method: "GET", path: "/v1/users/snapshots" },
 			{ method: "GET", path: "/v1/users/:id/snapshots" },
 			{ method: "GET", path: "/v1/users/:id/snapshots/:snapshot_id/download" },
+			{ method: "GET", path: "/v1/users/:id/snapshots/jobs" },
+			{ method: "GET", path: "/v1/users/:id/snapshots/jobs/:job_id" },
 		],
 	},
 	"snapshots:write": {

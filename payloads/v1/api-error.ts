@@ -37,7 +37,7 @@ export const TEMPLATE_ERROR_CODES = {
 	TEMPLATE_DEPLOY_IN_PROGRESS: "TEMPLATE_DEPLOY_IN_PROGRESS",
 	/** The deploy failed and was undone; `details.step` is the step that failed. */
 	TEMPLATE_DEPLOY_FAILED: "TEMPLATE_DEPLOY_FAILED",
-	/** 404 — the deploy job does not exist or belongs to another account. */
+	/** 404 — the deploy job was not found. */
 	TEMPLATE_DEPLOY_NOT_FOUND: "TEMPLATE_DEPLOY_NOT_FOUND",
 	/** 409 — the `Idempotency-Key` was already used with a different request. */
 	IDEMPOTENCY_KEY_CONFLICT: "IDEMPOTENCY_KEY_CONFLICT",
@@ -75,7 +75,7 @@ export type TemplateErrorCode = (typeof TEMPLATE_ERROR_CODES)[keyof typeof TEMPL
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/get
  */
 export const STACK_ERROR_CODES = {
-	/** 404 — the stack does not exist or belongs to another account. */
+	/** 404 — the stack was not found. */
 	STACK_NOT_FOUND: "STACK_NOT_FOUND",
 	/** 409 — the resource is already in another stack, or is not in the same account or workspace as the stack. */
 	STACK_MEMBER_CONFLICT: "STACK_MEMBER_CONFLICT",
@@ -93,6 +93,8 @@ export const STACK_ERROR_CODES = {
 	STACK_TRANSFORM_EMPTY: "STACK_TRANSFORM_EMPTY",
 	/** 409 — the stack already has a Blob folder with that prefix. */
 	STACK_BLOB_PREFIX_TAKEN: "STACK_BLOB_PREFIX_TAKEN",
+	/** 409 — reason of a restore job of a stack snapshot: a member restored before this one failed, so this one was not restored and stays as it was. */
+	STACK_RESTORE_MEMBER_FAILED: "STACK_RESTORE_MEMBER_FAILED",
 } as const;
 export type StackErrorCode = (typeof STACK_ERROR_CODES)[keyof typeof STACK_ERROR_CODES];
 
@@ -172,7 +174,7 @@ export const API_ERROR_CODES = {
 	APP_HAS_NO_SUBDOMAIN: "APP_HAS_NO_SUBDOMAIN",
 	/** 409 — the application is still building; wait until the build ends. */
 	APP_BUILDING: "APP_BUILDING",
-	/** 413 — the application (or database) is too large to download as a zip on the spot. Create a snapshot and download the snapshot instead: snapshots have no size limit on download. */
+	/** 413 — the application is too large to be saved as a template. */
 	DOWNLOAD_TOO_LARGE: "DOWNLOAD_TOO_LARGE",
 	APP_NOT_FOUND: "APP_NOT_FOUND",
 	APP_NOT_PUBLISHED: "APP_NOT_PUBLISHED",
@@ -182,7 +184,7 @@ export const API_ERROR_CODES = {
 	BLOB_PREFIX_DENIED: "BLOB_PREFIX_DENIED",
 	/** 403 — the API key was created by the platform for a stack: it cannot be edited, only revoked together with the stack. */
 	API_KEY_MANAGED: "API_KEY_MANAGED",
-	/** 404 — the object does not exist or belongs to another account. */
+	/** 404 — the object was not found. */
 	BLOB_OBJECT_NOT_FOUND: "BLOB_OBJECT_NOT_FOUND",
 	/** 409 — the path is taken and `overwrite` is not set. */
 	BLOB_OBJECT_ALREADY_EXISTS: "BLOB_OBJECT_ALREADY_EXISTS",
@@ -222,7 +224,7 @@ export const API_ERROR_CODES = {
 	BLOB_CUSTOM_DOMAIN_LIMIT: "BLOB_CUSTOM_DOMAIN_LIMIT",
 	/** 409 — the hostname is already in use. */
 	BLOB_CUSTOM_DOMAIN_TAKEN: "BLOB_CUSTOM_DOMAIN_TAKEN",
-	/** 404 — the domain does not exist or belongs to another account. */
+	/** 404 — the domain was not found. */
 	BLOB_CUSTOM_DOMAIN_NOT_FOUND: "BLOB_CUSTOM_DOMAIN_NOT_FOUND",
 	/** 422 — the file extension is blocked, outside the rule or token, or the content is an executable. */
 	BLOCKED_FILE_TYPE: "BLOCKED_FILE_TYPE",
@@ -269,6 +271,8 @@ export const API_ERROR_CODES = {
 	DAILY_QUOTA_EXCEEDED: "DAILY_QUOTA_EXCEEDED",
 	DATABASE_NOT_FOUND: "DATABASE_NOT_FOUND",
 	DATABASE_NOT_RUNNING: "DATABASE_NOT_RUNNING",
+	/** 503 — the database is not ready yet; try again shortly. */
+	DATABASE_NOT_READY: "DATABASE_NOT_READY",
 	DATABASE_ALREADY_IN_WORKSPACE: "DATABASE_ALREADY_IN_WORKSPACE",
 	DATABASE_NOT_FOUND_IN_WORKSPACE: "DATABASE_NOT_FOUND_IN_WORKSPACE",
 	DATABASE_PERSISTENCE_FAILED: "DATABASE_PERSISTENCE_FAILED",
@@ -313,7 +317,7 @@ export const API_ERROR_CODES = {
 	IMAGE_BUILD_RATE_LIMITED: "IMAGE_BUILD_RATE_LIMITED",
 	/** 413 — the build context is too large: more than 100 MB compressed, more than 512 MB uncompressed, more than 50,000 entries, or a `Dockerfile` larger than 1 MB. */
 	IMAGE_CONTEXT_TOO_LARGE: "IMAGE_CONTEXT_TOO_LARGE",
-	/** 404 — the `upload_id` does not exist, expired, was already used or belongs to another account. Reserve a new upload. */
+	/** 404 — the `upload_id` was not found, expired or was already used. Reserve a new upload. */
 	IMAGE_UPLOAD_NOT_FOUND: "IMAGE_UPLOAD_NOT_FOUND",
 	/** 409 — the reserved upload has not been received yet (the `PUT` to the upload URL did not finish or was refused). */
 	IMAGE_UPLOAD_INCOMPLETE: "IMAGE_UPLOAD_INCOMPLETE",
@@ -333,6 +337,7 @@ export const API_ERROR_CODES = {
 	ENV_DUPLICATE_KEY: "ENV_DUPLICATE_KEY",
 	ENV_NOT_FOUND: "ENV_NOT_FOUND",
 	FETCH_ZIP_ERROR: "FETCH_ZIP_ERROR",
+	/** 413 when the file manager reads or saves a file above its limit (`details` is an `APIFileTooLargeDetails`); 400 when an uploaded zip is above the upload limit. */
 	FILE_TOO_LARGE: "FILE_TOO_LARGE",
 	FILE_MODIFIED: "FILE_MODIFIED",
 	FILE_NOT_FOUND: "FILE_NOT_FOUND",
@@ -341,7 +346,6 @@ export const API_ERROR_CODES = {
 	FORBIDDEN_DOMAIN: "FORBIDDEN_DOMAIN",
 	FORBIDDEN_PATH: "FORBIDDEN_PATH",
 	FORBIDDEN_KEY: "FORBIDDEN_KEY",
-	FORCED_SNAPSHOT_RATE_LIMIT: "FORCED_SNAPSHOT_RATE_LIMIT",
 	INSTALLATION_NOT_FOUND: "INSTALLATION_NOT_FOUND",
 	INSTALL_SHIELD_BLOCKED: "INSTALL_SHIELD_BLOCKED",
 	INSTALL_TIMEOUT: "INSTALL_TIMEOUT",
@@ -392,6 +396,7 @@ export const API_ERROR_CODES = {
 	NO_CHANGES_PROVIDED: "NO_CHANGES_PROVIDED",
 	NO_FIELDS_TO_UPDATE: "NO_FIELDS_TO_UPDATE",
 	NO_FILE_UPLOADED: "NO_FILE_UPLOADED",
+	/** 409 — another operation is running on the resource or the account. When creating a snapshot, `details` is an `APIOperationInProgressDetails` (`job_id` of the manual snapshot already running, only when it is of the same resource). */
 	OPERATION_IN_PROGRESS: "OPERATION_IN_PROGRESS",
 	ORDER_NOT_FOUND: "ORDER_NOT_FOUND",
 	ORDER_NOT_PAID: "ORDER_NOT_PAID",
@@ -430,13 +435,28 @@ export const API_ERROR_CODES = {
 	/** 404 — the release does not exist or belongs to another application. */
 	RELEASE_NOT_FOUND: "RELEASE_NOT_FOUND",
 	REPO_ALREADY_LINKED: "REPO_ALREADY_LINKED",
+	/** 429 — a restore or a release rollback ran too recently; `details` is an `APIRestoreCooldownDetails` and the `Retry-After` header carries the same seconds. */
 	RESTORE_COOLDOWN: "RESTORE_COOLDOWN",
+	/** 409 — a restore is running on this resource; wait for it to finish. */
+	RESTORE_IN_PROGRESS: "RESTORE_IN_PROGRESS",
+	/** 422 — the snapshot does not match what was recorded when it was taken, so it cannot be restored. Nothing was changed. */
+	SNAPSHOT_CORRUPTED: "SNAPSHOT_CORRUPTED",
 	SNAPSHOT_ENGINE_MISMATCH: "SNAPSHOT_ENGINE_MISMATCH",
+	/** 400 — the snapshot does not fit in the target's storage; `details` is an `APISnapshotExceedsStorageDetails`. */
+	SNAPSHOT_EXCEEDS_STORAGE: "SNAPSHOT_EXCEEDS_STORAGE",
+	/**
+	 * The snapshot was not taken; nothing was saved. 422 — manual snapshot of a database whose data could not be exported (for example, a database
+	 * with no data of yours yet). 500 — any other case, on our side; try again later.
+	 */
 	SNAPSHOT_FAILED: "SNAPSHOT_FAILED",
 	SNAPSHOT_IMPORT_FAILED: "SNAPSHOT_IMPORT_FAILED",
 	SNAPSHOT_NOT_FOUND: "SNAPSHOT_NOT_FOUND",
+	/** 504 — the snapshot took too long and was cancelled. */
+	SNAPSHOT_TIMEOUT: "SNAPSHOT_TIMEOUT",
+	/** 429 — a snapshot limit was reached; `details` is an `APISnapshotRateLimitedDetails` and the `Retry-After` header carries `details.retry_after`. */
 	SNAPSHOT_RATE_LIMITED: "SNAPSHOT_RATE_LIMITED",
 	SNAPSHOT_TYPE_MISMATCH: "SNAPSHOT_TYPE_MISMATCH",
+	/** 413 — the content of the resource is above what a snapshot of it can hold; `details` is an `APISnapshotTooLargeDetails`. */
 	SNAPSHOT_TOO_LARGE: "SNAPSHOT_TOO_LARGE",
 	SNAPSHOT_VERSION_NEWER: "SNAPSHOT_VERSION_NEWER",
 	SOURCE_CONFLICT: "SOURCE_CONFLICT",

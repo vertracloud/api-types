@@ -1,7 +1,6 @@
 import type {
 	APIPayload,
 	APIRestartRequired,
-	APISnapshotRestoreResponse,
 	APIStack,
 	APIStackBinding,
 	APIStackBindingChange,
@@ -10,6 +9,8 @@ import type {
 	APIStackConnectionInfo,
 	APIStackDatabaseAdded,
 	APIStackSnapshot,
+	APIStackSnapshotAccepted,
+	APIStackSnapshotRestoreAccepted,
 	ApplicationLanguage,
 	DatabaseType,
 	RESTAPIWorkspaceQuery,
@@ -111,8 +112,8 @@ export interface RESTPatchAPIStackBody {
 export type RESTPatchAPIStackResponse = APIPayload<APIStack>;
 
 /**
- * Body of `DELETE /v1/stacks/:stack_id` (JSON). `delete_all` deletes every member as well, each by its own deletion rule (with the safety
- * snapshot where there is one); `dissolve` only removes the stack. Either way the API key the platform created for the stack's Blob folder is revoked.
+ * Body of `DELETE /v1/stacks/:stack_id` (JSON). `delete_all` deletes every member as well, right away and for good (take a snapshot first if you may
+ * need them again); `dissolve` only removes the stack. Either way the API key the platform created for the stack's Blob folder is revoked.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/delete
  */
 export interface RESTDeleteAPIStackBody {
@@ -302,16 +303,19 @@ export interface RESTPostAPIStackBlobBody {
 export type RESTPostAPIStackBlobResponse = APIPayload<APIStackBlobAdded>;
 
 /**
- * `GET /v1/stacks/:stack_id/snapshots`. Newest first.
+ * `GET /v1/stacks/:stack_id/snapshots`. Newest first; includes the ones still `pending`, never the ones that failed.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/list
  */
 export type RESTGetAPIStackSnapshotsResponse = APIPayload<APIStackSnapshot[]>;
 
 /**
  * `POST /v1/stacks/:stack_id/snapshots` — takes a snapshot of every member that has data, together.
+ *
+ * `202`: one snapshot job per member, databases first; nothing is taken yet. Follow each `job_id` on
+ * `GET /v1/users/:id/snapshots/jobs/:job_id`, or the stack snapshot `id` on `GET /v1/stacks/:stack_id/snapshots`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/create
  */
-export type RESTPostAPIStackSnapshotResponse = APIPayload<APIStackSnapshot>;
+export type RESTPostAPIStackSnapshotResponse = APIPayload<APIStackSnapshotAccepted>;
 
 /**
  * Body of `POST /v1/stacks/:stack_id/snapshots/:snapshot_id/restore` (JSON). Brings every member back, together.
@@ -323,9 +327,12 @@ export interface RESTPostAPIStackSnapshotRestoreBody {
 }
 
 /**
+ * `202`: one restore job per member, databases first; nothing is restored yet. Follow each `job_id` on
+ * `GET /v1/users/:id/snapshots/jobs/:job_id`. A job's `warning`
+ * says that member's recorded image version no longer exists.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/restore
  */
-export type RESTPostAPIStackSnapshotRestoreResponse = APIPayload<APISnapshotRestoreResponse>;
+export type RESTPostAPIStackSnapshotRestoreResponse = APIPayload<APIStackSnapshotRestoreAccepted>;
 
 /**
  * `POST /v1/stacks/:stack_id/template/detach`. The stack stops receiving versions of its template and becomes a stack assembled by hand.

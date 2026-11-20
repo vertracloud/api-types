@@ -104,6 +104,8 @@ export interface APIDatabaseStatus {
 	/** `null` when network usage is unavailable. */
 	network: APIDatabaseNetwork | null;
 	uptime: number;
+	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+	restore_job_id: SnowFlake | null;
 }
 
 /**
@@ -115,6 +117,8 @@ export interface APIDatabaseStatusShort {
 	ram: string;
 	storage: string;
 	running: boolean;
+	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+	restore_job_id: SnowFlake | null;
 }
 
 /**

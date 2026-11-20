@@ -530,7 +530,7 @@ export type RESTPostAPITemplateReportResponse = APIPayload<null>;
 export type RESTGetAPITemplateUpdateInfoResponse = APIPayload<APITemplateUpdateInfo>;
 
 /**
- * Body of `POST /v1/apps/:id/template/update` and `POST /v1/stacks/:stack_id/template/update` (JSON). Takes a safety snapshot, updates the
+ * Body of `POST /v1/apps/:id/template/update` and `POST /v1/stacks/:stack_id/template/update` (JSON). Takes a snapshot, updates the
  * services one after the other and, if one fails, goes back to the snapshot. Never automatic: it runs only when you ask. Returns `202` with a
  * job (`kind: "update"`).
  *

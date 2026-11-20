@@ -1,4 +1,4 @@
-import type { APITemplateOrigin, ApplicationLanguage, ApplicationStatus, DatabaseStatus, DatabaseType, ISODateString, SnowFlake, TemplateBlobVisibility } from "../../v1";
+import type { APISnapshotImageWarning, APITemplateOrigin, ApplicationLanguage, ApplicationStatus, DatabaseStatus, DatabaseType, ISODateString, SnowFlake, TemplateBlobVisibility } from "../../v1";
 
 /**
  * How the members of a stack reach each other. `public` uses the public addresses of the services (databases with client
@@ -48,7 +48,7 @@ export const StackBindingRemoval = {
 
 /**
  * How a stack is deleted. `dissolve` removes only the stack: the members stay as loose resources, without the network and
- * the managed variables, and Blob files are kept. `delete_all` deletes every member as well (each by its own deletion rule).
+ * the managed variables, and Blob files are kept. `delete_all` deletes every member as well, right away and for good.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/delete
  */
 export type StackDeleteMode = "dissolve" | "delete_all";
@@ -95,13 +95,23 @@ export const StackBindingValue = {
  * Why a stack snapshot was taken.
  * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/list
  */
-export type StackSnapshotReason = "manual" | "update" | "delete";
+export type StackSnapshotReason = "manual" | "update";
 export const StackSnapshotReason = {
 	Manual: "manual",
-	/** Safety snapshot taken before an update to a newer template version. */
+	/** Taken before an update to a newer template version. */
 	Update: "update",
-	/** Taken when the stack and its members were deleted. */
-	Delete: "delete",
+} as const;
+
+/**
+ * State of a stack snapshot.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/list
+ */
+export type StackSnapshotStatus = "pending" | "ready";
+export const StackSnapshotStatus = {
+	/** The snapshots of the members are still being taken. */
+	Pending: "pending",
+	/** Every member has its snapshot: the stack snapshot can be restored. */
+	Ready: "ready",
 } as const;
 
 /**
@@ -264,13 +274,62 @@ export interface APIStackSnapshot {
 	id: SnowFlake;
 	stack_id: SnowFlake;
 	reason: StackSnapshotReason;
+	/** `pending` while the snapshot of the members is being taken; `ready` once every member has its snapshot. A snapshot that failed is not listed. */
+	status: StackSnapshotStatus;
 	date: ISODateString;
-	/** Total size, human readable. */
+	/** Total size, human readable. `0.00 KB` while `pending`. */
 	size: string;
-	/** Snapshot of each member that has data (applications and databases). */
-	members: { resource_type: "application" | "database"; resource_id: SnowFlake; snapshot_id: SnowFlake }[];
+	/**
+	 * Snapshot of each member that has data (applications and databases). While the stack snapshot is `pending`, `snapshot_id` is `null` and `job_id` is the
+	 * job to follow; once it is `ready`, `snapshot_id` is set and `job_id` is no longer returned.
+	 */
+	members: { resource_type: "application" | "database"; resource_id: SnowFlake; snapshot_id: SnowFlake | null; job_id?: SnowFlake }[];
 	/** `true` when the stack runs a closed template: the snapshot cannot be downloaded. */
 	closed: boolean;
+}
+
+/**
+ * Job of one member of a stack snapshot (a snapshot job when taking it, a restore job when restoring it). Follow it on
+ * `GET /v1/users/:id/snapshots/jobs/:job_id`, where `:id` is `resource_id`.
+ */
+export interface APIStackSnapshotJob {
+	resource_id: SnowFlake;
+	resource_type: "application" | "database";
+	job_id: SnowFlake;
+}
+
+/**
+ * Taking a snapshot of a stack was accepted (HTTP 202) and runs as one snapshot job per member: nothing is taken yet. The stack snapshot `id` is listed on
+ * `GET /v1/stacks/:stack_id/snapshots` as `pending` and becomes `ready` when every member is done. Each member is a regular manual snapshot (it appears in the
+ * snapshot list of the application or database, counts on the manual snapshot quota and is kept for 30 days). When a member fails, the stack snapshot is not
+ * listed and the members that succeeded stay as regular snapshots.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/create
+ */
+export interface APIStackSnapshotAccepted {
+	/** Id of the stack snapshot, the one `GET /v1/stacks/:stack_id/snapshots` lists. */
+	id: SnowFlake;
+	/** One job per member that has data, databases first. */
+	jobs: APIStackSnapshotJob[];
+}
+
+/**
+ * Restore job of one member of a stack snapshot.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/restore
+ */
+export interface APIStackSnapshotRestoreMemberJob extends APIStackSnapshotJob {
+	/** Set when `restore_image_version` was requested but the image version recorded for this application no longer exists: only its data is restored. */
+	warning?: APISnapshotImageWarning;
+}
+
+/**
+ * The restore of a stack snapshot was accepted (HTTP 202) and runs as one job per member: nothing is restored yet.
+ * Databases are restored first and each application starts only after them. When a member fails, the members after it
+ * are not restored and their jobs fail with `STACK_RESTORE_MEMBER_FAILED`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/stacks/snapshots/restore
+ */
+export interface APIStackSnapshotRestoreAccepted {
+	/** One job per member that is still in the stack, in the order they run. */
+	jobs: APIStackSnapshotRestoreMemberJob[];
 }
 
 /**

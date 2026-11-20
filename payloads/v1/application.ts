@@ -124,6 +124,12 @@ export interface APIApplicationFileContent {
 	last_modified: ISODateString;
 }
 
+/** The `details` of the `FILE_TOO_LARGE` error (HTTP 413) on reading or saving a file in the file manager. */
+export interface APIFileTooLargeDetails {
+	/** Largest file the file manager reads or saves, in bytes (10 MiB). Uploads have their own limit. */
+	max_bytes: number;
+}
+
 /**
  * Successful ZIP upload through `POST /v1/apps/:id/files/upload`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
@@ -315,6 +321,8 @@ export interface APIApplicationStatus {
 	/** `null` when network usage is unavailable (e.g. the app is stopped). */
 	network: APIApplicationNetwork | null;
 	uptime: number;
+	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+	restore_job_id: SnowFlake | null;
 }
 
 /**
@@ -346,6 +354,8 @@ export interface APIApplicationStatusShort {
 	 * as a sentinel** — `0` means "just started".
 	 */
 	uptime: number | null;
+	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
+	restore_job_id: SnowFlake | null;
 }
 
 /**
