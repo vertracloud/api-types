@@ -17,7 +17,6 @@ import type {
 	APIApplicationReleaseLog,
 	APIApplicationRollbackPreview,
 	APIApplicationRuntimes,
-	APIApplicationScanSuggestions,
 	APIApplicationStatus,
 	APIApplicationStatusShort,
 	APIApplicationSubdomain,
@@ -362,24 +361,6 @@ export interface RESTPostAPIApplicationImageBody {
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create-from-image
  */
 export type RESTPostAPIApplicationImageResult = APIPayload<APIApplication>;
-
-/**
- * Scans a zip before creating the application and returns suggestions (language, main file,
- * version, start/build command, memory). Creates nothing.
- *
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/scan
- */
-export interface RESTPostAPIApplicationScanBody {
-	/** Application zip. */
-	file: unknown;
-	/** Main file of the application. Optional: without it the platform detects the language and the main file from the project manifest. */
-	main?: string;
-}
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/scan
- */
-export type RESTPostAPIApplicationScanResponse = APIPayload<APIApplicationScanSuggestions>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/delete

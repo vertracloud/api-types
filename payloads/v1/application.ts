@@ -698,29 +698,6 @@ export interface APIApplicationWebPublish {
 }
 
 /**
- * Suggestions from scanning the zip before creating an application. Nothing is applied
- * automatically: they are meant to pre-fill a creation form that the user can edit.
- *
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/scan
- */
-export interface APIApplicationScanSuggestions {
-	suggested_start_command?: string;
-	suggested_build_command?: string;
-	suggested_memory_mb?: number;
-	suggested_public_web?: boolean;
-	/** Detected language; `null` when it could not be determined. */
-	language: ApplicationLanguage | null;
-	/** Detected main file; `null` when none was found. */
-	main: string | null;
-	/** Recommended version for the detected language; `null` when there is none. */
-	version: string | null;
-	/** Whether the project has a manifest file at the root. */
-	has_manifest: boolean;
-	/** Other languages with a manifest at the root when detection is ambiguous; empty otherwise. */
-	candidates: ApplicationLanguage[];
-}
-
-/**
  * One runtime of `GET /v1/apps/runtimes`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/runtimes
  */
