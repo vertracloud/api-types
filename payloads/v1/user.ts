@@ -20,7 +20,7 @@ export interface APIUser {
 	name: string;
 	email: string;
 	language: UserLanguage;
-	/** Accepts workspace invites by e-mail (`WORKSPACE_INVITES_DISABLED` when off). */
+	/** Receives the workspace invite e-mail. When off, invites to this account can still be created, but no e-mail is sent. */
 	workspace_invites_enabled: boolean;
 	/** Receives promotional e-mails (offers and product announcements). Account notices are always sent. */
 	marketing_emails_enabled: boolean;
