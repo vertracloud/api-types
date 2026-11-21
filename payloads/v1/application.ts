@@ -301,6 +301,22 @@ export interface APIApplicationNetwork {
 }
 
 /**
+ * Progress of the base image download (`docker pull`) that runs before an app or database starts.
+ *
+ * Dashboard only. Not documented in the public docs, SDKs or MCP.
+ */
+export interface APIImagePullProgress {
+	/** Public key of the runtime or database engine whose environment is being prepared, e.g. `javascript` or `postgresql`. */
+	runtime: string;
+	/** Runtime or engine version being prepared. */
+	version: string;
+	/** Integer from 0 to 100. */
+	percent: number;
+	done_bytes: number;
+	total_bytes: number;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus {
@@ -317,6 +333,12 @@ export interface APIApplicationStatus {
 	 * mean the app is stopped. Optional: omitted when no installation is in progress.
 	 */
 	installing?: boolean;
+	/**
+	 * Set while the base image is being downloaded. Optional: omitted when no download is in progress.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	image_pull?: APIImagePullProgress;
 	storage: string;
 	/** `null` when network usage is unavailable (e.g. the app is stopped). */
 	network: APIApplicationNetwork | null;
@@ -344,6 +366,12 @@ export interface APIApplicationStatusShort {
 	 * mean the app is stopped. Optional: omitted when no installation is in progress.
 	 */
 	installing?: boolean;
+	/**
+	 * Set while the base image is being downloaded. Optional: omitted when no download is in progress.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	image_pull?: APIImagePullProgress;
 	/**
 	 * Seconds since the app started.
 	 *

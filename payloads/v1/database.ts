@@ -1,4 +1,5 @@
 import type { APIRestartRequired, ISODateString, PlanName, SnowFlake } from "../../v1";
+import type { APIImagePullProgress } from "./application";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -104,6 +105,18 @@ export interface APIDatabaseStatus {
 	/** `null` when network usage is unavailable. */
 	network: APIDatabaseNetwork | null;
 	uptime: number;
+	/**
+	 * `true` while the base image is being downloaded and the database is not running yet.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	installing?: boolean;
+	/**
+	 * Set while the base image is being downloaded. Optional: omitted when no download is in progress.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	image_pull?: APIImagePullProgress;
 	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
 	restore_job_id: SnowFlake | null;
 }
@@ -117,6 +130,18 @@ export interface APIDatabaseStatusShort {
 	ram: string;
 	storage: string;
 	running: boolean;
+	/**
+	 * `true` while the base image is being downloaded and the database is not running yet.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	installing?: boolean;
+	/**
+	 * Set while the base image is being downloaded. Optional: omitted when no download is in progress.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	image_pull?: APIImagePullProgress;
 	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
 	restore_job_id: SnowFlake | null;
 }
