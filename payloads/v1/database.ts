@@ -1,5 +1,5 @@
 import type { APIRestartRequired, ISODateString, PlanName, SnowFlake } from "../../v1";
-import type { APIImagePullProgress } from "./application";
+import type { APIImagePullProgress, APIRuntimeUpdate } from "./application";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -117,6 +117,12 @@ export interface APIDatabaseStatus {
 	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
 	 */
 	image_pull?: APIImagePullProgress;
+	/**
+	 * Engine freshness of a running database. Optional: omitted when it could not be checked or the database is stopped.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	runtime_update?: APIRuntimeUpdate;
 	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
 	restore_job_id: SnowFlake | null;
 }
@@ -142,6 +148,12 @@ export interface APIDatabaseStatusShort {
 	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
 	 */
 	image_pull?: APIImagePullProgress;
+	/**
+	 * Engine freshness of a running database. Optional: omitted when it could not be checked or the database is stopped.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	runtime_update?: APIRuntimeUpdate;
 	/** Set while a restore of this resource is queued or running; follow it on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
 	restore_job_id: SnowFlake | null;
 }

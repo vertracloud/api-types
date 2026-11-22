@@ -317,6 +317,29 @@ export interface APIImagePullProgress {
 }
 
 /**
+ * Whether the runtime or database engine the resource runs on is up to date. A newer build is applied on the next restart.
+ *
+ * Only for running resources on a Vertra Cloud base runtime (code apps and databases), never for Docker image apps.
+ * Dashboard only. Not documented in the public docs, SDKs or MCP.
+ */
+export interface APIRuntimeUpdate {
+	/** `true` when a newer build is available; `false` when the resource was checked and is up to date. */
+	available: boolean;
+	/** Public key of the runtime or database engine, e.g. `javascript` or `postgresql`. */
+	runtime: string;
+	/** Line the resource runs today, e.g. `26` or `3.13`. Absent when the runtime has no versions (e.g. `static`). */
+	current_line?: string;
+	/** Version the resource runs today, e.g. `26.13.1`. Absent when the runtime has no versions. */
+	current_version?: string;
+	/** Version applied on the next restart, e.g. `26.13.2`. Absent when `available` is `false` or the runtime has no versions. */
+	version?: string;
+	/** `true` when the update includes security fixes. */
+	security: boolean;
+	/** `true` when the current line was retired: the next restart moves the resource to `version` on the recommended line. */
+	retired: boolean;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus {
@@ -339,6 +362,13 @@ export interface APIApplicationStatus {
 	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
 	 */
 	image_pull?: APIImagePullProgress;
+	/**
+	 * Runtime freshness of a running app on a base runtime. Optional: omitted when it could not be checked, the app is
+	 * stopped or runs a Docker image.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	runtime_update?: APIRuntimeUpdate;
 	storage: string;
 	/** `null` when network usage is unavailable (e.g. the app is stopped). */
 	network: APIApplicationNetwork | null;
@@ -372,6 +402,13 @@ export interface APIApplicationStatusShort {
 	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
 	 */
 	image_pull?: APIImagePullProgress;
+	/**
+	 * Runtime freshness of a running app on a base runtime. Optional: omitted when it could not be checked, the app is
+	 * stopped or runs a Docker image.
+	 *
+	 * Dashboard only. Not documented in the public docs, SDKs or MCP.
+	 */
+	runtime_update?: APIRuntimeUpdate;
 	/**
 	 * Seconds since the app started.
 	 *
