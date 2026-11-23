@@ -37,7 +37,7 @@ export const ApplicationStatus = {
  * Why the last build or install failed. See `APIApplication.last_build_error`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
  */
-export type ApplicationBuildError = "BUILD_FAILED" | "BUILD_TIMEOUT" | "INSTALL_FAILED" | "INSTALL_OUT_OF_MEMORY" | "INSTALL_TIMEOUT" | "INSTALL_SHIELD_BLOCKED" | "BUILD_INTERRUPTED";
+export type ApplicationBuildError = "BUILD_FAILED" | "BUILD_TIMEOUT" | "INSTALL_FAILED" | "INSTALL_OUT_OF_MEMORY" | "INSTALL_TIMEOUT" | "INSTALL_SHIELD_BLOCKED" | "BUILD_INTERRUPTED" | "IMAGE_VOLUME_REFUSED" | "IMAGE_LABEL_REFUSED" | "IMAGE_PULL_FAILED";
 export const ApplicationBuildError = {
 	BUILD_FAILED: "BUILD_FAILED",
 	BUILD_TIMEOUT: "BUILD_TIMEOUT",
@@ -46,6 +46,12 @@ export const ApplicationBuildError = {
 	INSTALL_TIMEOUT: "INSTALL_TIMEOUT",
 	INSTALL_SHIELD_BLOCKED: "INSTALL_SHIELD_BLOCKED",
 	BUILD_INTERRUPTED: "BUILD_INTERRUPTED",
+	/** The Docker image of the app declares a path or permission the platform does not allow. */
+	IMAGE_VOLUME_REFUSED: "IMAGE_VOLUME_REFUSED",
+	/** The Docker image of the app uses a label reserved by the platform. */
+	IMAGE_LABEL_REFUSED: "IMAGE_LABEL_REFUSED",
+	/** The Docker image of the app could not be downloaded. */
+	IMAGE_PULL_FAILED: "IMAGE_PULL_FAILED",
 } as const;
 
 /**
