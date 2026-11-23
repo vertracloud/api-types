@@ -1,5 +1,19 @@
 # @vertracloud/api-types
 
+## 0.7.10
+
+### Patch Changes
+
+- 60870d7: Add `auto_restart` to the application, to application creation (`POST /v1/apps`, and `POST /v1/apps/image` for Docker image apps) and to `PATCH /v1/apps/:id/config`: restart automatically when the app stops unexpectedly, on by default; changing it applies right away. Deleting a file now returns `space_released` (`now` or `on_restart`). New console notes: `install_note:done`, `run_note:started`, `image_note:*` and `restart_note:auto_restart_disabled`.
+- 60870d7: Database creation (`POST /v1/databases`), adding a database to a stack and deploying a template now return the database password once; afterwards reset it to see a new one. `APIDatabase.legacy_host` tells when a database still uses its original connection address, and resetting the certificates now returns the new `host` and `client_variables_with_old_host` (your own variables that still contain the previous address). Moving a database that has `legacy_host: true` to the current address is done only from the dashboard: resetting its certificates with an API key responds 403 `WEBSITE_ONLY`.
+- 60870d7: Document the 409 `STORAGE_ABOVE_NEW_LIMIT` of `PUT /v1/databases/:id`: lowering the RAM of a database is refused when its data takes more space than the new storage allows. `details` is the new `APIStorageAboveNewLimitDetails` (`used_mb`, `limit_mb`, `free_mb`, in MB); free `free_mb` and try again.
+- 60870d7: Document that `PATCH /v1/apps/:id/config` fails with 400 `MAIN_FILE_NOT_FOUND` when `main_file` points to a file that does not exist in the app's files, and that `POST /v1/apps/:id/files/upload` answers the same when, after the upload, the main file would not exist (neither the zip nor the app's files have it).
+- 60870d7: Document two new console notes of `GET /v1/apps/:id/realtime`: `runtime_note:line_changed:<language>:<from>:<to>:<reason>` (the application started on a different runtime version line; `reason` is `retired`, `unavailable` or `requested`) and the `install_note:timeout:<seconds>` parameter (`900` = one install step exceeded its limit, `1500` = the install phase exceeded its total time).
+
+  The `reason` `requested` of that note also covers the version you follow (such as the recommended one) moving to a new line, without an explicit request.
+
+- 60870d7: Document the new console note `run_note:port_not_listening:<port>` of `GET /v1/apps/:id/realtime`: the application started but did not begin listening on the expected port (`<port>`) within the allowed time.
+
 ## 0.7.9
 
 ### Patch Changes
