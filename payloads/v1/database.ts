@@ -61,8 +61,13 @@ export interface APIDatabase {
 	owner_plan: PlanName | null;
 	status: DatabaseStatus;
 	ram: number;
-	host: string; // example: "vertra-cloud-<type>-<dbId>.vertraweb.app"
+	host: string; // example: "vertra-cloud-<id>.db.<region>.vertraweb.app"
 	port: number;
+	/**
+	 * `true` when the database still uses its original connection address. Moving it to the current address (resetting
+	 * the certificates) is done only from the dashboard; with an API key the reset responds 403 `WEBSITE_ONLY`.
+	 */
+	legacy_host: boolean;
 	/**
 	 * User to connect with. Databases created from v26.4.8 on use `vertracloud` (default database `vertracloud`,
 	 * no superuser); older databases keep the engine's user (`postgres`, `default` or `root`). Read it instead of
@@ -180,10 +185,24 @@ export interface APIDatabaseCertificate {
 }
 
 /**
+ * One of your own application variables that still contains the previous database address.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/reset
+ */
+export interface APIDatabaseClientVariableWithOldHost {
+	app_id: SnowFlake;
+	key: string;
+}
+
+/**
  * The new certificate, after a reset, together with the applications of stacks connected to the database that must restart to read it.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/reset
  */
-export interface APIDatabaseCertificateReset extends APIDatabaseCertificate, APIRestartRequired {}
+export interface APIDatabaseCertificateReset extends APIDatabaseCertificate, APIRestartRequired {
+	/** The database address after the reset; the same as before when the reset is made with an API key. */
+	host: string;
+	/** Your own variables that still contain the previous address. Empty when the address does not change, which is always the case with an API key. */
+	client_variables_with_old_host: APIDatabaseClientVariableWithOldHost[];
+}
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/metrics
@@ -201,4 +220,17 @@ export interface APIDatabaseMetrics {
  */
 export interface APIDatabasePasswordReset extends APIRestartRequired {
 	password: string;
+}
+
+/**
+ * The `details` of the `STORAGE_ABOVE_NEW_LIMIT` error (HTTP 409) of `PUT /v1/databases/:id`. All values are in MB.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/databases/update
+ */
+export interface APIStorageAboveNewLimitDetails {
+	/** Space the data of the database uses now. */
+	used_mb: number;
+	/** Storage the new RAM would allow. */
+	limit_mb: number;
+	/** How much to free (delete data) so the data fits in `limit_mb`. */
+	free_mb: number;
 }

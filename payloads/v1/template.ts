@@ -923,6 +923,16 @@ export interface APITemplateDeployOutput {
 }
 
 /**
+ * The password of a database a deploy job created.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/templates/deploy-status
+ */
+export interface APITemplateDeployDatabasePassword {
+	database_id: SnowFlake;
+	service_id: string;
+	password: string;
+}
+
+/**
  * A deploy or update job. The platform runs it as one operation: if a step fails, everything the job created is removed.
  * @see https://docs.vertracloud.app/api-reference/endpoint/templates/deploy-status
  */
@@ -947,6 +957,8 @@ export interface APITemplateDeploy {
 	application_id: SnowFlake | null;
 	/** Present when the job succeeded. */
 	outputs: APITemplateDeployOutput[];
+	/** Passwords of the databases the job created, only on the first read of a succeeded job; empty afterwards, while running and in events. */
+	database_passwords: APITemplateDeployDatabasePassword[];
 	created_at: ISODateString;
 	updated_at: ISODateString;
 	finished_at: ISODateString | null;

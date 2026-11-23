@@ -339,6 +339,8 @@ export interface APIStackSnapshotRestoreAccepted {
 export interface APIStackDatabaseAdded extends APIRestartRequired {
 	stack: APIStack;
 	database_id: SnowFlake;
+	/** Returned only in this response; afterwards reset it to see a new one. */
+	password: string;
 }
 
 /**

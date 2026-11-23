@@ -131,6 +131,27 @@ export interface APIFileTooLargeDetails {
 }
 
 /**
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/delete
+ */
+export type ApplicationFileSpaceRelease = "now" | "on_restart";
+export const ApplicationFileSpaceRelease = {
+	NOW: "now",
+	ON_RESTART: "on_restart",
+} as const;
+
+/**
+ * Result of deleting a file or folder through `DELETE /v1/apps/:id/files`.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/delete
+ */
+export interface APIApplicationFileDelete {
+	/**
+	 * `on_restart`: the application still has the file open, so its space is freed on the next restart. When
+	 * deleting several paths, treat the batch as `on_restart` if any of them is.
+	 */
+	space_released: ApplicationFileSpaceRelease;
+}
+
+/**
  * Successful ZIP upload through `POST /v1/apps/:id/files/upload`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
@@ -262,11 +283,16 @@ export interface APIApplication {
 	version: ApplicationVersion;
 	start_command: string | null;
 	/**
-	 * Build command, run once per deploy, after dependencies are installed and before the app
-	 * starts — in the build environment, with more memory than the app. `null` = no build step.
-	 * If it fails, the deploy fails and the app does not start.
+	 * Build command, run after dependencies are installed and before the app starts, in the application
+	 * itself with its own memory, only when the code changed (or on a restart with `force_build`). `null` = no
+	 * build step. If it fails, the app does not start.
 	 */
 	build_command: string | null;
+	/**
+	 * Restart the application automatically when it stops unexpectedly. On by default, on every plan. Changing it
+	 * applies right away, without a restart.
+	 */
+	auto_restart: boolean;
 	offline_since: ISODateString | null;
 	/** Active Vertra Shield containment (burst/rate limit); `null` when there is none. */
 	shield_cooldown: APIApplicationShieldCooldown | null;
@@ -797,6 +823,25 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  * `deploy_note:discarded:<release_id>` (Enterprise zero-downtime: the new release did not become healthy
  * and was dropped; the previous one keeps running), where `<from>` and `<to>` identify the releases
  * involved); `heartbeat` = keep-alive, no content.
+ *
+ * Console notes sent as `system` events:
+ * - `install_note:done` — the dependency install finished.
+ * - `install_note:timeout:<seconds>` — the install failed because of a time limit: `900` = a single install step
+ *   took longer than allowed; `1500` = the whole install phase exceeded its total time. Without the parameter
+ *   (`install_note:timeout`) it is the older format and the limit is not stated.
+ * - `run_note:started:<ISO 8601>` — the application process started at that moment.
+ * - `run_note:port_not_listening:<port>` — the application started but did not begin listening on the expected port
+ *   (`<port>` is the port number) within the allowed time. Check that it listens on that port on all interfaces.
+ * - `runtime_note:line_changed:<language>:<from>:<to>:<reason>` — the application started on a different
+ *   runtime version line than the one it used before (`<from>` and `<to>` are version lines of `<language>`).
+ *   `<reason>` is `retired` (the previous line was retired), `unavailable` (it is no longer available) or
+ *   `requested` (you asked for the change, or the version you follow, such as the recommended one, moved to a new line). Only the platform emits it, right after the `run_note:started` of that run.
+ * - `image_note:pulling:<0-100>` — preparing the environment, with the progress in percent.
+ * - `image_note:creating` — the environment is ready and the application is being created.
+ * - `image_note:starting` — the application is starting.
+ * - `image_note:waiting_port` — the application started and the platform is waiting for it to listen on its port.
+ * - `restart_note:auto_restart_disabled` — the application stopped unexpectedly and was not restarted because
+ *   `auto_restart` is off.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
 export type ApplicationRealtimeEventType = "logs" | "system" | "heartbeat";

@@ -81,6 +81,8 @@ export interface RESTPostAPIDatabaseCreateBody {
  */
 export type RESTPostAPIDatabaseCreateResponse = APIPayload<
 	APIDatabase & {
+		/** Returned only in this response; afterwards reset it to see a new one. */
+		password: string;
 		/** Only with `snapshot_id`: the restore job to follow on `GET /v1/users/:id/snapshots/jobs/:job_id`. */
 		restore_job_id?: SnowFlake;
 	}
@@ -107,6 +109,9 @@ export interface RESTPutAPIDatabaseUpdateBody {
 }
 
 /**
+ * Lowering `ram` is refused with 409 `STORAGE_ABOVE_NEW_LIMIT` when your data takes more space than the storage of the
+ * new RAM allows; nothing is changed. `details` is an `APIStorageAboveNewLimitDetails` (`used_mb`, `limit_mb`, `free_mb`):
+ * free `free_mb` (delete data) and try again.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/update
  */
 export type RESTPutAPIDatabaseUpdateResponse = APIPayload<APIDatabaseOperationResponse>;
@@ -122,7 +127,8 @@ export type RESTPostAPIDatabaseResetResponse = APIPayload<APIDatabaseOperationRe
 export type RESTGetAPIDatabaseCertificateResponse = APIPayload<APIDatabaseCertificate>;
 
 /**
- * Returns the newly issued certificate.
+ * Returns the newly issued certificate. With an API key, a database whose `legacy_host` is `true` is not reset: 403 `WEBSITE_ONLY`
+ * (moving it to the current address is done from the dashboard). Other databases are reset normally.
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/credentials/reset
  */
 export type RESTPostAPIDatabaseResetCertificateResponse = APIPayload<APIDatabaseCertificateReset>;

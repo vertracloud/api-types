@@ -8,6 +8,7 @@ import type {
 	APIApplicationEnvironment,
 	APIApplicationFile,
 	APIApplicationFileContent,
+	APIApplicationFileDelete,
 	APIApplicationFileTree,
 	APIApplicationFileUpload,
 	APIApplicationMetric,
@@ -127,6 +128,10 @@ export interface RESTPostAPIApplicationFileUploadQuery extends RESTAPIWorkspaceQ
 }
 
 /**
+ * The upload adds the files to the app's files, it does not replace them. It fails with 400 `MAIN_FILE_NOT_FOUND`
+ * when, after the upload, the app's main file would not exist: neither the uploaded zip contains it (considering the
+ * destination folder `path`) nor the app's files already have it.
+ *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/upload
  */
 export type RESTPostAPIApplicationFileUploadResponse = APIPayload<APIApplicationFileUpload>;
@@ -216,7 +221,7 @@ export interface RESTDeleteAPIApplicationFileBody extends RESTAPIConfirmDetach {
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/delete
  */
-export type RESTDeleteAPIApplicationFileResponse = APIPayload<null>;
+export type RESTDeleteAPIApplicationFileResponse = APIPayload<APIApplicationFileDelete>;
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/filemanager/move
@@ -318,6 +323,11 @@ export interface RESTPostAPIApplicationCreateBody {
 	workspace_id?: string;
 	/** JSON-serialized string in the multipart body. */
 	envs?: RESTPostAPIApplicationEnvironmentVariableBody[];
+	/**
+	 * Multipart text field `true` or `false`. Default `true`. A `vertracloud.config` line `AUTORESTART=true|false`
+	 * is used when the field is absent.
+	 */
+	auto_restart?: boolean;
 }
 
 /**
@@ -361,6 +371,8 @@ export interface RESTPostAPIApplicationImageBody {
 	port?: number;
 	envs?: RESTPostAPIApplicationEnvironmentVariableBody[];
 	workspace_id?: string;
+	/** Restart the application automatically when it stops unexpectedly. Default `true`. */
+	auto_restart?: boolean;
 }
 
 /**
@@ -427,12 +439,18 @@ export type RESTPostAPIApplicationRestartResponse = APIPayload<APIApplicationOpe
 export interface RESTPatchAPIApplicationUpdateConfigBody {
 	name?: string;
 	description?: string | null;
+	/**
+	 * Main file of the application. It must exist in the app's files: otherwise the request fails with
+	 * 400 `MAIN_FILE_NOT_FOUND`.
+	 */
 	main_file?: string;
 	version?: string;
 	start_command?: string | null;
 	build_command?: string | null;
 	ram?: number;
 	language?: ApplicationLanguage;
+	/** Restart the application automatically when it stops unexpectedly. Applies right away, without a restart. */
+	auto_restart?: boolean;
 	/**
 	 * Deploy behavior. `zero_downtime: "on"` needs the Enterprise plan and `auto_rollback: true` needs
 	 * Intermediary or higher; below that the request fails with 403
@@ -449,6 +467,8 @@ export interface RESTPatchAPIApplicationUpdateConfigBody {
 }
 
 /**
+ * Fails with 400 `MAIN_FILE_NOT_FOUND` when `main_file` points to a file that does not exist in the app's files.
+ *
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/updateconfig
  */
 export type RESTPatchAPIApplicationUpdateConfigResponse = APIPayload<string>;
