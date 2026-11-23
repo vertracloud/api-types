@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.7.11
+
+### Patch Changes
+
+- deef6aa: Add `IMAGE_VOLUME_REFUSED`, `IMAGE_LABEL_REFUSED` and `IMAGE_PULL_FAILED` to `ApplicationBuildError`: an app created from a Docker image that the platform refuses now reports the reason in `last_build_error` instead of a generic `BUILD_FAILED`.
+
 ## 0.7.10
 
 ### Patch Changes
