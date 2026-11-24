@@ -1,5 +1,14 @@
 # @vertracloud/api-types
 
+## 0.7.12
+
+### Patch Changes
+
+- 8d2a75b: Realtime stream of an application: new `metrics` event (`APIApplicationLiveMetrics`) with the live CPU, memory and network reading about every 5 seconds, sent when the connection is opened with `metrics=true`.
+- 8d2a75b: Realtime stream of an application: new `next_logs` event with the output of the new version during a zero-downtime deploy, optional reason in `deploy_note:discarded:<release_id>:<reason>`, and notes sent again at connection start carry the time they happened.
+- 8d2a75b: Document the new console note `install_note:build_oom` of `GET /v1/apps/:id/realtime`: the build command ran out of memory and was stopped.
+- 8d2a75b: Metric points of applications and databases (`APIApplicationMetric`, `APIDatabaseMetrics`) have a new `events` list (`APIMetricEvent`: `at`, `kind`, `out_of_memory`) with the restarts, automatic restarts and crashes between that point and the next; empty when nothing happened. New `APIMetricEventKind`.
+
 ## 0.7.11
 
 ### Patch Changes
