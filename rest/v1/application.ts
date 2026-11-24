@@ -392,6 +392,8 @@ export type RESTDeleteAPIApplicationResponse = APIPayload<null>;
  */
 export interface RESTGetAPIApplicationRealtimeQuery extends RESTAPIWorkspaceQuery {
 	since?: number;
+	/** `true` adds `metrics` events with the live CPU, memory and network reading of the application. */
+	metrics?: boolean;
 }
 
 /**

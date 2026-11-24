@@ -456,6 +456,32 @@ export interface APIApplicationStatusShort {
 }
 
 /**
+ * What happened to an application or database between two metric points.
+ *
+ * - `restart` — a restart requested by the user.
+ * - `auto_restart` — the platform started the resource again after a failure.
+ * - `crash` — the resource failed and stayed stopped.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/metrics
+ */
+export type APIMetricEventKind = "restart" | "auto_restart" | "crash";
+export const APIMetricEventKind = {
+	RESTART: "restart",
+	AUTO_RESTART: "auto_restart",
+	CRASH: "crash",
+} as const;
+
+/**
+ * An event shown on the metric charts, with its exact time.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/metrics
+ */
+export interface APIMetricEvent {
+	at: ISODateString;
+	kind: APIMetricEventKind;
+	/** `true` when the failure was caused by running out of memory. Always `false` for `restart`. */
+	out_of_memory: boolean;
+}
+
+/**
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/metrics
  */
 export interface APIApplicationMetric {
@@ -464,6 +490,11 @@ export interface APIApplicationMetric {
 	storage: number;
 	date: ISODateString;
 	network: number[];
+	/**
+	 * Events between the `date` of this point and the `date` of the next one (up to now in the last point).
+	 * An event before the first point of the window is listed in the first point. Empty when nothing happened in the interval.
+	 */
+	events: APIMetricEvent[];
 }
 
 /**
@@ -828,13 +859,26 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  * `install_note:started`, `deploy_note:failed:<release_id>`, `deploy_note:rollback:<from>:<to>`,
  * `deploy_note:discarded:<release_id>` (Enterprise zero-downtime: the new release did not become healthy
  * and was dropped; the previous one keeps running), where `<from>` and `<to>` identify the releases
- * involved); `heartbeat` = keep-alive, no content.
+ * involved); `next_logs` = output of the new version while a zero-downtime deploy prepares it (install and
+ * build), same line format as `logs`; the current version keeps serving and keeps writing to `logs`;
+ * `metrics` = live CPU, memory and network reading of the running application as JSON
+ * ({@link APIApplicationLiveMetrics}), about every 5 seconds, sent only when the connection asks for it with
+ * `metrics=true`; `heartbeat` = keep-alive, no content.
+ *
+ * When a connection starts, notes that already happened are sent again before the live stream, prefixed
+ * with the time they happened: `<ISO 8601> <note>`. Live notes have no prefix.
  *
  * Console notes sent as `system` events:
  * - `install_note:done` — the dependency install finished.
  * - `install_note:timeout:<seconds>` — the install failed because of a time limit: `900` = a single install step
  *   took longer than allowed; `1500` = the whole install phase exceeded its total time. Without the parameter
  *   (`install_note:timeout`) it is the older format and the limit is not stated.
+ * - `install_note:build_oom` — the build command ran out of memory and was stopped. Raise the application's memory or reduce what the build processes.
+ * - `deploy_note:discarded:<release_id>:<reason>` — the new version of a zero-downtime deploy was dropped and the current
+ *   version keeps running. `<reason>` is lowercase letters and `_`, and may be absent: `install_oom` and `install_build_oom`
+ *   (out of memory while installing dependencies or during the build), `install_failed`, `install_build_failed`,
+ *   `install_build_timeout`, `install_timeout`, `install_shield`, `crashed` (it stopped before it was ready),
+ *   `unhealthy` (it did not become ready to receive traffic) or `timeout` (it did not respond in time). New values may appear.
  * - `run_note:started:<ISO 8601>` — the application process started at that moment.
  * - `run_note:port_not_listening:<port>` — the application started but did not begin listening on the expected port
  *   (`<port>` is the port number) within the allowed time. Check that it listens on that port on all interfaces.
@@ -850,16 +894,45 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  *   `auto_restart` is off.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
-export type ApplicationRealtimeEventType = "logs" | "system" | "heartbeat";
+export type ApplicationRealtimeEventType = "logs" | "next_logs" | "system" | "metrics" | "heartbeat";
 export const ApplicationRealtimeEventType = {
 	LOGS: "logs",
+	NEXT_LOGS: "next_logs",
 	SYSTEM: "system",
+	METRICS: "metrics",
 	HEARTBEAT: "heartbeat",
 } as const;
 
 /**
- * One server-sent event of `GET /v1/apps/:id/realtime`. `data` is plain text, not JSON; a `logs`
- * event may carry several lines separated by `\n`.
+ * `data` of a `metrics` event of `GET /v1/apps/:id/realtime`, parsed as JSON. Sent about every 5 seconds while
+ * the application is running and the connection was opened with `metrics=true`; nothing is sent while it is stopped.
+ * Rates are measured between two consecutive readings.
+ * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
+ */
+export interface APIApplicationLiveMetrics {
+	/** Time of the reading. */
+	at: ISODateString;
+	/** CPU in use as a percentage of the CPU of the application's plan, from 0 to 100. */
+	cpu_percent: number;
+	/** CPU in use, in cores (for example `0.25` is a quarter of one core). */
+	cpu_cores: number;
+	/** Memory in use, in bytes, without the file cache that can be reclaimed. */
+	memory_bytes: number;
+	/** Memory limit of the application, in bytes; `null` when it has no limit. */
+	memory_limit_bytes: number | null;
+	/** Bytes per second received by the application. */
+	net_rx_bps: number;
+	/** Bytes per second sent by the application. */
+	net_tx_bps: number;
+	/** Bytes received since the application started. */
+	net_rx_bytes: number;
+	/** Bytes sent since the application started. */
+	net_tx_bytes: number;
+}
+
+/**
+ * One server-sent event of `GET /v1/apps/:id/realtime`. `data` is plain text, not JSON, except in a `metrics`
+ * event ({@link APIApplicationLiveMetrics}); a `logs` event may carry several lines separated by `\n`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
 export interface APIApplicationRealtimeEvent {

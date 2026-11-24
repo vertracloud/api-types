@@ -1,5 +1,5 @@
 import type { APIRestartRequired, ISODateString, PlanName, SnowFlake } from "../../v1";
-import type { APIImagePullProgress, APIRuntimeUpdate } from "./application";
+import type { APIImagePullProgress, APIMetricEvent, APIRuntimeUpdate } from "./application";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -213,6 +213,11 @@ export interface APIDatabaseMetrics {
 	storage: number;
 	date: ISODateString;
 	network: number[];
+	/**
+	 * Events between the `date` of this point and the `date` of the next one (up to now in the last point).
+	 * An event before the first point of the window is listed in the first point. Empty when nothing happened in the interval.
+	 */
+	events: APIMetricEvent[];
 }
 
 /**
