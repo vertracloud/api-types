@@ -863,7 +863,9 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  * build), same line format as `logs`; the current version keeps serving and keeps writing to `logs`;
  * `metrics` = live CPU, memory and network reading of the running application as JSON
  * ({@link APIApplicationLiveMetrics}), about every 5 seconds, sent only when the connection asks for it with
- * `metrics=true`; `heartbeat` = keep-alive, no content.
+ * `metrics=true`; `next_metrics` = the same reading for the new version while a zero-downtime deploy prepares
+ * it, same format and conditions as `metrics`, and it stops when the new version takes over or is dropped
+ * (`metrics` keeps describing the version that is serving); `heartbeat` = keep-alive, no content.
  *
  * When a connection starts, notes that already happened are sent again before the live stream, prefixed
  * with the time they happened: `<ISO 8601> <note>`. Live notes have no prefix.
@@ -894,12 +896,13 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  *   `auto_restart` is off.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
-export type ApplicationRealtimeEventType = "logs" | "next_logs" | "system" | "metrics" | "heartbeat";
+export type ApplicationRealtimeEventType = "logs" | "next_logs" | "system" | "metrics" | "next_metrics" | "heartbeat";
 export const ApplicationRealtimeEventType = {
 	LOGS: "logs",
 	NEXT_LOGS: "next_logs",
 	SYSTEM: "system",
 	METRICS: "metrics",
+	NEXT_METRICS: "next_metrics",
 	HEARTBEAT: "heartbeat",
 } as const;
 
@@ -932,7 +935,7 @@ export interface APIApplicationLiveMetrics {
 
 /**
  * One server-sent event of `GET /v1/apps/:id/realtime`. `data` is plain text, not JSON, except in a `metrics`
- * event ({@link APIApplicationLiveMetrics}); a `logs` event may carry several lines separated by `\n`.
+ * or `next_metrics` event ({@link APIApplicationLiveMetrics}); a `logs` event may carry several lines separated by `\n`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/realtime
  */
 export interface APIApplicationRealtimeEvent {

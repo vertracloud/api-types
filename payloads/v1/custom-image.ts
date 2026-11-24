@@ -19,8 +19,14 @@ export const CustomImageStatus = {
  * Stage of a build that is running. Only meaningful while `APICustomImage.status` is `building`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/get
  */
-export type CustomImageBuildPhase = "queued" | "starting" | "building" | "verifying";
+export type CustomImageBuildPhase = "preparing" | "queued" | "starting" | "building" | "verifying";
 export const CustomImageBuildPhase = {
+	/**
+	 * The build was accepted and the platform is getting its source (downloading the repository or reading the
+	 * stored context) before it enters the queue. A problem with the source ends the build as `failed`, with
+	 * `APICustomImage.error_code`.
+	 */
+	Preparing: "preparing",
 	/** Waiting in the build queue; see `APICustomImage.queue_position`. */
 	Queued: "queued",
 	/** The build is starting. */
@@ -276,7 +282,11 @@ export interface APICustomImage {
 	queued_at: ISODateString | null;
 	/** Readable reason of the latest failed build; `null` when it did not fail. */
 	error: string | null;
-	/** Code of the latest failed build (e.g. `IMAGE_BUILDER_UNAVAILABLE`, `BUILD_FAILED`); `null` when it did not fail. */
+	/**
+	 * Code of the latest failed build (e.g. `IMAGE_BUILDER_UNAVAILABLE`, `BUILD_FAILED`, or, when the source of the build
+	 * could not be used, `FETCH_ZIP_ERROR`, `INSTALLATION_NOT_FOUND`, `IMAGE_CONTEXT_TOO_LARGE`, `DOCKERFILE_REFUSED`);
+	 * `null` when it did not fail.
+	 */
 	error_code: string | null;
 	/** Digest (`sha256:...`) of the current version; `null` while no build has succeeded. */
 	digest: string | null;

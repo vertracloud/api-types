@@ -141,14 +141,19 @@ export type RESTPutAPICustomImageResult = APIPayload<APICustomImage>;
  * build. It counts toward the hourly deploy budget like any other build, and it is refused with `IMAGE_BUILD_IN_PROGRESS`
  * while another build of the image runs. Apps are only restarted if the image has `auto_update_apps` turned on.
  *
+ * The call answers right away, without waiting for the source: the image comes back with `status: "building"` and
+ * `build_phase: "preparing"` (see `CustomImageBuildPhase`), and the platform gets the source before the build enters
+ * the queue. A problem with the source is not an error of the call: the build ends as `failed`, with `error_code`
+ * (`FETCH_ZIP_ERROR`, `INSTALLATION_NOT_FOUND`, `IMAGE_CONTEXT_TOO_LARGE` or `DOCKERFILE_REFUSED`) and the findings in the
+ * text of `error`.
+ *
  * Error codes: `IMAGE_NOT_FOUND`, `ACCESS_DENIED` (system images, or a workspace member without the right to rebuild),
  * `IMAGE_TEMPLATE_ONLY` (images that came from a template), `IMAGE_BUILD_IN_PROGRESS`, `OPERATION_IN_PROGRESS` (the image
  * is being deleted), `IMAGE_NOT_READY` (the image has no stored build context to build from), `DEPLOY_RATE_LIMITED`, `IMAGE_BUILD_RATE_LIMITED`,
- * `PLAN_REQUIRED`, `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `IMAGE_BUILDER_UNAVAILABLE`, `DOCKERFILE_NOT_FOUND`,
- * `DOCKERFILE_REFUSED`, `IMAGE_CONTEXT_TOO_LARGE`, `INVALID_ZIP` (the stored context or the repository archive is not a
- * readable ZIP) and, for an image linked to GitHub, `INSTALLATION_NOT_FOUND` and `FETCH_ZIP_ERROR`.
+ * `PLAN_REQUIRED`, `PLAN_DOES_NOT_SUPPORT_CUSTOM_IMAGES`, `IMAGE_BUILDER_UNAVAILABLE`, `DOCKERFILE_NOT_FOUND` and `INVALID_ZIP`
+ * (the stored context or the repository archive is not a readable ZIP).
  *
- * `202` — the image, with `status: "building"`.
+ * `202` — the image, with `status: "building"` and `build_phase: "preparing"`.
  * @see https://docs.vertracloud.app/api-reference/endpoint/images/rebuild-source
  */
 export type RESTPostAPICustomImageRebuildResult = APIPayload<APICustomImage>;
