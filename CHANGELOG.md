@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.7.15
+
+### Patch Changes
+
+- c99e992: Documentation updates.
+
 ## 0.7.14
 
 ### Patch Changes
