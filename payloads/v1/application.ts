@@ -881,6 +881,10 @@ export type APIApplicationRuntimes = Record<ApplicationLanguage, APIApplicationR
  *   (out of memory while installing dependencies or during the build), `install_failed`, `install_build_failed`,
  *   `install_build_timeout`, `install_timeout`, `install_shield`, `crashed` (it stopped before it was ready),
  *   `unhealthy` (it did not become ready to receive traffic) or `timeout` (it did not respond in time). New values may appear.
+ * - `deploy_note:recreated:<reason>` — zero-downtime deploy was on, but this deploy restarted the application instead (a
+ *   short interruption). `<reason>` is `plan_memory` (the plan does not have free memory to run both versions at once),
+ *   `host_memory` (the server does not have free memory right now) or `recreate_required` (the application had to be
+ *   recreated). New values may appear.
  * - `run_note:started:<ISO 8601>` — the application process started at that moment.
  * - `run_note:port_not_listening:<port>` — the application started but did not begin listening on the expected port
  *   (`<port>` is the port number) within the allowed time. Check that it listens on that port on all interfaces.
