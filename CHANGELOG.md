@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- ecdd50e: Realtime stream of an application: new console note `deploy_note:recreated:<reason>`, sent when zero-downtime deploy was on but the deploy restarted the application instead. `<reason>` is `plan_memory`, `host_memory` or `recreate_required`.
+- ecdd50e: Realtime stream of an application: new console note `deploy_note:recreated:<reason>`, sent when zero-downtime deploy was on but the deploy restarted the application instead. `<reason>` is `plan_memory` or `recreate_required`, and may be absent.
 
 ## 0.7.13
 
