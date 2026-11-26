@@ -13,6 +13,7 @@ export * from "./orders";
 export * from "./plans";
 export * from "./redeem";
 export * from "./referral";
+export * from "./region";
 export * from "./snapshot";
 export * from "./stack";
 export * from "./status";

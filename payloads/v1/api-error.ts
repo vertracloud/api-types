@@ -390,6 +390,10 @@ export const API_ERROR_CODES = {
 	MISSING_HEADERS: "MISSING_HEADERS",
 	MISSING_PLAN_OR_MONTHS: "MISSING_PLAN_OR_MONTHS",
 	MISSING_CONTENT: "MISSING_CONTENT",
+	/** 403 — `node` was sent on creation by an account that cannot choose the server. */
+	NODE_NOT_ALLOWED: "NODE_NOT_ALLOWED",
+	/** 400 — the `node` sent on creation does not belong to the `region`, or is not accepting new resources. */
+	NODE_NOT_IN_REGION: "NODE_NOT_IN_REGION",
 	NOT_AN_UPGRADE: "NOT_AN_UPGRADE",
 	NO_AUTHORIZED_PATHS: "NO_AUTHORIZED_PATHS",
 	NO_CHANGES_PROVIDED: "NO_CHANGES_PROVIDED",
@@ -427,6 +431,8 @@ export const API_ERROR_CODES = {
 	/** 429 — too many requests. The `Retry-After` header (seconds) is always sent; the analytics routes also send `details.retry_after` with the same value, so do not rely on `details` for other routes. */
 	RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
 	REFUND_AMOUNT_EXCEEDS_PRICE: "REFUND_AMOUNT_EXCEEDS_PRICE",
+	/** 400 — the region chosen on creation is not available to the account, or has no room for new resources now. */
+	REGION_NOT_AVAILABLE: "REGION_NOT_AVAILABLE",
 	/** 409 — the release is already the active one. */
 	RELEASE_ALREADY_ACTIVE: "RELEASE_ALREADY_ACTIVE",
 	/** 410 — the release's kept code has expired or is outside the limit of the plan. */

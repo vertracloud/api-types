@@ -1,4 +1,4 @@
-import type { APIRestartRequired, ISODateString, PlanName, SnowFlake } from "../../v1";
+import type { APIRestartRequired, ISODateString, NodeId, PlanName, RegionId, SnowFlake } from "../../v1";
 import type { APIImagePullProgress, APIMetricEvent, APIRuntimeUpdate } from "./application";
 
 /**
@@ -19,15 +19,6 @@ export type DatabaseStatus = "up" | "down";
 export const DatabaseStatus = {
 	UP: "up",
 	DOWN: "down",
-} as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
- */
-export type DatabaseCluster = 1 | 2;
-export const DatabaseCluster = {
-	USA_1: 1,
-	USA_2: 2,
 } as const;
 
 /**
@@ -52,7 +43,10 @@ export type APIDatabaseVersions = Record<DatabaseType, APIDatabaseVersionCatalog
  */
 export interface APIDatabase {
 	id: SnowFlake;
-	cluster: DatabaseCluster;
+	/** Region where the database runs. */
+	region: RegionId;
+	/** Server of the region that runs the database. */
+	node: NodeId;
 	type: DatabaseType;
 	name: string;
 	description: string;
@@ -61,7 +55,7 @@ export interface APIDatabase {
 	owner_plan: PlanName | null;
 	status: DatabaseStatus;
 	ram: number;
-	host: string; // example: "vertra-cloud-<id>.db.<region>.vertraweb.app"
+	host: string; // example: "vertra-cloud-<id>.db.<node>.vertraweb.app"
 	port: number;
 	/**
 	 * `true` when the database still uses its original connection address. Moving it to the current address (resetting

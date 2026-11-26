@@ -1,4 +1,4 @@
-import type { ISODateString, PlanName, SnowFlake } from "../../v1";
+import type { ISODateString, NodeId, PlanName, RegionId, SnowFlake } from "../../v1";
 import type { APICustomImageApp } from "./custom-image";
 import type { APITemplateEffectivePermissions, APITemplateOrigin } from "./template-origin";
 
@@ -52,15 +52,6 @@ export const ApplicationBuildError = {
 	IMAGE_LABEL_REFUSED: "IMAGE_LABEL_REFUSED",
 	/** The Docker image of the app could not be downloaded. */
 	IMAGE_PULL_FAILED: "IMAGE_PULL_FAILED",
-} as const;
-
-/**
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
- */
-export type ApplicationCluster = 1 | 2;
-export const ApplicationCluster = {
-	USA_1: 1,
-	USA_2: 2,
 } as const;
 
 /**
@@ -256,7 +247,10 @@ export interface APIApplicationTemplate extends APITemplateOrigin {
  */
 export interface APIApplication {
 	id: SnowFlake;
-	cluster: ApplicationCluster;
+	/** Region where the application runs. */
+	region: RegionId;
+	/** Server of the region that runs the application. */
+	node: NodeId;
 	type: ApplicationType;
 	name: string;
 	description?: string;
