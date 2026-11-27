@@ -30,7 +30,6 @@ import type {
 	ApplicationLanguage,
 	ApplicationZeroDowntime,
 	ISODateString,
-	NodeId,
 	RESTAPIWorkspaceQuery,
 	RegionId,
 	SnowFlake,
@@ -295,8 +294,6 @@ export type RESTDeleteAPIApplicationEnvironmentResponse = APIPayload<null>;
  * - `SNAPSHOT_TYPE_MISMATCH` — the snapshot is from a database, not an application.
  * - `SNAPSHOT_EXCEEDS_STORAGE` — the snapshot's data does not fit in the disk of the chosen RAM (`APISnapshotExceedsStorageDetails`).
  * - `REGION_NOT_AVAILABLE` — `region` is not available to the account, or it has no room for new resources now.
- * - `NODE_NOT_ALLOWED` — `node` was sent by an account that cannot choose the server.
- * - `NODE_NOT_IN_REGION` — `node` does not belong to `region`, or is not accepting new resources.
  *
  * A snapshot of an application of a closed template (`APIResourceSnapshot.closed`) creates an application with the same closed policy.
  *
@@ -338,11 +335,6 @@ export interface RESTPostAPIApplicationCreateBody {
 	 * not open to the account is refused with `REGION_NOT_AVAILABLE`.
 	 */
 	region?: RegionId;
-	/**
-	 * Multipart text field. Server of the region to create the application on. Not open to every account: without access the call fails with
-	 * `NODE_NOT_ALLOWED`; a server of another region fails with `NODE_NOT_IN_REGION`. Omitted, the platform picks one.
-	 */
-	node?: NodeId;
 }
 
 /**
@@ -368,8 +360,7 @@ export type RESTPostAPIApplicationCreateResponse = APIPayload<
  * ready (`status: "success"`), otherwise the call fails with `IMAGE_NOT_READY`. Several apps can share one image, each
  * with its own variables. An image that belongs to a template (a platform image or a `template_copy`) is refused with
  * `IMAGE_TEMPLATE_ONLY`: use the template instead.
- * `region` and `node` follow the same rules as in `POST /v1/apps` (`REGION_NOT_AVAILABLE`, `NODE_NOT_ALLOWED`,
- * `NODE_NOT_IN_REGION`).
+ * `region` follows the same rules as in `POST /v1/apps` (`REGION_NOT_AVAILABLE`).
  * @see https://docs.vertracloud.app/api-reference/endpoint/apps/create-from-image
  */
 export interface RESTPostAPIApplicationImageBody {
@@ -395,11 +386,6 @@ export interface RESTPostAPIApplicationImageBody {
 	 * not open to the account is refused with `REGION_NOT_AVAILABLE`.
 	 */
 	region?: RegionId;
-	/**
-	 * Server of the region to create the application on. Not open to every account: without access the call fails with
-	 * `NODE_NOT_ALLOWED`; a server of another region fails with `NODE_NOT_IN_REGION`. Omitted, the platform picks one.
-	 */
-	node?: NodeId;
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { ISODateString, NodeId, PlanName, RegionId, SnowFlake } from "../../v1";
+import type { ISODateString, PlanName, RegionId, SnowFlake } from "../../v1";
 import type { APICustomImageApp } from "./custom-image";
 import type { APITemplateEffectivePermissions, APITemplateOrigin } from "./template-origin";
 
@@ -249,8 +249,7 @@ export interface APIApplication {
 	id: SnowFlake;
 	/** Region where the application runs. */
 	region: RegionId;
-	/** Server of the region that runs the application. */
-	node: NodeId;
+	node: string;
 	type: ApplicationType;
 	name: string;
 	description?: string;

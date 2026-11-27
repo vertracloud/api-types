@@ -1,4 +1,4 @@
-import type { APIDatabase, APIDatabaseCertificate, APIDatabaseCertificateReset, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIDatabaseVersions, APIPayload, DatabaseType, NodeId, RegionId, SnowFlake } from "../../v1";
+import type { APIDatabase, APIDatabaseCertificate, APIDatabaseCertificateReset, APIDatabaseMetrics, APIDatabaseOperationResponse, APIDatabasePasswordReset, APIDatabaseStatus, APIDatabaseStatusShort, APIDatabaseVersions, APIPayload, DatabaseType, RegionId, SnowFlake } from "../../v1";
 
 /**
  * @see https://docs.vertracloud.app/api-reference/endpoint/databases/get
@@ -49,8 +49,6 @@ export type RESTGetAPIDatabaseVersionsResponse = APIPayload<APIDatabaseVersions>
  *   the snapshot's engine.
  * - `SNAPSHOT_EXCEEDS_STORAGE` — the snapshot's data does not fit in the disk of the chosen RAM (`APISnapshotExceedsStorageDetails`).
  * - `REGION_NOT_AVAILABLE` — `region` is not available to the account, or it has no room for new resources now.
- * - `NODE_NOT_ALLOWED` — `node` was sent by an account that cannot choose the server.
- * - `NODE_NOT_IN_REGION` — `node` does not belong to `region`, or is not accepting new resources.
  * - `INVALID_DATABASE_VERSION` — `version` is not an available version of the engine.
  * - `SNAPSHOT_VERSION_NEWER` — with `snapshot_id`, `version` is older than the snapshot's version.
  *
@@ -80,11 +78,6 @@ export interface RESTPostAPIDatabaseCreateBody {
 	 * not open to the account is refused with `REGION_NOT_AVAILABLE`.
 	 */
 	region?: RegionId;
-	/**
-	 * Server of the region to create the database on. Not open to every account: without access the call fails with
-	 * `NODE_NOT_ALLOWED`; a server of another region fails with `NODE_NOT_IN_REGION`. Omitted, the platform picks one.
-	 */
-	node?: NodeId;
 }
 
 /**

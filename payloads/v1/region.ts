@@ -9,13 +9,6 @@ export const RegionId = {
 	SAO_PAULO: "sp",
 } as const;
 
-/**
- * Server inside a region that runs the resource: the region id followed by a number (`ny1`, `ny2`, `sp1`). Picked by
- * the platform on creation; it is part of the resource's address (`<name>.<node>.vertraweb.app`).
- * @see https://docs.vertracloud.app/api-reference/endpoint/apps/get
- */
-export type NodeId = `${RegionId}${number}`;
-
 /** Country of a region, as an ISO 3166-1 alpha-2 code. Dashboard session only. */
 export type RegionCountry = "US" | "BR";
 export const RegionCountry = {

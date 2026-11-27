@@ -1,4 +1,4 @@
-import type { APIRestartRequired, ISODateString, NodeId, PlanName, RegionId, SnowFlake } from "../../v1";
+import type { APIRestartRequired, ISODateString, PlanName, RegionId, SnowFlake } from "../../v1";
 import type { APIImagePullProgress, APIMetricEvent, APIRuntimeUpdate } from "./application";
 
 /**
@@ -45,8 +45,7 @@ export interface APIDatabase {
 	id: SnowFlake;
 	/** Region where the database runs. */
 	region: RegionId;
-	/** Server of the region that runs the database. */
-	node: NodeId;
+	node: string;
 	type: DatabaseType;
 	name: string;
 	description: string;

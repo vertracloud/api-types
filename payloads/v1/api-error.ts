@@ -390,10 +390,6 @@ export const API_ERROR_CODES = {
 	MISSING_HEADERS: "MISSING_HEADERS",
 	MISSING_PLAN_OR_MONTHS: "MISSING_PLAN_OR_MONTHS",
 	MISSING_CONTENT: "MISSING_CONTENT",
-	/** 403 — `node` was sent on creation by an account that cannot choose the server. */
-	NODE_NOT_ALLOWED: "NODE_NOT_ALLOWED",
-	/** 400 — the `node` sent on creation does not belong to the `region`, or is not accepting new resources. */
-	NODE_NOT_IN_REGION: "NODE_NOT_IN_REGION",
 	NOT_AN_UPGRADE: "NOT_AN_UPGRADE",
 	NO_AUTHORIZED_PATHS: "NO_AUTHORIZED_PATHS",
 	NO_CHANGES_PROVIDED: "NO_CHANGES_PROVIDED",
