@@ -38,10 +38,11 @@
 		"tsc": "tsup",
 		"check-types": "tsc --noEmit",
 		"prepublishOnly": "run-s clean lint build",
-		"postpublish": "npm run clean",
-		"pack": "npm run clean && npm run build && npm pack && npm run clean",
-		"release": "npm run build && changeset publish"
+		"postpublish": "pnpm run clean",
+		"pack": "pnpm run clean && pnpm run build && pnpm pack && pnpm run clean",
+		"release": "pnpm run build && changeset publish"
 	},
+	"packageManager": "pnpm@10.34.9",
 	"license": "MIT",
 	"files": [
 		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
@@ -77,5 +78,13 @@
 		"rimraf": "3.0.2",
 		"tsup": "^8.3.5",
 		"typescript": "^5.7.2"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		],
+		"ignoredBuiltDependencies": [
+			"@biomejs/biome"
+		]
 	}
 }

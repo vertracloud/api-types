@@ -15,21 +15,24 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
       - name: Setup node
         uses: actions/setup-node@v7
         with:
           # Trusted publishing (OIDC) exige npm >= 11.5.1; o Node 24 já vem com npm 11.
           node-version: 24
 
-      # package-lock.json fica fora do git (.gitignore), então é install, não ci.
+      # pnpm-lock.yaml fica fora do git (.gitignore), então é install sem --frozen-lockfile.
       - name: Install Dependencies
-        run: npm install --no-audit --no-fund
+        run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
         # v1 de propósito: a v2 exige a CLI 3 do Changesets, e o repo usa a 2.
         uses: changesets/action@v1
         with:
-          publish: npm run release
+          publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
