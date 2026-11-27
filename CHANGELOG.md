@@ -1,5 +1,11 @@
 # @vertracloud/api-types
 
+## 0.8.1
+
+### Patch Changes
+
+- 9ac94f6: `node` on applications and databases is now the name of the server that runs the resource, such as `amethyst` (`string`; `NodeId` was removed). Creation bodies no longer accept `node`: the platform always picks the server inside the chosen `region`. `NODE_NOT_ALLOWED` and `NODE_NOT_IN_REGION` were removed.
+
 ## 0.8.0
 
 ### Minor Changes
